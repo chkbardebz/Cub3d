@@ -6,11 +6,11 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 09:29:03 by judenis           #+#    #+#             */
-/*   Updated: 2025/03/10 11:21:35 by judenis          ###   ########.fr       */
+/*   Updated: 2025/07/30 03:57:32 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/cub3d.h"
+#include "../includes/cub3d.h"
 
 static char	*ft_strchr_gnl(const char *s, int c)
 {

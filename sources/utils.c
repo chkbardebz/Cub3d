@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 03:34:54 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/30 04:47:32 by judenis          ###   ########.fr       */
+/*   Created: 2025/07/30 04:02:01 by judenis           #+#    #+#             */
+/*   Updated: 2025/07/30 04:25:26 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int errormsg(const char *message)
+void print_tabtab(char **tab)
 {
-    if (message)
+    int i = 0;
+
+    if (!tab)
+        return;
+
+    while (tab[i])
     {
-        write(2, "Error\n", 6);
-        write(2, message, ft_strlen(message));
-        write(2, "\n", 1);
+        printf("%s", tab[i]);
+        i++;
     }
-    return (1);
+    printf("\n");
 }
