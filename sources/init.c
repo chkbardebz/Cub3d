@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:36:12 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/30 05:48:25 by judenis          ###   ########.fr       */
+/*   Updated: 2025/07/30 06:43:53 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,16 @@ void init(const char *map_file)
     data->w_height = 1080;
     data->w_width = 1920;
     data->filename = ft_strdup(map_file);
+    // Initialiser les textures à NULL
+    data->no_texture = NULL;
+    data->so_texture = NULL;
+    data->we_texture = NULL;
+    data->ea_texture = NULL;
     if (!(data->map = init_map(map_file))) // A foutre dans une fonction du parsing ou error jsp
     {
         errormsg("Failed to initialize map");
         exit_game(1);
     }
-    parsing(data);
+    if (parsing(data) == -1)
+        exit_game(1);
 }

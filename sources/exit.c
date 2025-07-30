@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:39:29 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/30 05:01:39 by judenis          ###   ########.fr       */
+/*   Updated: 2025/07/30 06:13:14 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ int exit_game(int return_value)
     data = get_data();
     if (data->filename)
         free(data->filename);
+    if (data->no_texture)
+        free(data->no_texture);
+    if (data->so_texture)
+        free(data->so_texture);
+    if (data->we_texture)
+        free(data->we_texture);
+    if (data->ea_texture)
+        free(data->ea_texture);
     if (data->map)
     {
         free_tabtab(data->map);

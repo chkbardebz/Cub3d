@@ -6,15 +6,100 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:43:27 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/30 05:50:02 by judenis          ###   ########.fr       */
+/*   Updated: 2025/07/30 07:13:31 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+static char	*safe_trim(char *line)
+{
+	int		start;
+	int		end;
+	int		len;
+	char	*result;
+	int		i;
+
+	if (!line)
+		return (NULL);
+	len = ft_strlen(line);
+	start = 0;
+	while (start < len && (line[start] == ' ' || line[start] == '\t' || 
+		line[start] == '\n' || line[start] == '\r'))
+		start++;
+	end = len - 1;
+	while (end >= start && (line[end] == ' ' || line[end] == '\t' || 
+		line[end] == '\n' || line[end] == '\r'))
+		end--;
+	if (start > end)
+		return (ft_strdup(""));
+	result = malloc(end - start + 2);
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (start <= end)
+		result[i++] = line[start++];
+	result[i] = '\0';
+	return (result);
+}
+
+static int	is_valid_line(char *line)
+{
+	char	*trimmed;
+	int		result;
+
+	if (!line)
+		return (0);
+	
+	trimmed = safe_trim(line);
+	if (!trimmed)
+		return (0);
+	// Ligne vide = valide
+	if (ft_strlen(trimmed) == 0)
+	{
+		free(trimmed);
+		return (1);
+	}
+	// Vérifier les éléments valides
+	result = (ft_strncmp(trimmed, "NO ", 3) == 0 ||
+		ft_strncmp(trimmed, "SO ", 3) == 0 ||
+		ft_strncmp(trimmed, "WE ", 3) == 0 ||
+		ft_strncmp(trimmed, "EA ", 3) == 0 ||
+		ft_strncmp(trimmed, "F ", 2) == 0 ||
+		ft_strncmp(trimmed, "C ", 2) == 0 ||
+		(trimmed[0] == '1' || trimmed[0] == '0' || trimmed[0] == ' '));
+	free(trimmed);
+	return (result);
+}
+
+static int	check_parasites(char **map)
+{
+	int		i;
+	char	*trimmed;
+
+	i = 0;
+	while (map[i])
+	{
+		if (!is_valid_line(map[i]))
+		{
+			trimmed = ft_strtrim(map[i], " \t\n\r");
+			if (trimmed && ft_strlen(trimmed) > 0)
+			{
+				errormsg("Invalid element found in map file");
+				free(trimmed);
+				return (-1);
+			}
+			free(trimmed);
+		}
+		i++;
+	}
+	return (0);
+}
+
 static int	is_valid_texture(char *texture)
 {
 	size_t	len;
+	int		fd;
 
 	if (!texture)
 		return (0);
@@ -23,13 +108,24 @@ static int	is_valid_texture(char *texture)
 		return (0);
 	if (ft_strncmp(texture + len - 4, ".xpm", 4) != 0)
 		return (0);
+	// Vérifier que le fichier existe et est accessible
+	fd = open(texture, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	close(fd);
 	return (1);
 }
 
 static int	set_texture(char **texture_ptr, char *line, char *error_msg)
 {
+	char	*trimmed;
+
+	if (!line)
+		return (-1);
+	
 	free(*texture_ptr);
-	*texture_ptr = ft_strdup(line);
+	trimmed = safe_trim(line);  // Utiliser notre version sûre
+	*texture_ptr = trimmed;
 	if (!is_valid_texture(*texture_ptr))
 	{
 		errormsg(error_msg);
@@ -74,58 +170,59 @@ int	get_textures(t_data *data, char **map)
 	return (0);
 }
 
-// int get_res(char **map)
-// {
-//     t_data *data;
-//     int i = 0;
-//     int width = 0;
-//     int height = 0;
+static int	parse_color(char *line, int color[3], char *err)
+{
+    char	**split;
+    int		r, g, b;
 
-//     data = get_data();
-//     while (map[i])
-//     {
-//         if (ft_strncmp(map[i], "R ", 2) == 0)
-//         {
-//             char **split = ft_split(map[i] + 2, ' ');
-//             if (!split || !split[0] || !split[1] || split[2])
-//             {
-//                 free_tabtab(split);
-//                 errormsg("Invalid resolution format");
-//                 return -1;
-//             }
-//             width = ft_atoi(split[0]);
-//             height = ft_atoi(split[1]);
-//             if (width <= 0 || height <= 0)
-//             {
-//                 free_tabtab(split);
-//                 errormsg("Resolution values must be positive integers");
-//                 return -1;
-//             }
-//             data->w_width = width;
-//             data->w_height = height;
-//             free_tabtab(split);
-//             break;
-//         }
-//         i++;
-//     }
-//     if (width <= 0 || height <= 0)
-//     {
-//         errormsg("Invalid resolution in map file");
-//         return -1;
-//     }
-//     return 0;
-// }
+    split = ft_split(line, ',');
+    if (!split || !split[0] || !split[1] || !split[2] || split[3])
+        return (free_tabtab(split), errormsg(err), -1);
+    r = ft_atoi(split[0]);
+    g = ft_atoi(split[1]);
+    b = ft_atoi(split[2]);
+    free_tabtab(split);
+    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+        return (errormsg(err), -1);
+    color[0] = r;
+    color[1] = g;
+    color[2] = b;
+    return (0);
+}
+
+int	get_color(t_data *data)
+{
+    int	i;
+
+    i = 0;
+    while (data->map[i])
+    {
+        if (ft_strncmp(data->map[i], "F ", 2) == 0 &&
+            parse_color(data->map[i] + 2, data->f_color, "Invalid floor color") == -1)
+            return (-1);
+        if (ft_strncmp(data->map[i], "C ", 2) == 0 &&
+            parse_color(data->map[i] + 2, data->c_color, "Invalid ceiling color") == -1)
+            return (-1);
+        i++;
+    }
+    return (0);
+}
 
 int parsing(t_data *data)
 {
-    // get_res(data->map);
-    get_textures(data, data->map);
-    if (!data->no_texture || !data->so_texture || !data->we_texture || !data->ea_texture)
+    if (check_parasites(data->map) == -1)
+        return (-1);
+    if (get_textures(data, data->map) == -1)
+        return (-1);
+    if (!data->no_texture || !data->so_texture || 
+		!data->we_texture || !data->ea_texture)
     {
         errormsg("Missing texture definitions in map file");
-        return -1;
+        return (-1);
     }
-    return 0;
+    if (get_color(data) == -1)
+        return (-1);
+    return (0);
 }
 
 int iscorrectformat(const char *filename)
