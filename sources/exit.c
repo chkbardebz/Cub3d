@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:39:29 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/30 06:13:14 by judenis          ###   ########.fr       */
+/*   Updated: 2025/07/31 19:16:06 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ int exit_game(int return_value)
     {
         free_tabtab(data->map);
         data->map = NULL;
+    }
+    if (data->game_map)
+    {
+        free_tabtab(data->game_map);
+        data->game_map = NULL;
     }
     if (data->mlx_ptr && data->win_ptr)
     {

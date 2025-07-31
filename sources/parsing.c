@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:43:27 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/30 07:13:31 by judenis          ###   ########.fr       */
+/*   Updated: 2025/07/31 19:41:19 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,24 @@ static char	*safe_trim(char *line)
 	return (result);
 }
 
+static int	is_map_line(char *line)
+{
+	int	i;
+
+	if (!line || ft_strlen(line) == 0)
+		return (0);
+	
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != '0' && line[i] != '1' && line[i] != ' ' &&
+			line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static int	is_valid_line(char *line)
 {
 	char	*trimmed;
@@ -67,7 +85,7 @@ static int	is_valid_line(char *line)
 		ft_strncmp(trimmed, "EA ", 3) == 0 ||
 		ft_strncmp(trimmed, "F ", 2) == 0 ||
 		ft_strncmp(trimmed, "C ", 2) == 0 ||
-		(trimmed[0] == '1' || trimmed[0] == '0' || trimmed[0] == ' '));
+		is_map_line(trimmed));
 	free(trimmed);
 	return (result);
 }
@@ -120,10 +138,14 @@ static int	set_texture(char **texture_ptr, char *line, char *error_msg)
 {
 	char	*trimmed;
 
-	if (!line)
+	if (!line || !texture_ptr)
 		return (-1);
 	
-	free(*texture_ptr);
+	if (*texture_ptr)
+	{
+		free(*texture_ptr);
+		*texture_ptr = NULL;
+	}
 	trimmed = safe_trim(line);  // Utiliser notre version sûre
 	*texture_ptr = trimmed;
 	if (!is_valid_texture(*texture_ptr))
@@ -208,6 +230,65 @@ int	get_color(t_data *data)
     return (0);
 }
 
+int	height_map(char **game_map)
+{
+	int	height;
+
+	if (!game_map)
+		return (0);
+	height = 0;
+	while (game_map[height])
+		height++;
+	return (height - 1); // -1 pour ne pas compter la ligne vide à la fin
+}
+
+int	width_map(char **game_map)
+{
+	int	max_width;
+	int	current_width;
+	int	i;
+
+	if (!game_map)
+		return (0);
+	max_width = 0;
+	i = 0;
+	while (game_map[i])
+	{
+		current_width = ft_strlen(game_map[i]);
+		// Supprimer le caractère de fin de ligne s'il existe
+		if (current_width > 0 && (game_map[i][current_width - 1] == '\n' || 
+			game_map[i][current_width - 1] == '\r'))
+			current_width--;
+		if (current_width > max_width)
+			max_width = current_width;
+		i++;
+	}
+	return (max_width);
+}
+
+int verif_map(t_data *data)
+{
+	int height;
+	int width;
+
+	if (!data || !data->game_map)
+	{
+		errormsg("Invalid game map");
+		return (-1);
+	}
+	height = height_map(data->game_map);
+	width = width_map(data->game_map);
+	
+	if (height == 0 || width == 0)
+	{
+		errormsg("Map is empty");
+		return (-1);
+	}
+	
+	printf("Map dimensions: %d x %d (height x width)\n", height, width);
+	return (0);
+}
+
 int parsing(t_data *data)
 {
     if (check_parasites(data->map) == -1)
@@ -221,6 +302,8 @@ int parsing(t_data *data)
         return (-1);
     }
     if (get_color(data) == -1)
+        return (-1);
+    if (verif_map(data) == -1)
         return (-1);
     return (0);
 }

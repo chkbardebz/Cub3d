@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/07/30 05:53:39 by judenis          ###   ########.fr       */
+/*   Updated: 2025/07/31 19:36:58 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 typedef struct s_data
 {
     char *filename;
-    char **map;
+    char **map;        // Fichier complet (textures + couleurs + carte)
+    char **game_map;   // Seulement la carte (lignes de 0, 1, espaces)
     void    *mlx_ptr;
     void    *win_ptr;
     int     w_width;
@@ -52,5 +53,9 @@ void print_tabtab(char **tab);
 void free_tabtab(char **tab);
 int iscorrectformat(const char *filename);
 int parsing(t_data *data);
+char **extract_map_only(char **full_map);
+int height_map(char **game_map);
+int width_map(char **game_map);
+int verif_map(t_data *data);
 
 #endif
