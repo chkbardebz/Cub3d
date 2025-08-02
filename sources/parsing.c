@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:43:27 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/02 20:08:47 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/02 20:38:05 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,35 +160,52 @@ static int	set_texture(char **texture_ptr, char *line, char *error_msg)
 int	get_textures(t_data *data, char **map)
 {
 	int	i;
+	int WE;
+	int EA;
+	int SO;
+	int NO;
 
+	WE = 0;
+	EA = 0;
+	SO = 0;
+	NO = 0;
 	i = 0;
 	while (map[i])
 	{
 		if (ft_strncmp(map[i], "NO ", 3) == 0)
 		{
+			NO++;
 			if (set_texture(&data->no_texture, map[i] + 3, 
 					"NO texture missing or not .xpm") == -1)
 				return (-1);
 		}
 		else if (ft_strncmp(map[i], "SO ", 3) == 0)
 		{
+			SO++;
 			if (set_texture(&data->so_texture, map[i] + 3, 
 					"SO texture missing or not .xpm") == -1)
 				return (-1);
 		}
 		else if (ft_strncmp(map[i], "WE ", 3) == 0)
 		{
+			WE++;
 			if (set_texture(&data->we_texture, map[i] + 3, 
 					"WE texture missing or not .xpm") == -1)
 				return (-1);
 		}
 		else if (ft_strncmp(map[i], "EA ", 3) == 0)
 		{
+			EA++;
 			if (set_texture(&data->ea_texture, map[i] + 3, 
 					"EA texture missing or not .xpm") == -1)
 				return (-1);
 		}
 		i++;
+	}
+	if (NO != 1 || SO != 1 || WE != 1 || EA != 1)
+	{
+		errormsg("Duplicates/Missing textures");
+		return (-1);
 	}
 	return (0);
 }
@@ -240,7 +257,7 @@ int	height_map(char **game_map)
 	height = 0;
 	while (game_map[height])
 		height++;
-	return (height - 1); // -1 pour ne pas compter la ligne vide à la fin
+	return (height); // -1 pour ne pas compter la ligne vide à la fin
 }
 
 int	width_map(char **game_map)
@@ -456,6 +473,51 @@ static void	free_visited_array(int **visited, int height)
     free(visited);
 }
 
+static void	print_visited_array(int **visited, char **map, int height, int width)
+{
+    int	i, j;
+    int	line_len;
+
+    if (!visited || !map)
+        return;
+
+    printf("\n=== VISITED ARRAY DEBUG ===\n");
+    printf("Height: %d, Width: %d\n", height, width);
+    printf("Legend: 0=not visited, 1=visited, X=out of bounds\n\n");
+
+    i = 0;
+    while (i < height && map[i])
+    {
+        // Calculer la longueur réelle de la ligne (sans \n)
+        line_len = ft_strlen(map[i]);
+        if (line_len > 0 && (map[i][line_len - 1] == '\n' || map[i][line_len - 1] == '\r'))
+            line_len--;
+
+        printf("Line %2d: ", i);
+        j = 0;
+        while (j < width)
+        {
+            if (j >= line_len)
+                printf("X");  // Hors limites de la ligne
+            else
+                printf("%d", visited[i][j]);
+            j++;
+        }
+        printf("  |  ");
+        
+        // Afficher aussi la ligne de map correspondante pour comparaison
+        j = 0;
+        while (j < line_len && map[i][j] && map[i][j] != '\n' && map[i][j] != '\r')
+        {
+            printf("%c", map[i][j]);
+            j++;
+        }
+        printf("\n");
+        i++;
+    }
+    printf("=== END VISITED ARRAY ===\n\n");
+}
+
 int	check_map_closed(t_data *data)
 {
     int	**visited;
@@ -489,6 +551,9 @@ int	check_map_closed(t_data *data)
     result = flood_fill_check(data->game_map, visited, 
                               data->player_x, data->player_y, height, width);
     
+	
+    print_visited_array(visited, data->game_map, height, width);
+							
     free_visited_array(visited, height);
     
     if (result == -1)
