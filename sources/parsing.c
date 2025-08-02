@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:43:27 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/31 19:41:19 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/02 20:08:47 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,21 @@ static char	*safe_trim(char *line)
 
 static int	is_map_line(char *line)
 {
-	int	i;
+    int	i;
 
-	if (!line || ft_strlen(line) == 0)
-		return (0);
-	
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != ' ' &&
-			line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
-			return (0);
-		i++;
-	}
-	return (1);
+    if (!line || ft_strlen(line) == 0)
+        return (0);
+    
+    i = 0;
+    while (line[i])
+    {
+        if (line[i] != '0' && line[i] != '1' && line[i] != ' ' &&
+            line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && 
+            line[i] != 'W' && line[i] != '\n' && line[i] != '\r')  // Ajouter \n et \r
+            return (0);
+        i++;
+    }
+    return (1);
 }
 
 static int	is_valid_line(char *line)
@@ -289,22 +290,242 @@ int verif_map(t_data *data)
 	return (0);
 }
 
+int init_orientation(t_data *data)
+{
+	int i;
+	int j;
+	int compteur;
+	
+	if (!data || !data->game_map)
+	{
+		errormsg("Invalid game map for orientation initialization");
+		return (-1);
+	}
+	compteur = 0;
+	i = 0;
+	while (data->game_map[i])
+	{
+		j = 0;
+		while (data->game_map[i][j])
+		{
+			if (data->game_map[i][j] == 'N')
+			{
+				data->p_orientation = 0;
+				data->player_x = j;
+				data->player_y = i;
+				compteur++;
+			}
+			else if (data->game_map[i][j] == 'S')
+			{
+				data->p_orientation = 180;
+				data->player_x = j;
+				data->player_y = i;
+				compteur++;
+			}
+			else if (data->game_map[i][j] == 'E')
+			{
+				data->p_orientation = 90;
+				data->player_x = j;
+				data->player_y = i;
+				compteur++;
+			}
+			else if (data->game_map[i][j] == 'W')
+			{
+				data->p_orientation = 270;
+				data->player_x = j;
+				data->player_y = i;
+				compteur++;
+			}
+			j++;
+		}
+		i++;
+	}
+	if (compteur != 1)
+	{
+		errormsg("Invalid Number of players");
+		return (-1);
+	}
+	return (0);
+}
+
+static int	flood_fill_check(char **map, int **visited, int x, int y, int height, int width)
+{
+    // Vérifier les limites - si on sort de la carte depuis un espace praticable, erreur !
+    if (x < 0 || x >= width || y < 0 || y >= height)
+        return (-1);
+    
+    // Si on dépasse la longueur réelle de la ligne
+    if (!map[y])
+        return (-1);
+    
+    // Calculer la longueur réelle de la ligne (sans \n)
+    int line_len = ft_strlen(map[y]);
+    if (line_len > 0 && (map[y][line_len - 1] == '\n' || map[y][line_len - 1] == '\r'))
+        line_len--;
+    
+    if (x >= line_len)
+        return (-1);
+    
+    // Si on a déjà visité cette case
+    if (visited[y][x] == 1)
+        return (0);
+    
+    // Si c'est un mur, on s'arrête (OK)
+    if (map[y][x] == '1')
+        return (0);
+    
+    // Ignorer les caractères de fin de ligne
+    if (map[y][x] == '\n' || map[y][x] == '\r')
+        return (0);
+    
+    // Marquer comme visité
+    visited[y][x] = 1;
+    
+    // Si c'est un espace praticable ou le joueur
+    if (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'S' || 
+        map[y][x] == 'E' || map[y][x] == 'W')
+    {
+        // Vérifier les 4 directions
+        if (flood_fill_check(map, visited, x + 1, y, height, width) == -1)
+            return (-1);
+        if (flood_fill_check(map, visited, x - 1, y, height, width) == -1)
+            return (-1);
+        if (flood_fill_check(map, visited, x, y + 1, height, width) == -1)
+            return (-1);
+        if (flood_fill_check(map, visited, x, y - 1, height, width) == -1)
+            return (-1);
+    }
+    // Si c'est un espace ' ', on accepte mais on ne continue pas l'exploration
+    else if (map[y][x] == ' ')
+    {
+        return (0);
+    }
+    // Caractère invalide
+    else
+    {
+        return (-1);
+    }
+    
+    return (0);
+}
+
+static int	**create_visited_array(int height, int width)
+{
+    int	**visited;
+    int	i, j;
+    
+    visited = malloc(sizeof(int *) * height);
+    if (!visited)
+        return (NULL);
+    
+    i = 0;
+    while (i < height)
+    {
+        visited[i] = malloc(sizeof(int) * width);
+        if (!visited[i])
+        {
+            while (--i >= 0)
+                free(visited[i]);
+            free(visited);
+            return (NULL);
+        }
+        j = 0;
+        while (j < width)
+        {
+            visited[i][j] = 0;
+            j++;
+        }
+        i++;
+    }
+    return (visited);
+}
+
+static void	free_visited_array(int **visited, int height)
+{
+    int	i;
+    
+    if (!visited)
+        return;
+    
+    i = 0;
+    while (i < height)
+    {
+        free(visited[i]);
+        i++;
+    }
+    free(visited);
+}
+
+int	check_map_closed(t_data *data)
+{
+    int	**visited;
+    int	height;
+    int	width;
+    int	result;
+    
+    if (!data || !data->game_map)
+    {
+        errormsg("Invalid game map for closed check");
+        return (-1);
+    }
+    
+    height = height_map(data->game_map);
+    width = width_map(data->game_map);
+    
+    if (height <= 0 || width <= 0)
+    {
+        errormsg("Invalid map dimensions");
+        return (-1);
+    }
+    
+    visited = create_visited_array(height, width);
+    if (!visited)
+    {
+        errormsg("Memory allocation failed for map check");
+        return (-1);
+    }
+    
+    // Lancer le flood fill depuis la position du joueur
+    result = flood_fill_check(data->game_map, visited, 
+                              data->player_x, data->player_y, height, width);
+    
+    free_visited_array(visited, height);
+    
+    if (result == -1)
+    {
+        errormsg("Map is not properly closed");
+        return (-1);
+    }
+    
+    return (0);
+}
+
 int parsing(t_data *data)
 {
     if (check_parasites(data->map) == -1)
         return (-1);
     if (get_textures(data, data->map) == -1)
         return (-1);
-    if (!data->no_texture || !data->so_texture || 
-		!data->we_texture || !data->ea_texture)
+    if (!data->no_texture || !data->so_texture || !data->we_texture || !data->ea_texture)
     {
         errormsg("Missing texture definitions in map file");
         return (-1);
     }
+    
     if (get_color(data) == -1)
         return (-1);
+
     if (verif_map(data) == -1)
         return (-1);
+
+    if (init_orientation(data) == -1)
+        return (-1);
+
+    printf("Player orientation: %d at (%d, %d)\n", data->p_orientation, data->player_x, data->player_y);
+
+    if (check_map_closed(data) == -1)
+        return (-1);
+
     return (0);
 }
 

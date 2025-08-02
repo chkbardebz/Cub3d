@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/07/31 19:36:58 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/01 21:44:29 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_data
     int     c_color[3];
     int     player_x;
     int     player_y;
+    int     p_orientation; // 0 = N, 90 = E, 180 = S, 270 = W
     
 } t_data;
 
