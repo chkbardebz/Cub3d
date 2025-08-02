@@ -1,8 +1,7 @@
 NO sprites/north.xpm
 EA sprites/east.xpm
 SO sprites/south.xpm
-
-
+WE sprites/west.xpm
 F 220,100,0
 
 
@@ -26,3 +25,5 @@ C 115,30,0
 111
 111
 111
+
+
