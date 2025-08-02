@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 23:51:47 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/03 00:30:39 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/03 00:37:12 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,15 +274,12 @@ int	get_textures(t_data *data, char **map)
 {
     int	i;
 	int j;
-    int WE;
-    int EA;
-    int SO;
-    int NO;
+	int Text[4];
 
-    WE = 0;
-    EA = 0;
-    SO = 0;
-    NO = 0;
+	Text[0] = 0; // NO
+	Text[1] = 0; // SO
+	Text[2] = 0; // WE
+	Text[3] = 0; // EA
     i = 0;
 	printf("%s\n", map[i]);
     while (map[i])
@@ -292,28 +289,28 @@ int	get_textures(t_data *data, char **map)
 		{
         	if (ft_strncmp(map[i] + j, "WE ", 3) == 0)
         	{
-        	    WE++;
+        	    Text[2]++;
         	    if (set_texture(&data->we_texture, map[i] + j + 3, 
         	            "WE texture missing or not .xpm") == -1)
         	        return (-1);
         	}
         	else if (ft_strncmp(map[i] + j, "SO ", 3) == 0)
         	{
-        	    SO++;
+        	    Text[1]++;
         	    if (set_texture(&data->so_texture, map[i] + j + 3, 
         	            "SO texture missing or not .xpm") == -1)
         	        return (-1);
         	}
         	else if (ft_strncmp(map[i] + j, "NO ", 3) == 0)
         	{
-        	    NO++;
+        	    Text[0]++;
         	    if (set_texture(&data->no_texture, map[i] + j + 3, 
         	            "NO texture missing or not .xpm") == -1)
         	        return (-1);
         	}
         	else if (ft_strncmp(map[i] + j, "EA ", 3) == 0)
         	{
-        	    EA++;
+        	    Text[3]++;
         	    if (set_texture(&data->ea_texture, map[i] + j + 3, 
         	            "EA texture missing or not .xpm") == -1)
         	        return (-1);
@@ -322,8 +319,8 @@ int	get_textures(t_data *data, char **map)
 		}
         i++;
     }
-	printf("Textures: NO=%d, SO=%d, WE=%d, EA=%d\n", NO, SO, WE, EA);
-    if (NO != 1 || SO != 1 || WE != 1 || EA != 1)
+	printf("Textures: NO=%d, SO=%d, WE=%d, EA=%d\n", Text[0], Text[1], Text[2], Text[3]);
+    if (Text[0] != 1 || Text[1] != 1 || Text[2] != 1 || Text[3] != 1)
     {
         errormsg("Duplicates/Missing textures");
         return (-1);
