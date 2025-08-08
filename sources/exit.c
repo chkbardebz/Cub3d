@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:39:29 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/31 19:16:06 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/08 15:16:49 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int exit_game(int return_value)
     data = get_data();
     if (data->filename)
         free(data->filename);
+    
     if (data->no_texture)
         free(data->no_texture);
     if (data->so_texture)
@@ -52,9 +53,19 @@ int exit_game(int return_value)
         free_tabtab(data->game_map);
         data->game_map = NULL;
     }
+    if (data->no_img)
+        mlx_destroy_image(data->mlx_ptr, data->no_img);
+    if (data->so_img)
+        mlx_destroy_image(data->mlx_ptr, data->so_img);
+    if (data->we_img)
+        mlx_destroy_image(data->mlx_ptr, data->we_img);
+    if (data->ea_img)
+        mlx_destroy_image(data->mlx_ptr, data->ea_img);
     if (data->mlx_ptr && data->win_ptr)
     {
         mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+        mlx_destroy_display(data->mlx_ptr);
+        free(data->mlx_ptr);
         data->win_ptr = NULL;
     }
     exit(return_value);
