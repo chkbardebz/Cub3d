@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/08 17:24:54 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:39:37 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void game(void)
     int tex_width, tex_height;
 
     data = get_data();
-    data->w_height = 480;
-    data->w_width = 640;
+    data->w_height = 1080;
+    data->w_width = 1920;
     data->mlx_ptr = mlx_init();
     if (!data->mlx_ptr)
         exit_game(errormsg("Failed to initialize MLX"));

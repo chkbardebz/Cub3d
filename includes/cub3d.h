@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/08/08 17:16:50 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:44:04 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct s_data
 	void	*win_ptr;
 	int		w_width;
 	int		w_height;
+	int		map_width; // Largeur de la carte
+	int		map_height; // Hauteur de la carte
 	char	*no_texture;
 	char	*so_texture;
 	char	*we_texture;

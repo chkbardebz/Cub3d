@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/08 17:29:02 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:44:31 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void raycasting(void)
     int x = 0;
     double time = 0;
     double oldTime = 0;
+    data->map_width = width_map(data->game_map);
+    data->map_height = height_map(data->game_map);
     while (x < data->w_width)
     {
 
@@ -80,7 +82,7 @@ void raycasting(void)
             stepY = 1;
             sideDistY = (mapY + 1.0 - data->player_y) * deltaDistY;
         }
-        while (hit == 0)
+        while (hit == 0 && (mapX >= 0 && mapX < data->map_width && mapY >= 0 && mapY < data->map_height))
         {
             if (sideDistX < sideDistY)
             {
