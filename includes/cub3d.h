@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/08/01 21:44:29 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/08 11:49:58 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ typedef struct s_data
     char    *ea_texture;
     int     f_color[3];
     int     c_color[3];
-    int     player_x;
-    int     player_y;
-    int     p_orientation; // 0 = N, 90 = E, 180 = S, 270 = W
+    double  player_x;
+    double  player_y;
+    double     p_orientation; // 0 = N, 90 = E, 180 = S, 270 = W
     
 } t_data;
 
