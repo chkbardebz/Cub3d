@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/08/08 18:44:04 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/10 13:27:03 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@
 
 #ifndef ROT_SPEED
 # define ROT_SPEED 5
+#endif
+
+#ifndef POV_WIDTH
+# define POV_WIDTH 120
 #endif
 
 #ifndef M_PI
@@ -55,8 +59,8 @@ typedef struct s_data
 	int		c_color[3];
     double  dir_x;
     double  dir_y;
-	double	player_x;
-	double	player_y;
+	int		player_x;
+	int		player_y;
 	double	plane_x;
 	double	plane_y;
     double move_speed; // Speed of player movement

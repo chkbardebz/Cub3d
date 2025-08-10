@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:34:22 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/08 14:42:11 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/10 12:33:24 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void debug_print()
     printf("So Texture: %s\n", data->so_texture);
     printf("We Texture: %s\n", data->we_texture);
     printf("Ea Texture: %s\n", data->ea_texture);
-    printf("Floor Color: %d,%d,%d\n", data->f_color[
-0], data->f_color[1], data->f_color[2]);
+    printf("Floor Color: %d,%d,%d\n", data->f_color[0], data->f_color[1], data->f_color[2]);
     printf("Ceiling Color: %d,%d,%d\n", data->c_color[0], data->c_color[1], data->c_color[2]);
     printf("Game Map:\n");
     print_tabtab(data->game_map);

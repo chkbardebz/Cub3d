@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:36:12 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/31 19:36:59 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/10 13:17:40 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,8 @@ void init(const char *map_file)
         errormsg("Failed to extract game map");
         exit_game(1);
     }
+    data->map_width = width_map(data->game_map);
+    data->map_height = height_map(data->game_map);
     
     if (parsing(data) == -1)
         exit_game(1);

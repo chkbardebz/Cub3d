@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/08 18:39:37 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/10 13:04:38 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ void game(void)
     raycasting();
     mlx_hook(data->win_ptr, 2, 1L<<0, key_hook, NULL);
     mlx_hook(data->win_ptr, 17, 0L, exit_game, NULL);
-    mlx_clear_window(data->mlx_ptr, data->win_ptr);
+    // mlx_clear_window(data->mlx_ptr, data->win_ptr);
     mlx_loop(data->mlx_ptr);
 }
