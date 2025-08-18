@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:34:22 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/10 12:33:24 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/18 13:43:27 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void debug_print()
     printf("Data values :\n");
     printf("Width: %d\n", data->w_width);
     printf("Height: %d\n", data->w_height);
-    printf("Player X: %f\n", data->player_x);
-    printf("Player Y: %f\n", data->player_y);
+    printf("Player X: %d\n", data->player_x);
+    printf("Player Y: %d\n", data->player_y);
     printf("Player Angle: %f\n", data->p_orientation);
     printf("No Texture: %s\n", data->no_texture);
     printf("So Texture: %s\n", data->so_texture);

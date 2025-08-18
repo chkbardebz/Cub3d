@@ -17,7 +17,7 @@ NAME = cub3d
 
 SRCDIR = sources/
 CUB3D_SRC_FILES = main.c parsing.c init.c get_next_line.c exit.c error.c utils.c \
-				game/loop.c game/raycasting.c
+				game/loop.c game/raycasting.c map_conversion.c \
 
 CUB3D_SRC = $(addprefix $(SRCDIR), $(CUB3D_SRC_FILES))
 CUB3D_OBJ = $(CUB3D_SRC:.c=.o) 

@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 23:51:47 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/08 12:21:38 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/18 15:17:27 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -453,30 +453,38 @@ int init_orientation(t_data *data)
         {
             if (data->game_map[i][j] == 'N')
             {
-                data->p_orientation = 0;
+                data->p_orientation = 3*PI/2;
                 data->player_x = j;
                 data->player_y = i;
+                data->pdx = cos(data->p_orientation) * 5;
+                data->pdy = sin(data->p_orientation) * 5;
                 compteur++;
             }
             else if (data->game_map[i][j] == 'S')
             {
-                data->p_orientation = 180;
+                data->p_orientation = PI/2;
                 data->player_x = j;
                 data->player_y = i;
+                data->pdx = cos(data->p_orientation) * 5;
+                data->pdy = sin(data->p_orientation) * 5;
                 compteur++;
             }
             else if (data->game_map[i][j] == 'E')
             {
-                data->p_orientation = 90;
+                data->p_orientation = 0;
                 data->player_x = j;
                 data->player_y = i;
+                data->pdx = cos(data->p_orientation) * 5;
+                data->pdy = sin(data->p_orientation) * 5;
                 compteur++;
             }
             else if (data->game_map[i][j] == 'W')
             {
-                data->p_orientation = 270;
+                data->p_orientation = PI;
                 data->player_x = j;
                 data->player_y = i;
+                data->pdx = cos(data->p_orientation) * 5;
+                data->pdy = sin(data->p_orientation) * 5;
                 compteur++;
             }
             j++;
@@ -673,7 +681,7 @@ int	check_map_closed(t_data *data)
         return (-1);
     }
     
-    printf("Starting flood fill from player position (%f, %f)\n", data->player_x, data->player_y);
+    printf("Starting flood fill from player position (%d, %d)\n", data->player_x, data->player_y);
     
     // Lancer le flood fill depuis la position du joueur
     result = flood_fill_check(data->game_map, visited, 
@@ -730,12 +738,20 @@ int parsing(t_data *data)
     if (init_orientation(data) == -1)
         return (-1);
 
-    printf("Player orientation: %f at (%f, %f)\n", data->p_orientation, data->player_x, data->player_y);
+    printf("Player orientation: %f at (%d, %d)\n", data->p_orientation, data->player_x, data->player_y);
 
     // 9. Vérifier que la carte est fermée
     if (check_map_closed(data) == -1)
         return (-1);
 
+    data->game_map_int = convert_map_to_int(data);
+    if (!data->game_map_int)
+    {
+        // Gérer l'erreur d'allocation
+        errormsg("Erreur lors de la conversion de la carte");
+        return (-1);
+    }
+    
     return (0);
 }
 

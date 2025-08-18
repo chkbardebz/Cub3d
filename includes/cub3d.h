@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/08/10 13:27:03 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/18 15:54:22 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,31 @@
 # define POV_WIDTH 120
 #endif
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
+#ifndef PI
+#define PI 3.14159265358979323846
 #endif
+
+#define ROT_SPEED_MULTIPLIER 3.0
+
+#define MOVE_SPEED_MULTIPLIER 5.0
+
+#define P2 PI/2
+
+#define P3 3*PI/2
+
+#define DR 0.0174533 // degree to radian conversion factor
+
+#define TILE_SIZE 64
+#define FOV_RAD   (60.0 * DR)  // 60° en radians
+
+
 
 typedef struct s_data
 {
 	char	*filename;
 	char **map;      // Fichier complet (textures + couleurs + carte)
 	char **game_map; // Seulement la carte (lignes de 0, 1, espaces)
+	int *game_map_int; // Version entière 1D de la carte
 	void	*mlx_ptr;
 	void	*win_ptr;
 	int		w_width;
@@ -63,10 +79,11 @@ typedef struct s_data
 	int		player_y;
 	double	plane_x;
 	double	plane_y;
+	double 	pdx;
+	double  pdy;
     double move_speed; // Speed of player movement
     double rot_speed;  // Speed of player rotation
 	double p_orientation; // 0 = N, 90 = E, 180 = S, 270 = W
-
 }			t_data;
 
 // Function declarations
@@ -89,5 +106,6 @@ int rgb_to_hex(int r, int g, int b);
 int double_to_int(double value);
 void		game(void);
 void raycasting(void);
+int *convert_map_to_int(t_data *data);
 
 #endif

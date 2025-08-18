@@ -6,45 +6,201 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/10 13:39:32 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/18 15:55:12 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-#include <time.h>
 
-#define ROT_SPEED_MULTIPLIER 3.0
 
-#define MOVE_SPEED_MULTIPLIER 5.0
+// yo = y offset et pas GURT ;O SYBAU
+
+
+
+double dist(double ax, double ay, double bx, double by)
+{
+	return (sqrt((bx - ax) * (bx-ax) + (by-ay) * (by-ay)));
+}
 
 void raycasting(void)
 {
-	double		posx; //position x du joueur
-	double		posy; //position y du joueur
-	double		dirx; //vecteur de direction (commence à -1 pour N, 1 pour S, 0 sinon)
-	double		diry; //vecteur de direction (commence à -1 pour W, 1 pour E, 0 sinon)
-	double		planx; //vecteur du plan (commence à 0.66 pour E, -0.66 pour W, 0 sinon)
-	double		plany; //vecteur du plan (commence à 0.66 pour N, -0.66 pour S, 0 sinon)
-	double		raydirx; //calcul de direction x du rayon
-	double		raydiry; //calcul de direction y du rayon
-	double		camerax; //point x sur la plan camera : Gauche ecran = -1, milieu = 0, droite = 1
-	int		mapx; // coordonée x du carré dans lequel est pos
-	int		mapy; // coordonnée y du carré dans lequel est pos
-	double		sidedistx; //distance que le rayon parcours jusqu'au premier point d'intersection vertical (=un coté x)
-	double		sidedisty; //distance que le rayon parcours jusqu'au premier point d'intersection horizontal (= un coté y)
-	double		deltadistx; //distance que rayon parcours entre chaque point d'intersection vertical
-	double		deltadisty; //distance que le rayon parcours entre chaque point d'intersection horizontal
-	int		stepx; // -1 si doit sauter un carre dans direction x negative, 1 dans la direction x positive
-	int		stepy; // -1 si doit sauter un carre dans la direction y negative, 1 dans la direction y positive
-	int		hit; // 1 si un mur a ete touche, 0 sinon
-	int		side; // 0 si c'est un cote x qui est touche (vertical), 1 si un cote y (horizontal)
-	double		perpwalldist; // distance du joueur au mur
-	int		lineheight; //hauteur de la ligne a dessiner
-	int		drawstart; //position de debut ou il faut dessiner
-	int		drawend; //position de fin ou il faut dessiner
-	int		x; //permet de parcourir tous les rayons
+	t_data *data = get_data();
+
+
+	int r , mx , my, mp, dof;
+	double rx, ry, ra,xo, yo, disT;
+	ra = data->p_orientation - DR * 30;
+	if (ra<0)
+		ra += 2* PI;
+	if (ra>2*PI)
+		ra -= 2*PI;
+	for (r = 0;r<60;r++)
+	{
+
+	// * HORRIZONTAL LINES CHECK * //
+
+		dof = 0;
+		double disH = 100000000;
+		double hx = data->player_x;
+		double hy = data->player_y;
+		double aTan = -1/tan(ra);
+		if (ra > PI) // FACING UP
+		{
+			ry = (((int)data->player_y>>6)<<6)-0.0001;
+			rx = (data->player_y - ry)*aTan + data->player_x;
+			yo = -64;
+			xo = -yo*aTan; 
+		}
+		if (ra < PI) // FACING DOWN
+		{
+			ry = (((int)data->player_y>>6)<<6) + 64;
+			rx = (data->player_y - ry)*aTan + data->player_x;
+			yo =64;
+			xo =-yo*aTan; 
+		}
+		if (ra == 0 || ra == PI)
+		{
+			rx = data->player_x;
+			ry = data->player_y;
+			dof = 8;
+		}
+		while (dof < 8)
+		{
+			mx = (int)(rx)>>6;
+			my = (int)(ry)>>6;
+			mp = my * data->map_width + mx;
+			if (mp >0 && mp <data->map_width * data->map_height&& data->game_map_int[mp]==1)
+			{
+				hx = rx;
+				hy = ry;
+				disH=dist(data->player_x, data->player_y, hx,hy);
+				dof = 8;
+			}
+			else
+			{
+				rx += xo;
+				ry += yo;
+				dof += 1;
+			}
+		}
+		
+	// * VERTICAL LINES CHECK * //
+
+	
+		dof = 0;		
+		double disV = 100000000;
+		double vx = data->player_x;
+		double vy = data->player_y;
+		double nTan = -tan(ra);
+		if (ra > P2 && ra < P3)
+		{
+			rx = (((int)data->player_x>>6)<<6)-0.0001;
+			ry = (data->player_x - rx)*nTan + data->player_y;
+			xo = -64;
+			yo = -xo*nTan; 
+		}
+		if (ra < P2 || ra > P3)
+		{
+			rx = (((int)data->player_x>>6)<<6) + 64;
+			ry = (data->player_x - rx)*nTan + data->player_y;
+			xo =64;
+			yo =-xo*nTan; 
+		}
+		if (ra == 0 || ra == PI)
+		{
+			rx = data->player_x;
+			ry = data->player_y;
+			dof = 8;
+		}
+		while (dof < 8)
+		{
+			mx = (int)(rx)>>6;
+			my = (int)(ry)>>6;
+			mp = my * data->map_width + mx;
+			if (mp > 0 &&mp <data->map_width * data->map_height&& data->game_map_int[mp]==1)
+			{
+				vx = rx;
+				vy = ry;
+				disV=dist(data->player_x, data->player_y, vx,vy);
+				dof = 8;
+			}
+			else
+			{
+				rx += xo;
+				ry += yo;
+				dof += 1;
+			}
+		}
+		if (disV<disH)
+		{
+			rx = vx;
+			ry = vy;
+			disT = disV;
+		}
+		if (disH<disV)
+		{
+			rx = hx;
+			ry = hy;
+			disT = disH;
+		}
+
+		double ca = data->p_orientation - ra;
+		if (ca < 0)
+			ca += 2* PI;
+		if (ca > 2*PI)
+			ca-=2*PI;
+		disT = disT*cos(ca); //fix fisheye
+		
+		double lineH = (TILE_SIZE * proj_plane) / (disT > 0.0001 ? disT : 0.0001);
+		if (lineH>data->w_height)
+			lineH = data->w_height;
+		double lineO = (data->w_height / 2.0) - (lineH / 2.0);
+
+		ra +=DR;
+		if (ra<0)
+			ra += 2* PI;
+		if (ra>2*PI)
+			ra -= 2*PI;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+// void raycasting(void)
+// {
+// 	double		posx; //position x du joueur
+// 	double		posy; //position y du joueur
+// 	double		dirx; //vecteur de direction (commence à -1 pour N, 1 pour S, 0 sinon)
+// 	double		diry; //vecteur de direction (commence à -1 pour W, 1 pour E, 0 sinon)
+// 	double		planx; //vecteur du plan (commence à 0.66 pour E, -0.66 pour W, 0 sinon)
+// 	double		plany; //vecteur du plan (commence à 0.66 pour N, -0.66 pour S, 0 sinon)
+// 	double		raydirx; //calcul de direction x du rayon
+// 	double		raydiry; //calcul de direction y du rayon
+// 	double		camerax; //point x sur la plan camera : Gauche ecran = -1, milieu = 0, droite = 1
+// 	int		mapx; // coordonée x du carré dans lequel est pos
+// 	int		mapy; // coordonnée y du carré dans lequel est pos
+// 	double		sidedistx; //distance que le rayon parcours jusqu'au premier point d'intersection vertical (=un coté x)
+// 	double		sidedisty; //distance que le rayon parcours jusqu'au premier point d'intersection horizontal (= un coté y)
+// 	double		deltadistx; //distance que rayon parcours entre chaque point d'intersection vertical
+// 	double		deltadisty; //distance que le rayon parcours entre chaque point d'intersection horizontal
+// 	int		stepx; // -1 si doit sauter un carre dans direction x negative, 1 dans la direction x positive
+// 	int		stepy; // -1 si doit sauter un carre dans la direction y negative, 1 dans la direction y positive
+// 	int		hit; // 1 si un mur a ete touche, 0 sinon
+// 	int		side; // 0 si c'est un cote x qui est touche (vertical), 1 si un cote y (horizontal)
+// 	double		perpwalldist; // distance du joueur au mur
+// 	int		lineheight; //hauteur de la ligne a dessiner
+// 	int		drawstart; //position de debut ou il faut dessiner
+// 	int		drawend; //position de fin ou il faut dessiner
+// 	int		x; //permet de parcourir tous les rayons
+// }
 
 // double getTicks()
 // {
@@ -165,6 +321,3 @@ void raycasting(void)
 //     double frameTime = (time - oldTime) / 1000.0; // Frame time in seconds
 //     data->rot_speed = frameTime * ROT_SPEED_MULTIPLIER; // Adjust rotation speed based on frame time
 //     data->move_speed = frameTime * MOVE_SPEED_MULTIPLIER; // Adjust movement speed based on frame time
-
-    
-// }

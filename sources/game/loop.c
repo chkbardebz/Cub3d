@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/10 13:04:38 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/18 15:47:12 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,71 +14,92 @@
 
 
 
+static void clear_frame(t_data *d, int ceiling, int floorc)
+{
+	// Remplit le ciel et le sol (deux bandes horizontales)
+	for (int y = 0; y < d->w_height; ++y) {
+		int col = (y < d->w_height / 2) ? ceiling : floorc;
+		for (int x = 0; x < d->w_width; ++x)
+			img_put_pixel(&d->frame, x, y, col);
+	}
+}
+
+void render_frame(void)
+{
+	t_data *d = get_data();
+	clear_frame(d, 0x87CEEB, 0x444444); // ciel/sol
+	raycasting();                        // dessine les colonnes dans d->frame
+	mlx_put_image_to_window(d->mlx_ptr, d->win_ptr, d->frame.img, 0, 0);
+}
+
 int key_hook(int keycode)
 {
     t_data *data = get_data();
-    printf("X : %f, Y : %f, Angle : %f\n", data->player_x, data->player_y, data->p_orientation);
-    // mlx_pixel_put(data->mlx_ptr, data->win_ptr, (int)data->player_x + 500, (int)data->player_y + 500, 0xFFFFFF);
+    printf("X : %d, Y : %d, Angle : %f\n", data->player_x, data->player_y, data->p_orientation);
     if (keycode == 119) // W
     {
-        if (data->game_map[(int)(data->player_x + data->dir_x * data->move_speed)][(int)data->player_y] == '0')
-        {
-            data->player_x += data->dir_x * data->move_speed;
-        }
-        if (data->game_map[(int)data->player_x][(int)(data->player_y + data->dir_y * data->move_speed)] == '0')
-        {
-            data->player_y += data->dir_y * data->move_speed;
-        }
+        data->player_x += data->pdx;
+        data->player_y += data->pdy;
+        // data->player_y -= 5;
+        // if (data->game_map[(int)(data->player_x + data->dir_x * data->move_speed)][(int)data->player_y] == '0')
+        // {
+        //     data->player_x += data->dir_x * data->move_speed;
+        // }
+        // if (data->game_map[(int)data->player_x][(int)(data->player_y + data->dir_y * data->move_speed)] == '0')
+        // {
+        //     data->player_y += data->dir_y * data->move_speed;
+        // }
     }
     else if (keycode == 115) // S
-    {
-        if (data->game_map[(int)(data->player_x - data->dir_x * data->move_speed)][(int)data->player_y] == '0')
-        {
-            data->player_x -= data->dir_x * data->move_speed;
-        }
-        if (data->game_map[(int)data->player_x][(int)(data->player_y - data->dir_y * data->move_speed)] == '0')
-        {
-            data->player_y -= data->dir_y * data->move_speed;
-        }
+    {   
+        data->player_x -= data->pdx;
+        data->player_y -= data->pdy;
+        // if (data->game_map[(int)(data->player_x - data->dir_x * data->move_speed)][(int)data->player_y] == '0')
+        // {
+        //     data->player_x -= data->dir_x * data->move_speed;
+        // }
+        // if (data->game_map[(int)data->player_x][(int)(data->player_y - data->dir_y * data->move_speed)] == '0')
+        // {
+        //     data->player_y -= data->dir_y * data->move_speed;
+        // }
     }
     else if (keycode == 97) // A
     {
-        data->player_x += cos((data->p_orientation - 90) * M_PI / 180) * 0.1;
-        data->player_y += sin((data->p_orientation - 90) * M_PI / 180) * 0.1;
+        // data->player_x += cos((data->p_orientation - 90) * M_PI / 180) * 0.1;
+        // data->player_y += sin((data->p_orientation - 90) * M_PI / 180) * 0.1;
     }
     else if (keycode == 100) // D
     {
-        data->player_x += cos((data->p_orientation + 90) * M_PI / 180) * 0.1;
-        data->player_y += sin((data->p_orientation + 90) * M_PI / 180) * 0.1;
+        // data->player_x += cos((data->p_orientation + 90) * M_PI / 180) * 0.1;
+        // data->player_y += sin((data->p_orientation + 90) * M_PI / 180) * 0.1;
     }
     else if (keycode == 65361) // Left arrow
     {
-        double oldDirX = data->dir_x;
-        data->dir_x = data->dir_x * cos(-data->rot_speed) - data->dir_y * sin(-data->rot_speed);
-        data->dir_y = oldDirX * sin(-data->rot_speed) + data->dir_y * cos(-data->rot_speed);
-        double oldPlaneX = data->plane_x;
-        data->plane_x = data->plane_x * cos(-data->rot_speed) - data->plane_y * sin(-data->rot_speed);
-        data->plane_y = oldPlaneX * sin(-data->rot_speed) + data->plane_y * cos(-data->rot_speed);
-        data->p_orientation -= 5;
-        if (data->p_orientation < 0)
-            data->p_orientation += 360;
+        data->p_orientation -=0.1;
+        if (data->p_orientation > 2* PI)
+        {
+            data->p_orientation -= 2 * PI;
+        }
+        data->pdx = cos(data->p_orientation) * 5;
+        data->pdy = sin(data->p_orientation) * 5;
     }
     else if (keycode == 65363) // Right arrow
     {
-        double oldDirX = data->dir_x;
-        data->dir_x = data->dir_x * cos(data->rot_speed) - data->dir_y * sin(data->rot_speed);
-        data->dir_y = oldDirX * sin(data->rot_speed) + data->dir_y * cos(data->rot_speed);
-        double oldPlaneX = data->plane_x;
-        data->plane_x = data->plane_x * cos(data->rot_speed) - data->plane_y * sin(data->rot_speed);
-        data->plane_y = oldPlaneX * sin(data->rot_speed) + data->plane_y * cos(data->rot_speed);
-        data->p_orientation += 5;
-        if (data->p_orientation >= 360)
-            data->p_orientation -= 360;
+        data->p_orientation +=0.1;
+        if (data->p_orientation <0)
+        {
+            data->p_orientation += 2 * PI;
+        }
+        data->pdx = cos(data->p_orientation) * 5;
+        data->pdy = sin(data->p_orientation) * 5;
     }
     else if (keycode == 65307) // Escape
     {
         exit_game(0);
     }
+    clear_frame(data, rgb_to_hex(data->c_color[0], data->c_color[1], data->c_color[2]), rgb_to_hex(data->f_color[0], data->f_color[1], data->f_color[2])); // ciel/sol
+    raycasting();
+    // mlx_pixel_put(data->mlx_ptr, data->win_ptr, (int)data->player_x + 500, (int)data->player_y + 500, 0xFFFFFF);
     return 0;
 }
 
@@ -106,7 +127,6 @@ void game(void)
     if (!data->ea_img)
         exit_game(errormsg("Failed to load East texture"));
     data->win_ptr = mlx_new_window(data->mlx_ptr, data->w_width, data->w_height, "Cub3D");
-    raycasting();
     mlx_hook(data->win_ptr, 2, 1L<<0, key_hook, NULL);
     mlx_hook(data->win_ptr, 17, 0L, exit_game, NULL);
     // mlx_clear_window(data->mlx_ptr, data->win_ptr);
