@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/18 15:47:12 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/19 16:21:49 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,48 @@
 
 
 
-static void clear_frame(t_data *d, int ceiling, int floorc)
+// static void clear_frame(t_data *d, int ceiling, int floorc)
+// {
+// 	// Remplit le ciel et le sol (deux bandes horizontales)
+// 	for (int y = 0; y < d->w_height; ++y) {
+// 		int col = (y < d->w_height / 2) ? ceiling : floorc;
+// 		for (int x = 0; x < d->w_width; ++x)
+// 			img_put_pixel(&d->frame, x, y, col);
+// 	}
+// }
+
+// void render_frame(void)
+// {
+// 	t_data *d = get_data();
+// 	clear_frame(d, 0x87CEEB, 0x444444); // ciel/sol
+// 	raycasting();                        // dessine les colonnes dans d->frame
+// 	mlx_put_image_to_window(d->mlx_ptr, d->win_ptr, d->frame.img, 0, 0);
+// }
+
+
+void    my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-	// Remplit le ciel et le sol (deux bandes horizontales)
-	for (int y = 0; y < d->w_height; ++y) {
-		int col = (y < d->w_height / 2) ? ceiling : floorc;
-		for (int x = 0; x < d->w_width; ++x)
-			img_put_pixel(&d->frame, x, y, col);
-	}
+    char    *dst;
+
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *(unsigned int*)dst = color;
 }
 
-void render_frame(void)
+void	fill_background(t_data *img, int color)
 {
-	t_data *d = get_data();
-	clear_frame(d, 0x87CEEB, 0x444444); // ciel/sol
-	raycasting();                        // dessine les colonnes dans d->frame
-	mlx_put_image_to_window(d->mlx_ptr, d->win_ptr, d->frame.img, 0, 0);
+	int x, y;
+
+	y = 0;
+	while (y < img->w_height)
+	{
+		x = 0;
+		while (x < img->w_width)
+		{
+			my_mlx_pixel_put(img, x, y, color);
+			x++;
+		}
+		y++;
+	}
 }
 
 int key_hook(int keycode)
@@ -97,9 +123,15 @@ int key_hook(int keycode)
     {
         exit_game(0);
     }
-    clear_frame(data, rgb_to_hex(data->c_color[0], data->c_color[1], data->c_color[2]), rgb_to_hex(data->f_color[0], data->f_color[1], data->f_color[2])); // ciel/sol
+    data->img = mlx_new_image(data->mlx_ptr, 800, 600);
+    data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel,
+                             &data->line_length, &data->endian);
+
+    fill_background(data, 0x003366); // bleu foncé
+    mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
+    // clear_frame(data, rgb_to_hex(data->c_color[0], data->c_color[1], data->c_color[2]), rgb_to_hex(data->f_color[0], data->f_color[1], data->f_color[2])); // ciel/sol
     raycasting();
-    // mlx_pixel_put(data->mlx_ptr, data->win_ptr, (int)data->player_x + 500, (int)data->player_y + 500, 0xFFFFFF);
+    mlx_pixel_put(data->mlx_ptr, data->win_ptr, (int)data->player_x + 50, (int)data->player_y + 50, 0xFFFFFF);
     return 0;
 }
 
@@ -109,8 +141,8 @@ void game(void)
     int tex_width, tex_height;
 
     data = get_data();
-    data->w_height = 1080;
-    data->w_width = 1920;
+    data->w_height = 480;
+    data->w_width = 720;
     data->mlx_ptr = mlx_init();
     if (!data->mlx_ptr)
         exit_game(errormsg("Failed to initialize MLX"));

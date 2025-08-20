@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/08/18 15:54:22 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/19 16:17:55 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,14 @@ typedef struct s_data
     double move_speed; // Speed of player movement
     double rot_speed;  // Speed of player rotation
 	double p_orientation; // 0 = N, 90 = E, 180 = S, 270 = W
+
+	void *img;
+	char *addr;
+	int bits_per_pixel;
+	int line_length;
+	int endian;
+
+	
 }			t_data;
 
 // Function declarations

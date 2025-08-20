@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/18 15:55:12 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/19 16:08:49 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,10 @@ void raycasting(void)
 			ca-=2*PI;
 		disT = disT*cos(ca); //fix fisheye
 		
-		double lineH = (TILE_SIZE * proj_plane) / (disT > 0.0001 ? disT : 0.0001);
-		if (lineH>data->w_height)
-			lineH = data->w_height;
-		double lineO = (data->w_height / 2.0) - (lineH / 2.0);
+		// double lineH = (TILE_SIZE * proj_plane) / (disT > 0.0001 ? disT : 0.0001);
+		// if (lineH>data->w_height)
+		// 	lineH = data->w_height;
+		// double lineO = (data->w_height / 2.0) - (lineH / 2.0);
 
 		ra +=DR;
 		if (ra<0)
