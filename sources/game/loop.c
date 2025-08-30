@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/19 16:21:49 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/30 16:37:16 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,27 @@
 // }
 
 
-void    my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-    char    *dst;
-
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
-}
-
-void	fill_background(t_data *img, int color)
+void	fill_background(t_data *img, int color1, int color2)
 {
 	int x, y;
 
 	y = 0;
-	while (y < img->w_height)
+	while (y < img->w_height / 2)
 	{
 		x = 0;
 		while (x < img->w_width)
 		{
-			my_mlx_pixel_put(img, x, y, color);
+			my_mlx_pixel_put(img, x, y, color1);
+			x++;
+		}
+		y++;
+	}
+    while (y < img->w_height)
+	{
+		x = 0;
+		while (x < img->w_width)
+		{
+			my_mlx_pixel_put(img, x, y, color2);
 			x++;
 		}
 		y++;
@@ -64,8 +66,10 @@ int key_hook(int keycode)
     printf("X : %d, Y : %d, Angle : %f\n", data->player_x, data->player_y, data->p_orientation);
     if (keycode == 119) // W
     {
-        data->player_x += data->pdx;
-        data->player_y += data->pdy;
+        data->player_x += cos(data->p_orientation) * MOVE_SPEED;
+        data->player_y += sin(data->p_orientation) * MOVE_SPEED;
+        // data->player_x += data->pdx;
+        // data->player_y += data->pdy;
         // data->player_y -= 5;
         // if (data->game_map[(int)(data->player_x + data->dir_x * data->move_speed)][(int)data->player_y] == '0')
         // {
@@ -77,9 +81,9 @@ int key_hook(int keycode)
         // }
     }
     else if (keycode == 115) // S
-    {   
-        data->player_x -= data->pdx;
-        data->player_y -= data->pdy;
+    {  
+        data->player_x -= cos(data->p_orientation) * MOVE_SPEED;
+        data->player_y -= sin(data->p_orientation) * MOVE_SPEED;
         // if (data->game_map[(int)(data->player_x - data->dir_x * data->move_speed)][(int)data->player_y] == '0')
         // {
         //     data->player_x -= data->dir_x * data->move_speed;
@@ -89,15 +93,19 @@ int key_hook(int keycode)
         //     data->player_y -= data->dir_y * data->move_speed;
         // }
     }
-    else if (keycode == 97) // A
+    else if (keycode == 97) // A (gauche)
     {
-        // data->player_x += cos((data->p_orientation - 90) * M_PI / 180) * 0.1;
-        // data->player_y += sin((data->p_orientation - 90) * M_PI / 180) * 0.1;
+        // déplacement perpendiculaire à l'orientation (gauche)
+        double strafe_angle = data->p_orientation - PI / 2;
+        data->player_x += cos(strafe_angle) * 5;
+        data->player_y += sin(strafe_angle) * 5;
     }
-    else if (keycode == 100) // D
+    else if (keycode == 100) // D (droite)
     {
-        // data->player_x += cos((data->p_orientation + 90) * M_PI / 180) * 0.1;
-        // data->player_y += sin((data->p_orientation + 90) * M_PI / 180) * 0.1;
+        // déplacement perpendiculaire à l'orientation (droite)
+        double strafe_angle = data->p_orientation + PI / 2;
+        data->player_x += cos(strafe_angle) * 5;
+        data->player_y += sin(strafe_angle) * 5;
     }
     else if (keycode == 65361) // Left arrow
     {
@@ -123,15 +131,28 @@ int key_hook(int keycode)
     {
         exit_game(0);
     }
-    data->img = mlx_new_image(data->mlx_ptr, 800, 600);
-    data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel,
-                             &data->line_length, &data->endian);
 
-    fill_background(data, 0x003366); // bleu foncé
+    // Vérification si le joueur est hors de la map
+    int px = (int)data->player_x / 64;
+    int py = (int)data->player_y / 64;
+    int map_w = ft_strlen(data->game_map[0]);
+    int map_h = 0;
+    while (data->game_map[map_h])
+        map_h++;
+
+    if (px < 0 || py < 0 || px >= map_w || py >= map_h)
+    {
+        // Affiche un écran noir et retourne
+        fill_background(data, 0x000000, 0x000000);
+        mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
+        return 0;
+    }
+
+    // Sinon, dessine le background normalement
+    fill_background(data, 0x003366, 0xE54222); // bleu foncé
     mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
-    // clear_frame(data, rgb_to_hex(data->c_color[0], data->c_color[1], data->c_color[2]), rgb_to_hex(data->f_color[0], data->f_color[1], data->f_color[2])); // ciel/sol
     raycasting();
-    mlx_pixel_put(data->mlx_ptr, data->win_ptr, (int)data->player_x + 50, (int)data->player_y + 50, 0xFFFFFF);
+    // mlx_pixel_put(data->mlx_ptr, data->win_ptr, (int)data->player_x + 50, (int)data->player_y + 50, 0xFFFFFF);
     return 0;
 }
 
@@ -159,8 +180,13 @@ void game(void)
     if (!data->ea_img)
         exit_game(errormsg("Failed to load East texture"));
     data->win_ptr = mlx_new_window(data->mlx_ptr, data->w_width, data->w_height, "Cub3D");
+
+    // Crée l'image une seule fois ici :
+    data->img = mlx_new_image(data->mlx_ptr, data->w_width, data->w_height);
+    data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel,
+                                   &data->line_length, &data->endian);
+
     mlx_hook(data->win_ptr, 2, 1L<<0, key_hook, NULL);
     mlx_hook(data->win_ptr, 17, 0L, exit_game, NULL);
-    // mlx_clear_window(data->mlx_ptr, data->win_ptr);
     mlx_loop(data->mlx_ptr);
 }

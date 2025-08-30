@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 23:51:47 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/18 15:17:27 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/30 16:23:43 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -698,6 +698,8 @@ int	check_map_closed(t_data *data)
     }
     
     printf("Map flood fill completed successfully!\n");
+    data->player_x = data->player_x * 64 + 32;
+    data->player_y = data->player_y * 64 + 32;
     return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/19 16:08:49 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/30 16:04:15 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,37 @@ double dist(double ax, double ay, double bx, double by)
 	return (sqrt((bx - ax) * (bx-ax) + (by-ay) * (by-ay)));
 }
 
+int get_texture_pixel(void *img, int x, int y)
+{
+    int bpp, sl, endian;
+    char *addr = mlx_get_data_addr(img, &bpp, &sl, &endian);
+    return *(unsigned int *)(addr + (y * sl + x * (bpp / 8)));
+}
+
+void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+    char *dst;
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *(unsigned int*)dst = color;
+}
+
 void raycasting(void)
 {
 	t_data *data = get_data();
+    int px = (int)data->player_x / 64; // conversion pixels → cases
+    int py = (int)data->player_y / 64;
+    int map_w = ft_strlen(data->game_map[0]);
+    int map_h = 0;
+    while (data->game_map[map_h])
+        map_h++;
+
+    if (px < 0 || py < 0 || px >= map_w || py >= map_h)
+    {
+        for (int y = 0; y < data->w_height; y++)
+            for (int x = 0; x < data->w_width; x++)
+                mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, 0x000000);
+        return;
+    }
 
 
 	int r , mx , my, mp, dof;
@@ -35,8 +63,18 @@ void raycasting(void)
 		ra += 2* PI;
 	if (ra>2*PI)
 		ra -= 2*PI;
-	for (r = 0;r<60;r++)
+	double fov = 60 * (PI / 180); // FOV de 60 degrés en radians
+    double dr = fov / data->w_width; // angle entre chaque rayon
+
+	for (r = 0; r < data->w_width; r++)
 	{
+
+		// Calcul correct de l'angle du rayon pour chaque colonne
+		ra = data->p_orientation - (fov / 2) + r * dr;
+		if (ra < 0)
+			ra += 2 * PI;
+		if (ra > 2 * PI)
+			ra -= 2 * PI;
 
 	// * HORRIZONTAL LINES CHECK * //
 
@@ -145,17 +183,70 @@ void raycasting(void)
 			disT = disH;
 		}
 
-		double ca = data->p_orientation - ra;
-		if (ca < 0)
-			ca += 2* PI;
-		if (ca > 2*PI)
-			ca-=2*PI;
-		disT = disT*cos(ca); //fix fisheye
-		
-		// double lineH = (TILE_SIZE * proj_plane) / (disT > 0.0001 ? disT : 0.0001);
-		// if (lineH>data->w_height)
-		// 	lineH = data->w_height;
-		// double lineO = (data->w_height / 2.0) - (lineH / 2.0);
+    // Détermination du mur touché (side et orientation)
+    int side;
+    double raydirx = cos(ra);
+    double raydiry = sin(ra);
+
+    if (disV < disH)
+    {
+        rx = vx;
+        ry = vy;
+        disT = disV;
+        side = 0; // vertical
+    }
+    else
+    {
+        rx = hx;
+        ry = hy;
+        disT = disH;
+        side = 1; // horizontal
+    }
+
+    double ca = ra - data->p_orientation;
+    disT = disT * cos(ca); // correction du fisheye
+
+    // Calcul de la hauteur de la ligne à dessiner
+    int lineH = (int)((64 * data->w_height) / (disT > 0.0001 ? disT : 0.0001));
+    if (lineH > data->w_height)
+        lineH = data->w_height;
+    int lineO = (data->w_height / 2) - (lineH / 2);
+
+    // --- Texture selection ---
+    void *texture;
+    int tex_width = 64;  // adapte si tes textures ont une autre taille
+    int tex_height = 64;
+
+    // Détermination de la direction du mur touché
+    if (side == 0) // vertical
+    {
+        if (raydirx > 0)
+            texture = data->ea_img; // Est
+        else
+            texture = data->we_img; // Ouest
+    }
+    else // horizontal
+    {
+        if (raydiry > 0)
+            texture = data->so_img; // Sud
+        else
+            texture = data->no_img; // Nord
+    }
+
+    // --- Calcul de la coordonnée X dans la texture ---
+    int tex_x;
+    if (side == 0)
+        tex_x = (int)ry % tex_width;
+    else
+        tex_x = (int)rx % tex_width;
+
+    // --- Dessin de la colonne avec la texture ---
+    for (int y = lineO; y < lineO + lineH; y++)
+    {
+        int tex_y = ((y - lineO) * tex_height) / lineH;
+        int color = get_texture_pixel(texture, tex_x, tex_y);
+        my_mlx_pixel_put(data, r, y, color);
+    }
 
 		ra +=DR;
 		if (ra<0)

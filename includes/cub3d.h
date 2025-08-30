@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/08/19 16:17:55 by judenis          ###   ########.fr       */
+/*   Updated: 2025/08/30 16:36:12 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 #define TILE_SIZE 64
 #define FOV_RAD   (60.0 * DR)  // 60° en radians
 
+#define MOVE_SPEED 5
 
 
 typedef struct s_data
@@ -115,5 +116,6 @@ int double_to_int(double value);
 void		game(void);
 void raycasting(void);
 int *convert_map_to_int(t_data *data);
+void my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 #endif
