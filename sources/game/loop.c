@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/01 16:46:56 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/01 18:23:42 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,12 @@ void	fill_background(t_data *img, int color1, int color2)
 int key_hook(int keycode)
 {
     t_data *data = get_data();
-    printf("X : %d, Y : %d, Angle : %f\n", data->player_x, data->player_y, data->p_orientation);
+    printf("X : %.2f, Y : %.2f, Angle : %.6f\n", (double)data->player_x, (double)data->player_y, (double)data->p_orientation);
     if (keycode == 119) // W
     {
         data->player_x += cos(data->p_orientation) * MOVE_SPEED;
         data->player_y += sin(data->p_orientation) * MOVE_SPEED;
+        printf("W: dir_x=%.6f dir_y=%.6f\n", cos(data->p_orientation), sin(data->p_orientation));
         // data->player_x += data->pdx;
         // data->player_y += data->pdy;
         // data->player_y -= 5;
@@ -84,6 +85,7 @@ int key_hook(int keycode)
     {  
         data->player_x -= cos(data->p_orientation) * MOVE_SPEED;
         data->player_y -= sin(data->p_orientation) * MOVE_SPEED;
+        printf("S: dir_x=%.6f dir_y=%.6f\n", -cos(data->p_orientation), -sin(data->p_orientation));
         // if (data->game_map[(int)(data->player_x - data->dir_x * data->move_speed)][(int)data->player_y] == '0')
         // {
         //     data->player_x -= data->dir_x * data->move_speed;
@@ -97,15 +99,15 @@ int key_hook(int keycode)
     {
         // déplacement perpendiculaire à l'orientation (gauche)
         double strafe_angle = data->p_orientation - PI / 2;
-        data->player_x += cos(strafe_angle) * 5;
-        data->player_y += sin(strafe_angle) * 5;
+        data->player_x += cos(strafe_angle) * MOVE_SPEED;
+        data->player_y += sin(strafe_angle) * MOVE_SPEED;
     }
     else if (keycode == 100) // D (droite)
     {
         // déplacement perpendiculaire à l'orientation (droite)
         double strafe_angle = data->p_orientation + PI / 2;
-        data->player_x += cos(strafe_angle) * 5;
-        data->player_y += sin(strafe_angle) * 5;
+        data->player_x += cos(strafe_angle) * MOVE_SPEED;
+        data->player_y += sin(strafe_angle) * MOVE_SPEED;
     }
     else if (keycode == 65361) // Left arrow
     {

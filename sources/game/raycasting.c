@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/01 17:45:41 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/01 18:16:07 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,27 @@ void raycasting(void)
 {
     t_data *data = get_data();
     
-    // Vérification limites de map
-    int px = (int)data->player_x / 64;
-    int py = (int)data->player_y / 64;
-    int map_w = ft_strlen(data->game_map[0]);
-    int map_h = 0;
-    while (data->game_map[map_h])
-        map_h++;
+    // Vérification que game_map_int existe
+    if (!data->game_map_int || !data->game_map)
+    {
+        fprintf(stderr, "ERROR: game_map_int or game_map is NULL\n");
+        return;
+    }
+    
+    // Vérification limites de map - correction du calcul
+    int px = (int)(data->player_x / 64.0);
+    int py = (int)(data->player_y / 64.0);
+    
+    // Calcul correct des dimensions
+    int map_w = data->map_width;
+    int map_h = data->map_height;
+    
+    // Vérification si les dimensions sont valides
+    if (map_w <= 0 || map_h <= 0)
+    {
+        fprintf(stderr, "ERROR: Invalid map dimensions\n");
+        return;
+    }
 
     if (px < 0 || py < 0 || px >= map_w || py >= map_h)
     {
@@ -97,6 +111,14 @@ void raycasting(void)
             {
                 int mx = (int)(hx) >> 6;
                 int my = (int)(hy) >> 6;
+                
+                // Vérification des limites avant accès au tableau
+                if (mx < 0 || my < 0 || mx >= map_w || my >= map_h)
+                {
+                    dof = 8; // Sortir de la boucle
+                    break;
+                }
+                
                 int mp = my * data->map_width + mx;
                 if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
                 {
@@ -122,6 +144,14 @@ void raycasting(void)
             {
                 int mx = (int)(hx) >> 6;
                 int my = (int)(hy) >> 6;
+                
+                // Vérification des limites avant accès au tableau
+                if (mx < 0 || my < 0 || mx >= map_w || my >= map_h)
+                {
+                    dof = 8; // Sortir de la boucle
+                    break;
+                }
+                
                 int mp = my * data->map_width + mx;
                 if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
                 {
@@ -154,6 +184,14 @@ void raycasting(void)
             {
                 int mx = (int)(vx) >> 6;
                 int my = (int)(vy) >> 6;
+                
+                // Vérification des limites avant accès au tableau
+                if (mx < 0 || my < 0 || mx >= map_w || my >= map_h)
+                {
+                    dof = 8; // Sortir de la boucle
+                    break;
+                }
+                
                 int mp = my * data->map_width + mx;
                 if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
                 {
@@ -179,6 +217,14 @@ void raycasting(void)
             {
                 int mx = (int)(vx) >> 6;
                 int my = (int)(vy) >> 6;
+                
+                // Vérification des limites avant accès au tableau
+                if (mx < 0 || my < 0 || mx >= map_w || my >= map_h)
+                {
+                    dof = 8; // Sortir de la boucle
+                    break;
+                }
+                
                 int mp = my * data->map_width + mx;
                 if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
                 {
@@ -265,6 +311,9 @@ void raycasting(void)
             my_mlx_pixel_put(data, r, y, color);
         }
     }
+    // Dessine une ligne verticale au centre de l'écran
+    for (int y = 0; y < data->w_height; y++)
+        my_mlx_pixel_put(data, data->w_width / 2, y, 0xFF0000); // Rouge
 }
 
 

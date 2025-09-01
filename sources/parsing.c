@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 23:51:47 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/30 16:23:43 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/01 18:25:39 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -681,11 +681,11 @@ int	check_map_closed(t_data *data)
         return (-1);
     }
     
-    printf("Starting flood fill from player position (%d, %d)\n", data->player_x, data->player_y);
+    printf("Starting flood fill from player position (%f, %f)\n", data->player_x, data->player_y);
     
     // Lancer le flood fill depuis la position du joueur
     result = flood_fill_check(data->game_map, visited, 
-                              data->player_x, data->player_y, height, width);
+                              (int)data->player_x, (int)data->player_y, height, width);
     
     print_visited_array(visited, data->game_map, height, width);
                             
@@ -740,7 +740,7 @@ int parsing(t_data *data)
     if (init_orientation(data) == -1)
         return (-1);
 
-    printf("Player orientation: %f at (%d, %d)\n", data->p_orientation, data->player_x, data->player_y);
+    printf("Player orientation: %f at (%f, %f)\n", data->p_orientation, data->player_x, data->player_y);
 
     // 9. Vérifier que la carte est fermée
     if (check_map_closed(data) == -1)

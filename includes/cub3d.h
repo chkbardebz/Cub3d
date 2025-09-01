@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/08/30 16:36:12 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/01 18:24:59 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ typedef struct s_data
 	int		c_color[3];
     double  dir_x;
     double  dir_y;
-	int		player_x;
-	int		player_y;
+	double		player_x;
+	double		player_y;
 	double	plane_x;
 	double	plane_y;
 	double 	pdx;
