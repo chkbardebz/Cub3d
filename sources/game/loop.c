@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/30 16:37:16 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/01 16:46:56 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,11 @@ void game(void)
     data->ea_img = mlx_xpm_file_to_image(data->mlx_ptr, data->ea_texture, &tex_width, &tex_height);
     if (!data->ea_img)
         exit_game(errormsg("Failed to load East texture"));
+    if (!data->no_img || !data->so_img || !data->we_img || !data->ea_img)
+    {
+        printf("Erreur : texture non chargée\n");
+        exit(1);
+    }
     data->win_ptr = mlx_new_window(data->mlx_ptr, data->w_width, data->w_height, "Cub3D");
 
     // Crée l'image une seule fois ici :

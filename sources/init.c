@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:36:12 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/18 15:54:33 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/01 17:46:19 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,4 +233,8 @@ void init(const char *map_file)
     printf("floor color: %d,%d,%d\n", data->f_color[0], data->f_color[1], data->f_color[2]);
     printf("\n=== GAME MAP ONLY ===\n");
     print_tabtab(data->game_map);
+    data->dir_x = cos(data->p_orientation);
+    data->dir_y = sin(data->p_orientation);
+    data->plane_x = -sin(data->p_orientation) * 0.66;
+    data->plane_y = cos(data->p_orientation) * 0.66;
 }

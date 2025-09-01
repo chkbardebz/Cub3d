@@ -1,7 +1,7 @@
-NO ./sprites/north.xpm
-SO ./sprites/south.xpm
-WE ./sprites/west.xpm
-EA ./sprites/east.xpm
+NO ./textures/simonkraft/cobblestone.xpm
+SO ./textures/simonkraft/bookshelf.xpm
+WE ./textures/simonkraft/netherrack.xpm
+EA ./textures/simonkraft/soul_sand.xpm
 F 220,100,0
 C 225,30,0
 

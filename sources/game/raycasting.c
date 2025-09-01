@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/30 16:04:15 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/01 17:45:41 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,36 @@ double dist(double ax, double ay, double bx, double by)
 
 int get_texture_pixel(void *img, int x, int y)
 {
+    // sécurité : img non nul et coords dans la texture (64x64 attendu)
+    if (!img || x < 0 || y < 0 || x >= 64 || y >= 64)
+        return 0x000000;
     int bpp, sl, endian;
     char *addr = mlx_get_data_addr(img, &bpp, &sl, &endian);
+    if (!addr)
+        return 0x000000;
     return *(unsigned int *)(addr + (y * sl + x * (bpp / 8)));
 }
 
 void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-    char *dst;
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    if (!data->addr)
+    {
+        fprintf(stderr, "ERROR: screen addr NULL\n");
+        return;
+    }
+    if (x < 0 || x >= data->w_width || y < 0 || y >= data->w_height)
+        return;
+    int bytes = data->bits_per_pixel / 8;
+    char *dst = data->addr + (y * data->line_length + x * bytes);
     *(unsigned int*)dst = color;
 }
 
 void raycasting(void)
 {
-	t_data *data = get_data();
-    int px = (int)data->player_x / 64; // conversion pixels → cases
+    t_data *data = get_data();
+    
+    // Vérification limites de map
+    int px = (int)data->player_x / 64;
     int py = (int)data->player_y / 64;
     int map_w = ft_strlen(data->game_map[0]);
     int map_h = 0;
@@ -49,212 +63,208 @@ void raycasting(void)
 
     if (px < 0 || py < 0 || px >= map_w || py >= map_h)
     {
+        // Écran noir si hors map
         for (int y = 0; y < data->w_height; y++)
             for (int x = 0; x < data->w_width; x++)
-                mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, 0x000000);
+                my_mlx_pixel_put(data, x, y, 0x000000);
         return;
     }
 
+    double fov = 60 * (PI / 180);
+    double dr = fov / data->w_width;
 
-	int r , mx , my, mp, dof;
-	double rx, ry, ra,xo, yo, disT;
-	ra = data->p_orientation - DR * 30;
-	if (ra<0)
-		ra += 2* PI;
-	if (ra>2*PI)
-		ra -= 2*PI;
-	double fov = 60 * (PI / 180); // FOV de 60 degrés en radians
-    double dr = fov / data->w_width; // angle entre chaque rayon
-
-	for (r = 0; r < data->w_width; r++)
-	{
-
-		// Calcul correct de l'angle du rayon pour chaque colonne
-		ra = data->p_orientation - (fov / 2) + r * dr;
-		if (ra < 0)
-			ra += 2 * PI;
-		if (ra > 2 * PI)
-			ra -= 2 * PI;
-
-	// * HORRIZONTAL LINES CHECK * //
-
-		dof = 0;
-		double disH = 100000000;
-		double hx = data->player_x;
-		double hy = data->player_y;
-		double aTan = -1/tan(ra);
-		if (ra > PI) // FACING UP
-		{
-			ry = (((int)data->player_y>>6)<<6)-0.0001;
-			rx = (data->player_y - ry)*aTan + data->player_x;
-			yo = -64;
-			xo = -yo*aTan; 
-		}
-		if (ra < PI) // FACING DOWN
-		{
-			ry = (((int)data->player_y>>6)<<6) + 64;
-			rx = (data->player_y - ry)*aTan + data->player_x;
-			yo =64;
-			xo =-yo*aTan; 
-		}
-		if (ra == 0 || ra == PI)
-		{
-			rx = data->player_x;
-			ry = data->player_y;
-			dof = 8;
-		}
-		while (dof < 8)
-		{
-			mx = (int)(rx)>>6;
-			my = (int)(ry)>>6;
-			mp = my * data->map_width + mx;
-			if (mp >0 && mp <data->map_width * data->map_height&& data->game_map_int[mp]==1)
-			{
-				hx = rx;
-				hy = ry;
-				disH=dist(data->player_x, data->player_y, hx,hy);
-				dof = 8;
-			}
-			else
-			{
-				rx += xo;
-				ry += yo;
-				dof += 1;
-			}
-		}
-		
-	// * VERTICAL LINES CHECK * //
-
-	
-		dof = 0;		
-		double disV = 100000000;
-		double vx = data->player_x;
-		double vy = data->player_y;
-		double nTan = -tan(ra);
-		if (ra > P2 && ra < P3)
-		{
-			rx = (((int)data->player_x>>6)<<6)-0.0001;
-			ry = (data->player_x - rx)*nTan + data->player_y;
-			xo = -64;
-			yo = -xo*nTan; 
-		}
-		if (ra < P2 || ra > P3)
-		{
-			rx = (((int)data->player_x>>6)<<6) + 64;
-			ry = (data->player_x - rx)*nTan + data->player_y;
-			xo =64;
-			yo =-xo*nTan; 
-		}
-		if (ra == 0 || ra == PI)
-		{
-			rx = data->player_x;
-			ry = data->player_y;
-			dof = 8;
-		}
-		while (dof < 8)
-		{
-			mx = (int)(rx)>>6;
-			my = (int)(ry)>>6;
-			mp = my * data->map_width + mx;
-			if (mp > 0 &&mp <data->map_width * data->map_height&& data->game_map_int[mp]==1)
-			{
-				vx = rx;
-				vy = ry;
-				disV=dist(data->player_x, data->player_y, vx,vy);
-				dof = 8;
-			}
-			else
-			{
-				rx += xo;
-				ry += yo;
-				dof += 1;
-			}
-		}
-		if (disV<disH)
-		{
-			rx = vx;
-			ry = vy;
-			disT = disV;
-		}
-		if (disH<disV)
-		{
-			rx = hx;
-			ry = hy;
-			disT = disH;
-		}
-
-    // Détermination du mur touché (side et orientation)
-    int side;
-    double raydirx = cos(ra);
-    double raydiry = sin(ra);
-
-    if (disV < disH)
+    for (int r = 0; r < data->w_width; r++)
     {
-        rx = vx;
-        ry = vy;
-        disT = disV;
-        side = 0; // vertical
-    }
-    else
-    {
-        rx = hx;
-        ry = hy;
-        disT = disH;
-        side = 1; // horizontal
-    }
+        // Calcul angle pour ce rayon
+        double ra = data->p_orientation - (fov / 2) + r * dr;
+        if (ra < 0) ra += 2 * PI;
+        if (ra > 2 * PI) ra -= 2 * PI;
 
-    double ca = ra - data->p_orientation;
-    disT = disT * cos(ca); // correction du fisheye
+        // ===== RAYONS HORIZONTAUX =====
+        int dof = 0;
+        double disH = 1000000;
+        double hx = data->player_x, hy = data->player_y;
+        double aTan = -1/tan(ra);
+        
+        if (ra > PI) // Regard vers le haut
+        {
+            hy = (((int)data->player_y >> 6) << 6) - 0.0001;
+            hx = (data->player_y - hy) * aTan + data->player_x;
+            double yo = -64;
+            double xo = -yo * aTan;
+            
+            while (dof < 8)
+            {
+                int mx = (int)(hx) >> 6;
+                int my = (int)(hy) >> 6;
+                int mp = my * data->map_width + mx;
+                if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
+                {
+                    disH = dist(data->player_x, data->player_y, hx, hy);
+                    dof = 8;
+                }
+                else
+                {
+                    hx += xo;
+                    hy += yo;
+                    dof++;
+                }
+            }
+        }
+        else if (ra < PI) // Regard vers le bas
+        {
+            hy = (((int)data->player_y >> 6) << 6) + 64;
+            hx = (data->player_y - hy) * aTan + data->player_x;
+            double yo = 64;
+            double xo = -yo * aTan;
+            
+            while (dof < 8)
+            {
+                int mx = (int)(hx) >> 6;
+                int my = (int)(hy) >> 6;
+                int mp = my * data->map_width + mx;
+                if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
+                {
+                    disH = dist(data->player_x, data->player_y, hx, hy);
+                    dof = 8;
+                }
+                else
+                {
+                    hx += xo;
+                    hy += yo;
+                    dof++;
+                }
+            }
+        }
 
-    // Calcul de la hauteur de la ligne à dessiner
-    int lineH = (int)((64 * data->w_height) / (disT > 0.0001 ? disT : 0.0001));
-    if (lineH > data->w_height)
-        lineH = data->w_height;
-    int lineO = (data->w_height / 2) - (lineH / 2);
+        // ===== RAYONS VERTICAUX =====
+        dof = 0;
+        double disV = 1000000;
+        double vx = data->player_x, vy = data->player_y;
+        double nTan = -tan(ra);
+        
+        if (ra > P2 && ra < P3) // Regard vers la gauche
+        {
+            vx = (((int)data->player_x >> 6) << 6) - 0.0001;
+            vy = (data->player_x - vx) * nTan + data->player_y;
+            double xo = -64;
+            double yo = -xo * nTan;
+            
+            while (dof < 8)
+            {
+                int mx = (int)(vx) >> 6;
+                int my = (int)(vy) >> 6;
+                int mp = my * data->map_width + mx;
+                if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
+                {
+                    disV = dist(data->player_x, data->player_y, vx, vy);
+                    dof = 8;
+                }
+                else
+                {
+                    vx += xo;
+                    vy += yo;
+                    dof++;
+                }
+            }
+        }
+        else if (ra < P2 || ra > P3) // Regard vers la droite
+        {
+            vx = (((int)data->player_x >> 6) << 6) + 64;
+            vy = (data->player_x - vx) * nTan + data->player_y;
+            double xo = 64;
+            double yo = -xo * nTan;
+            
+            while (dof < 8)
+            {
+                int mx = (int)(vx) >> 6;
+                int my = (int)(vy) >> 6;
+                int mp = my * data->map_width + mx;
+                if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
+                {
+                    disV = dist(data->player_x, data->player_y, vx, vy);
+                    dof = 8;
+                }
+                else
+                {
+                    vx += xo;
+                    vy += yo;
+                    dof++;
+                }
+            }
+        }
 
-    // --- Texture selection ---
-    void *texture;
-    int tex_width = 64;  // adapte si tes textures ont une autre taille
-    int tex_height = 64;
-
-    // Détermination de la direction du mur touché
-    if (side == 0) // vertical
-    {
-        if (raydirx > 0)
-            texture = data->ea_img; // Est
+        // ===== SÉLECTION DU MUR LE PLUS PROCHE =====
+        double rx, ry, disT;
+        int side;
+        
+        if (disV < disH)
+        {
+            rx = vx; ry = vy; disT = disV; side = 0; // Mur vertical
+        }
         else
-            texture = data->we_img; // Ouest
+        {
+            rx = hx; ry = hy; disT = disH; side = 1; // Mur horizontal
+        }
+
+        // Correction fisheye
+        double ca = ra - data->p_orientation;
+        disT = disT * cos(ca);
+
+        // ===== CALCUL DE LA COLONNE ===== (remplace ton bloc)
+        int lineH = (int)((64 * data->w_height) / (disT > 0.0001 ? disT : 0.0001));
+        // NE PAS limiter lineH - garde la vraie hauteur projetée
+        int lineO = (data->w_height / 2) - (lineH / 2);
+
+        // ===== CALCUL DE LA COORDONNÉE TEXTURE ===== (remplace ton bloc)
+        double wall_x;
+        if (side == 0) // Mur vertical
+            wall_x = ry - floor(ry / 64.0) * 64.0;
+        else // Mur horizontal
+            wall_x = rx - floor(rx / 64.0) * 64.0;
+            
+        int tex_x = (int)wall_x;
+        if (tex_x < 0) tex_x = 0;
+        if (tex_x >= 64) tex_x = 63;
+
+        // ===== SÉLECTION DE LA TEXTURE ===== (ajoute ce bloc après le calcul de rx,ry,side)
+        void *texture;
+        if (side == 0) // Mur vertical
+        {
+            if (ra > P2 && ra < P3) // Regard vers la gauche = mur est
+                texture = data->ea_img;
+            else // Regard vers la droite = mur ouest
+                texture = data->we_img;
+        }
+        else // Mur horizontal
+        {
+            if (ra > PI) // Regard vers le haut = mur sud
+                texture = data->so_img;
+            else // Regard vers le bas = mur nord
+                texture = data->no_img;
+        }
+
+        if (!texture) // Sécurité
+        {
+            texture = data->no_img; // Texture par défaut
+        }
+
+        // ===== DESSIN DE LA COLONNE ===== (remplace ton bloc)
+        int draw_start = (lineO < 0) ? 0 : lineO;
+        int draw_end = (lineO + lineH >= data->w_height) ? data->w_height - 1 : lineO + lineH - 1;
+
+        // Calcul correct du mapping texture
+        for (int y = draw_start; y <= draw_end; y++)
+        {
+            // Calcul de tex_y basé sur la position RÉELLE dans la colonne projetée
+            int tex_y = (int)(((y - lineO) * 64) / lineH);
+            if (tex_y < 0) tex_y = 0;
+            if (tex_y >= 64) tex_y = 63;
+            
+            int color = get_texture_pixel(texture, tex_x, tex_y);
+            my_mlx_pixel_put(data, r, y, color);
+        }
     }
-    else // horizontal
-    {
-        if (raydiry > 0)
-            texture = data->so_img; // Sud
-        else
-            texture = data->no_img; // Nord
-    }
-
-    // --- Calcul de la coordonnée X dans la texture ---
-    int tex_x;
-    if (side == 0)
-        tex_x = (int)ry % tex_width;
-    else
-        tex_x = (int)rx % tex_width;
-
-    // --- Dessin de la colonne avec la texture ---
-    for (int y = lineO; y < lineO + lineH; y++)
-    {
-        int tex_y = ((y - lineO) * tex_height) / lineH;
-        int color = get_texture_pixel(texture, tex_x, tex_y);
-        my_mlx_pixel_put(data, r, y, color);
-    }
-
-		ra +=DR;
-		if (ra<0)
-			ra += 2* PI;
-		if (ra>2*PI)
-			ra -= 2*PI;
-	}
-
 }
 
 
