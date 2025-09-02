@@ -6,11 +6,47 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:54:11 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/18 14:57:01 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/02 13:28:57 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+static void	init_int_map(int *int_map, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		int_map[i] = 0;
+		i++;
+	}
+}
+
+static int	convert_char_to_int(char c)
+{
+	if (c == '1')
+		return (1);
+	else if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == ' ')
+		return (0);
+	else
+		return (0);
+}
+
+static void	convert_map_line(t_data *data, int *int_map, int i)
+{
+	int	j;
+	int	index;
+
+	j = 0;
+	while (j < data->map_width && data->game_map[i] && data->game_map[i][j])
+	{
+		index = i * data->map_width + j;
+		int_map[index] = convert_char_to_int(data->game_map[i][j]);
+		j++;
+	}
+}
 
 /**
  * Convertit la carte de caractères 2D en tableau d'entiers 1D
@@ -21,54 +57,22 @@
  * @param data: structure contenant la carte à convertir
  * @return: pointeur vers le nouveau tableau d'entiers, NULL en cas d'erreur
  */
-int *convert_map_to_int(t_data *data)
+int	*convert_map_to_int(t_data *data)
 {
-	int *int_map;
-	int i;
-	int j;
-	int index;
-	
+	int	*int_map;
+	int	i;
+
 	if (!data || !data->game_map)
 		return (NULL);
-		
-	// Allouer la mémoire pour le tableau 1D
 	int_map = malloc(sizeof(int) * data->map_width * data->map_height);
 	if (!int_map)
 		return (NULL);
-		
-	// Initialiser le tableau à 0
-	i = 0;
-	while (i < data->map_width * data->map_height)
-	{
-		int_map[i] = 0;
-		i++;
-	}
-	
-	// Convertir la carte caractère par caractère
+	init_int_map(int_map, data->map_width * data->map_height);
 	i = 0;
 	while (i < data->map_height)
 	{
-		j = 0;
-		while (j < data->map_width && data->game_map[i] && data->game_map[i][j])
-		{
-			index = i * data->map_width + j;
-			
-			if (data->game_map[i][j] == '1')
-				int_map[index] = 1;
-			else if (data->game_map[i][j] == '0' || 
-					 data->game_map[i][j] == 'N' || 
-					 data->game_map[i][j] == 'S' || 
-					 data->game_map[i][j] == 'E' || 
-					 data->game_map[i][j] == 'W' ||
-					 data->game_map[i][j] == ' ')
-				int_map[index] = 0;
-			else
-				int_map[index] = 0; // Par défaut, traiter comme espace libre
-				
-			j++;
-		}
+		convert_map_line(data, int_map, i);
 		i++;
 	}
-	
 	return (int_map);
 }

@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:36:12 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/01 17:46:19 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/02 11:35:53 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,8 @@ void init(const char *map_file)
         exit_game(1);
     }
     data = get_data();
-    data->w_height = 1080;
-    data->w_width = 1920;
+    data->w_height = 720;
+    data->w_width = 1280;
     data->filename = ft_strdup(map_file);
     // Initialiser les textures à NULL
     data->no_texture = NULL;

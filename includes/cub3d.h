@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/09/01 18:24:59 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/02 13:40:01 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 # define CUB3D_H
 
 # define BUFFER_SIZE 42
+# define ROT_SPEED 3
+# define POV_WIDTH 120
+# define PI 3.14159265358979323846
+# define ROT_SPEED_MULTIPLIER 3.0
+# define MOVE_SPEED_MULTIPLIER 5.0
+# define P2 1.5707963267948966
+# define P3 4.7123889803846899
+# define DR 0.0174533
+# define TILE_SIZE 64
+# define FOV_RAD 1.0471975511965979
+# define MOVE_SPEED 2
 
 # include "../libft/libft.h"
 # include "mlx.h"
@@ -23,47 +34,18 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-
-#ifndef ROT_SPEED
-# define ROT_SPEED 5
-#endif
-
-#ifndef POV_WIDTH
-# define POV_WIDTH 120
-#endif
-
-#ifndef PI
-#define PI 3.14159265358979323846
-#endif
-
-#define ROT_SPEED_MULTIPLIER 3.0
-
-#define MOVE_SPEED_MULTIPLIER 5.0
-
-#define P2 PI/2
-
-#define P3 3*PI/2
-
-#define DR 0.0174533 // degree to radian conversion factor
-
-#define TILE_SIZE 64
-#define FOV_RAD   (60.0 * DR)  // 60° en radians
-
-#define MOVE_SPEED 5
-
-
 typedef struct s_data
 {
 	char	*filename;
-	char **map;      // Fichier complet (textures + couleurs + carte)
-	char **game_map; // Seulement la carte (lignes de 0, 1, espaces)
-	int *game_map_int; // Version entière 1D de la carte
+	char	**map;
+	char	**game_map;
+	int		*game_map_int;
 	void	*mlx_ptr;
 	void	*win_ptr;
 	int		w_width;
 	int		w_height;
-	int		map_width; // Largeur de la carte
-	int		map_height; // Hauteur de la carte
+	int		map_width;
+	int		map_height;
 	char	*no_texture;
 	char	*so_texture;
 	char	*we_texture;
@@ -74,28 +56,30 @@ typedef struct s_data
 	void	*ea_img;
 	int		f_color[3];
 	int		c_color[3];
-    double  dir_x;
-    double  dir_y;
-	double		player_x;
-	double		player_y;
+	double	dir_x;
+	double	dir_y;
+	double	player_x;
+	double	player_y;
 	double	plane_x;
 	double	plane_y;
-	double 	pdx;
-	double  pdy;
-    double move_speed; // Speed of player movement
-    double rot_speed;  // Speed of player rotation
-	double p_orientation; // 0 = N, 90 = E, 180 = S, 270 = W
-
-	void *img;
-	char *addr;
-	int bits_per_pixel;
-	int line_length;
-	int endian;
-
-	
+	double	pdx;
+	double	pdy;
+	double	move_speed;
+	double	rot_speed;
+	double	p_orientation;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int		key_w;
+	int		key_s;
+	int		key_a;
+	int		key_d;
+	int		key_left;
+	int		key_right;
 }			t_data;
 
-// Function declarations
 int			errormsg(const char *message);
 void		init(const char *map_file);
 int			exit_game(int return_value);
@@ -109,13 +93,25 @@ char		**extract_map_only(char **full_map);
 int			height_map(char **game_map);
 int			width_map(char **game_map);
 int			verif_map(t_data *data);
-
-int rgb_to_hex(int r, int g, int b);
-
-int double_to_int(double value);
+int			rgb_to_hex(int r, int g, int b);
+int			double_to_int(double value);
 void		game(void);
-void raycasting(void);
-int *convert_map_to_int(t_data *data);
-void my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void		raycasting(void);
+int			*convert_map_to_int(t_data *data);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int			key_press_hook(int keycode, t_data *data);
+int			key_release_hook(int keycode, t_data *data);
+int			game_loop(t_data *data);
+void		update_movement(t_data *data);
+char		*safe_trim(char *line);
+int			is_map_line(char *line);
+int			is_valid_line(char *line);
+int			check_parasites(char **map);
+int			check_map_position(char **map);
+int			check_elements_before_map(char **map);
+int			get_textures(t_data *data, char **map);
+int			get_color(t_data *data);
+int			init_orientation(t_data *data);
+int			check_map_closed(t_data *data);
 
 #endif

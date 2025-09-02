@@ -1,13 +1,13 @@
-NO ./textures/simonkraft/cobblestone.xpm
+NO ./textures/simonkraft/wet_sponge.xpm
 SO ./textures/simonkraft/bookshelf.xpm
 WE ./textures/simonkraft/netherrack.xpm
 EA ./textures/simonkraft/soul_sand.xpm
-F 220,100,0
-C 225,30,0
+F 91,168,66
+C 236,245,0
 
 11111111111111111
-10000001000000001
-10100101000000001
-1010S001000000001
-10000001000000001
+10000001000000000
+10100101000000000
+1010S001000000000
+10000001000000000
 11111111111111111

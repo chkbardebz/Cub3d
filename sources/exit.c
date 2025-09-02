@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:39:29 by judenis           #+#    #+#             */
-/*   Updated: 2025/08/08 15:16:49 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/02 11:34:28 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int exit_game(int return_value)
         free_tabtab(data->game_map);
         data->game_map = NULL;
     }
+    if (data->game_map_int)
+        free(data->game_map_int);
     if (data->no_img)
         mlx_destroy_image(data->mlx_ptr, data->no_img);
     if (data->so_img)
@@ -61,6 +63,8 @@ int exit_game(int return_value)
         mlx_destroy_image(data->mlx_ptr, data->we_img);
     if (data->ea_img)
         mlx_destroy_image(data->mlx_ptr, data->ea_img);
+    if (data->img)
+        mlx_destroy_image(data->mlx_ptr, data->img);
     if (data->mlx_ptr && data->win_ptr)
     {
         mlx_destroy_window(data->mlx_ptr, data->win_ptr);
