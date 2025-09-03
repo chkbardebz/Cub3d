@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 13:16:03 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/02 16:12:00 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,12 @@ void	update_movement(t_data *data)
 	double	move_x;
 	double	move_y;
 	double	strafe_angle;
+	double	new_x;
+	double	new_y;
 
 	move_x = 0;
 	move_y = 0;
+	
 	if (data->key_w)
 	{
 		move_x += cos(data->p_orientation) * MOVE_SPEED;
@@ -60,21 +63,40 @@ void	update_movement(t_data *data)
 	}
 	if (data->key_a)
 	{
-		strafe_angle = data->p_orientation - PI / 2;
+		strafe_angle = data->p_orientation - P2;
 		move_x += cos(strafe_angle) * MOVE_SPEED;
 		move_y += sin(strafe_angle) * MOVE_SPEED;
 	}
 	if (data->key_d)
 	{
-		strafe_angle = data->p_orientation + PI / 2;
+		strafe_angle = data->p_orientation + P2;
 		move_x += cos(strafe_angle) * MOVE_SPEED;
 		move_y += sin(strafe_angle) * MOVE_SPEED;
 	}
-	data->player_x += move_x;
-	data->player_y += move_y;
+	
+	// Appliquer le mouvement avec vérification de collision
+	new_x = data->player_x + move_x;
+	new_y = data->player_y + move_y;
+	
+	// Vérifier collision pour le mouvement complet d'abord
+	if (!check_collision_with_margin(data, new_x, new_y))
+	{
+		data->player_x = new_x;
+		data->player_y = new_y;
+	}
+	else
+	{
+		// Si collision, essayer juste X ou juste Y
+		if (!check_collision_with_margin(data, new_x, data->player_y))
+			data->player_x = new_x;
+		else if (!check_collision_with_margin(data, data->player_x, new_y))
+			data->player_y = new_y;
+	}
+	
+	// Rotation
 	if (data->key_left)
 	{
-		data->p_orientation -= 0.1;
+		data->p_orientation -= 0.033;
 		if (data->p_orientation < 0)
 			data->p_orientation += 2 * PI;
 		data->pdx = cos(data->p_orientation) * 5;
@@ -82,7 +104,7 @@ void	update_movement(t_data *data)
 	}
 	if (data->key_right)
 	{
-		data->p_orientation += 0.1;
+		data->p_orientation += 0.033;
 		if (data->p_orientation > 2 * PI)
 			data->p_orientation -= 2 * PI;
 		data->pdx = cos(data->p_orientation) * 5;
@@ -90,23 +112,24 @@ void	update_movement(t_data *data)
 	}
 }
 
+
 int	key_press_hook(int keycode, t_data *data)
 {
-	if (keycode == 119)
-		data->key_w = 1;
-	else if (keycode == 115)
-		data->key_s = 1;
-	else if (keycode == 97)
-		data->key_a = 1;
-	else if (keycode == 100)
-		data->key_d = 1;
-	else if (keycode == 65361)
-		data->key_left = 1;
-	else if (keycode == 65363)
-		data->key_right = 1;
-	else if (keycode == 65307)
-		exit_game(0);
-	return (0);
+    if (keycode == 119)          // W
+        data->key_w = 1;
+    else if (keycode == 115)     // S
+        data->key_s = 1;
+    else if (keycode == 97)      // A
+        data->key_a = 1;
+    else if (keycode == 100)     // D
+        data->key_d = 1;
+    else if (keycode == 65361)   // Left arrow
+        data->key_left = 1;
+    else if (keycode == 65363)   // Right arrow
+        data->key_right = 1;
+    else if (keycode == 65307)   // Escape
+        exit_game(0);
+    return (0);
 }
 
 int	key_release_hook(int keycode, t_data *data)

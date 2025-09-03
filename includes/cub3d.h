@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/09/02 13:40:01 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/02 16:37:06 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define DR 0.0174533
 # define TILE_SIZE 64
 # define FOV_RAD 1.0471975511965979
-# define MOVE_SPEED 2
+# define MOVE_SPEED 2.5
 
 # include "../libft/libft.h"
 # include "mlx.h"
@@ -33,6 +33,18 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+typedef struct s_ray
+{
+	int		dof;
+	double	atan;
+	double  ntan;
+	double	yo;
+	double	xo;
+	int		mx;
+	int		my;
+	int		mp;
+} 	t_ray;
 
 typedef struct s_data
 {
@@ -78,6 +90,7 @@ typedef struct s_data
 	int		key_d;
 	int		key_left;
 	int		key_right;
+	t_ray  ray;
 }			t_data;
 
 int			errormsg(const char *message);
@@ -113,5 +126,9 @@ int			get_textures(t_data *data, char **map);
 int			get_color(t_data *data);
 int			init_orientation(t_data *data);
 int			check_map_closed(t_data *data);
+
+// Collision functions
+int		check_collision(t_data *data, double new_x, double new_y);
+int		check_collision_with_margin(t_data *data, double new_x, double new_y);
 
 #endif

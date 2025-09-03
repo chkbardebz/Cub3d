@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/01/15 10:00:00 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/02 16:20:02 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,151 @@ int	init_orientation(t_data *data)
 	return (0);
 }
 
+static int	is_valid_position(t_data *data, int x, int y)
+{
+    if (y < 0 || y >= data->map_height || x < 0 || x >= data->map_width)
+        return (0);
+    if (!data->game_map[y] || x >= (int)ft_strlen(data->game_map[y]))
+        return (0);
+    return (1);
+}
+
+static int	flood_fill_recursive(t_data *data, char **visited, int x, int y)
+{
+    // Vérifier les limites
+    if (!is_valid_position(data, x, y))
+        return (-1); // Sortie de carte = carte ouverte
+    
+    // Si c'est un mur ou déjà visité
+    if (data->game_map[y][x] == '1' || visited[y][x] == '1')
+        return (0);
+    
+    // Si c'est un espace vide en bordure = carte ouverte
+    if (data->game_map[y][x] == ' ')
+        return (-1);
+    
+    // Marquer comme visité
+    visited[y][x] = '1';
+    
+    // Vérifier les 4 directions
+    if (flood_fill_recursive(data, visited, x + 1, y) == -1 ||
+        flood_fill_recursive(data, visited, x - 1, y) == -1 ||
+        flood_fill_recursive(data, visited, x, y + 1) == -1 ||
+        flood_fill_recursive(data, visited, x, y - 1) == -1)
+        return (-1);
+    
+    return (0);
+}
+
+static char	**create_visited_map(t_data *data)
+{
+    char	**visited;
+    int		i;
+    int		j;
+
+    visited = malloc(sizeof(char *) * (data->map_height + 1));
+    if (!visited)
+        return (NULL);
+    
+    i = 0;
+    while (i < data->map_height)
+    {
+        visited[i] = malloc(sizeof(char) * (data->map_width + 1));
+        if (!visited[i])
+        {
+            while (--i >= 0)
+                free(visited[i]);
+            free(visited);
+            return (NULL);
+        }
+        j = 0;
+        while (j < data->map_width)
+        {
+            visited[i][j] = '0';
+            j++;
+        }
+        visited[i][j] = '\0';
+        i++;
+    }
+    visited[i] = NULL;
+    return (visited);
+}
+
+static void	free_visited_map(char **visited, int height)
+{
+    int	i;
+
+    if (!visited)
+        return ;
+    i = 0;
+    while (i < height)
+    {
+        free(visited[i]);
+        i++;
+    }
+    free(visited);
+}
+
 int	check_map_closed(t_data *data)
 {
-	if (!data || !data->game_map)
-	{
-		errormsg("Invalid game map for closed check");
-		return (-1);
-	}
-	printf("Map flood fill completed successfully!\n");
-	data->player_x = data->player_x * 64 + 32;
-	data->player_y = data->player_y * 64 + 32;
-	return (0);
+    char	**visited;
+    int		player_grid_x;
+    int		player_grid_y;
+    int		result;
+
+    if (!data || !data->game_map)
+    {
+        errormsg("Invalid game map for closed check");
+        return (-1);
+    }
+    
+    // Calculer les dimensions de la carte si pas déjà fait
+    if (data->map_height == 0)
+    {
+        while (data->game_map[data->map_height])
+            data->map_height++;
+    }
+    if (data->map_width == 0)
+    {
+        int i = 0;
+        while (data->game_map[i])
+        {
+            int len = ft_strlen(data->game_map[i]);
+            if (len > data->map_width)
+                data->map_width = len;
+            i++;
+        }
+    }
+    
+    // Position du joueur en coordonnées de grille
+    player_grid_x = (int)data->player_x;
+    player_grid_y = (int)data->player_y;
+    
+    // Créer la carte des cases visitées
+    visited = create_visited_map(data);
+    if (!visited)
+    {
+        errormsg("Failed to allocate memory for flood fill");
+        return (-1);
+    }
+    
+    // Effectuer le flood fill depuis la position du joueur
+    result = flood_fill_recursive(data, visited, player_grid_x, player_grid_y);
+    
+    // Libérer la mémoire
+    free_visited_map(visited, data->map_height);
+    
+    if (result == -1)
+    {
+        errormsg("Map is not closed - player can reach the edge");
+        return (-1);
+    }
+    
+    printf("Map flood fill completed successfully!\n");
+    
+    // Convertir en coordonnées pixel (64x64 par case + centré)
+    data->player_x = data->player_x * 64 + 32;
+    data->player_y = data->player_y * 64 + 32;
+    
+    return (0);
 }

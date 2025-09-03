@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:34:22 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/01 18:32:00 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/02 16:19:15 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ int main(int argc, char **argv)
     init(argv[1]);
     debug_print();
     game();
-
-    
     exit_game(0);
     return (0);
 }

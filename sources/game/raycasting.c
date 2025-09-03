@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 13:29:00 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/02 17:52:22 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static void	horizontal_ray_up(t_data *data, double ra, double *disH,
 	*hx = (data->player_y - *hy) * atan + data->player_x;
 	yo = -64;
 	xo = -yo * atan;
-	while (dof < 8)
+	while (dof < 64)
 	{
 		mx = (int)(*hx) >> 6;
 		my = (int)(*hy) >> 6;
@@ -131,42 +131,34 @@ static void	horizontal_ray_up(t_data *data, double ra, double *disH,
 static void	horizontal_ray_down(t_data *data, double ra, double *disH,
 	double *hx, double *hy)
 {
-	int		dof;
-	double	atan;
-	double	yo;
-	double	xo;
-	int		mx;
-	int		my;
-	int		mp;
-
-	dof = 0;
-	atan = -1 / tan(ra);
+	data->ray.dof = 0;
+	data->ray.atan = -1 / tan(ra);
 	*hy = (((int)data->player_y >> 6) << 6) + 64;
-	*hx = (data->player_y - *hy) * atan + data->player_x;
-	yo = 64;
-	xo = -yo * atan;
-	while (dof < 8)
+	*hx = (data->player_y - *hy) * data->ray.atan + data->player_x;
+	data->ray.yo = 64;
+	data->ray.xo = -data->ray.yo * data->ray.atan;
+	while (data->ray.dof < 64)
 	{
-		mx = (int)(*hx) >> 6;
-		my = (int)(*hy) >> 6;
-		if (mx < 0 || my < 0 || mx >= data->map_width || my >= data->map_height)
+		data->ray.mx = (int)(*hx) >> 6;
+		data->ray.my = (int)(*hy) >> 6;
+		if (data->ray.mx < 0 || data->ray.my < 0 || data->ray.mx >= data->map_width || data->ray.my >= data->map_height)
 			break ;
-		mp = my * data->map_width + mx;
-		if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
+		data->ray.mp = data->ray.my * data->map_width + data->ray.mx;
+		if (data->ray.mp >= 0 && data->ray.mp < data->map_width * data->map_height && data->game_map_int[data->ray.mp] == 1)
 		{
 			*disH = dist(data->player_x, data->player_y, *hx, *hy);
 			break ;
 		}
-		*hx += xo;
-		*hy += yo;
-		dof++;
+		*hx += data->ray.xo;
+		*hy += data->ray.yo;
+		data->ray.dof++;
 	}
 }
 
 static void	cast_horizontal_ray(t_data *data, double ra, double *disH,
 	double *hx, double *hy)
 {
-	*disH = 1000000;
+	*disH = 10000;
 	*hx = data->player_x;
 	*hy = data->player_y;
 	if (ra > PI)
@@ -178,77 +170,61 @@ static void	cast_horizontal_ray(t_data *data, double ra, double *disH,
 static void	vertical_ray_left(t_data *data, double ra, double *disV,
 	double *vx, double *vy)
 {
-	int		dof;
-	double	ntan;
-	double	xo;
-	double	yo;
-	int		mx;
-	int		my;
-	int		mp;
-
-	dof = 0;
-	ntan = -tan(ra);
+	data->ray.dof = 0;
+	data->ray.ntan = -tan(ra);
 	*vx = (((int)data->player_x >> 6) << 6) - 0.0001;
-	*vy = (data->player_x - *vx) * ntan + data->player_y;
-	xo = -64;
-	yo = -xo * ntan;
-	while (dof < 8)
+	*vy = (data->player_x - *vx) * data->ray.ntan + data->player_y;
+	data->ray.xo = -64;
+	data->ray.yo = -data->ray.xo * data->ray.ntan;
+	while (data->ray.dof < 64)
 	{
-		mx = (int)(*vx) >> 6;
-		my = (int)(*vy) >> 6;
-		if (mx < 0 || my < 0 || mx >= data->map_width || my >= data->map_height)
+		data->ray.mx = (int)(*vx) >> 6;
+		data->ray.my = (int)(*vy) >> 6;
+		if (data->ray.mx < 0 || data->ray.my < 0 || data->ray.mx >= data->map_width || data->ray.my >= data->map_height)
 			break ;
-		mp = my * data->map_width + mx;
-		if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
+		data->ray.mp = data->ray.my * data->map_width + data->ray.mx;
+		if (data->ray.mp >= 0 && data->ray.mp < data->map_width * data->map_height && data->game_map_int[data->ray.mp] == 1)
 		{
 			*disV = dist(data->player_x, data->player_y, *vx, *vy);
 			break ;
 		}
-		*vx += xo;
-		*vy += yo;
-		dof++;
+		*vx += data->ray.xo;
+		*vy += data->ray.yo;
+		data->ray.dof++;
 	}
 }
 
 static void	vertical_ray_right(t_data *data, double ra, double *disV,
 	double *vx, double *vy)
 {
-	int		dof;
-	double	ntan;
-	double	xo;
-	double	yo;
-	int		mx;
-	int		my;
-	int		mp;
-
-	dof = 0;
-	ntan = -tan(ra);
+	data->ray.dof = 0;
+	data->ray.ntan = -tan(ra);
 	*vx = (((int)data->player_x >> 6) << 6) + 64;
-	*vy = (data->player_x - *vx) * ntan + data->player_y;
-	xo = 64;
-	yo = -xo * ntan;
-	while (dof < 8)
+	*vy = (data->player_x - *vx) * data->ray.ntan + data->player_y;
+	data->ray.xo = 64;
+	data->ray.yo = -data->ray.xo * data->ray.ntan;
+	while (data->ray.dof < 64)
 	{
-		mx = (int)(*vx) >> 6;
-		my = (int)(*vy) >> 6;
-		if (mx < 0 || my < 0 || mx >= data->map_width || my >= data->map_height)
+		data->ray.mx = (int)(*vx) >> 6;
+		data->ray.my = (int)(*vy) >> 6;
+		if (data->ray.mx < 0 || data->ray.my < 0 || data->ray.mx >= data->map_width || data->ray.my >= data->map_height)
 			break ;
-		mp = my * data->map_width + mx;
-		if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
+		data->ray.mp = data->ray.my * data->map_width + data->ray.mx;
+		if (data->ray.mp >= 0 && data->ray.mp < data->map_width * data->map_height && data->game_map_int[data->ray.mp] == 1)
 		{
 			*disV = dist(data->player_x, data->player_y, *vx, *vy);
 			break ;
 		}
-		*vx += xo;
-		*vy += yo;
-		dof++;
+		*vx += data->ray.xo;
+		*vy += data->ray.yo;
+		data->ray.dof++;
 	}
 }
 
 static void	cast_vertical_ray(t_data *data, double ra, double *disV,
 	double *vx, double *vy)
 {
-	*disV = 1000000;
+	*disV = 10000;
 	*vx = data->player_x;
 	*vy = data->player_y;
 	if (ra > P2 && ra < P3)
@@ -313,7 +289,7 @@ static void	calculate_wall_params(t_data *data, double dis_t, double ra,
 
 	ca = ra - data->p_orientation;
 	dis_t = dis_t * cos(ca);
-	*line_h = (int)((64 * data->w_height) / (dis_t > 0.0001 ? dis_t : 0.0001));
+	*line_h = (int)((64 * data->w_height) / (dis_t > 1.0 ? dis_t : 1.0));
 	*line_o = (data->w_height / 2) - (*line_h / 2);
 }
 
@@ -367,6 +343,22 @@ static void	process_ray(t_data *data, int r, double ra)
 		dis_t = dis_h;
 		side = 1;
 	}
+    
+	if (dis_t > 2000)  // Limite la distance de rendu
+	{
+		// Dessinez juste du noir ou la couleur du plafond/sol
+		int y = 0;
+		while (y < data->w_height)
+		{
+			if (y < data->w_height / 2)
+				my_mlx_pixel_put(data, r, y, rgb_to_hex(data->c_color[0], data->c_color[1], data->c_color[2]));
+			else
+				my_mlx_pixel_put(data, r, y, rgb_to_hex(data->f_color[0], data->f_color[1], data->f_color[2]));
+			y++;
+		}
+		return;
+	}
+    
 	calculate_wall_params(data, dis_t, ra, &line_h, &line_o);
 	tex_x = calculate_texture_x(rx, ry, side);
 	texture = select_texture(data, ra, side);
