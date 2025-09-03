@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 16:12:00 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/03 20:03:57 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,6 @@ int	game_loop(t_data *data)
 	int	map_h;
 
 	update_movement(data);
-	printf("X : %.2f, Y : %.2f, Angle : %.6f\n", data->player_x,
-		data->player_y, data->p_orientation);
 	px = (int)data->player_x / 64;
 	py = (int)data->player_y / 64;
 	map_w = ft_strlen(data->game_map[0]);

@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/09/02 16:37:06 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/03 20:05:45 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define P3 4.7123889803846899
 # define DR 0.0174533
 # define TILE_SIZE 64
-# define FOV_RAD 1.0471975511965979
+# define FOV_RAD DR * 120
 # define MOVE_SPEED 2.5
 
 # include "../libft/libft.h"
@@ -77,7 +77,6 @@ typedef struct s_data
 	double	pdx;
 	double	pdy;
 	double	move_speed;
-	double	rot_speed;
 	double	p_orientation;
 	void	*img;
 	char	*addr;
