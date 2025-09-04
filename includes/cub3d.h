@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/09/03 20:05:45 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/04 17:25:32 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,25 @@
 # include <unistd.h>
 
 typedef struct s_ray
-{
+{	
+	int	tex_width;
+	int	tex_height;
+	
+	double	dis_h;
+	double	dis_v;
+	double	hx;
+	double	hy;
+	double	vx;
+	double	vy;
+	double	rx;
+	double	ry;
+	double	dis_t;
+	int		side;
+	int		line_h;
+	int		line_o;
+	int		tex_x;
+	void	*texture;
+
 	int		dof;
 	double	atan;
 	double  ntan;
@@ -89,6 +107,15 @@ typedef struct s_data
 	int		key_d;
 	int		key_left;
 	int		key_right;
+
+	char	*no_addr;
+    char	*so_addr;
+    char	*we_addr;
+    char	*ea_addr;
+    int		tex_bpp;
+    int		tex_sl;
+    int		tex_endian;
+
 	t_ray  ray;
 }			t_data;
 
@@ -108,7 +135,7 @@ int			verif_map(t_data *data);
 int			rgb_to_hex(int r, int g, int b);
 int			double_to_int(double value);
 void		game(void);
-void		raycasting(void);
+void		raycasting(t_data *data);
 int			*convert_map_to_int(t_data *data);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int			key_press_hook(int keycode, t_data *data);
@@ -125,6 +152,11 @@ int			get_textures(t_data *data, char **map);
 int			get_color(t_data *data);
 int			init_orientation(t_data *data);
 int			check_map_closed(t_data *data);
+
+void	init_key_states(t_data *data);
+int		key_press_hook(int keycode, t_data *data);
+int		key_release_hook(int keycode, t_data *data);
+void	game(void);
 
 // Collision functions
 int		check_collision(t_data *data, double new_x, double new_y);

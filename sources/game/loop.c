@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/03 20:03:57 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/04 19:10:00 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,33 +151,16 @@ int	key_release_hook(int keycode, t_data *data)
 
 int	game_loop(t_data *data)
 {
-	int	px;
-	int	py;
-	int	map_w;
-	int	map_h;
-
 	update_movement(data);
-	px = (int)data->player_x / 64;
-	py = (int)data->player_y / 64;
-	map_w = ft_strlen(data->game_map[0]);
-	map_h = 0;
-	while (data->game_map[map_h])
-		map_h++;
-	if (px < 0 || py < 0 || px >= map_w || py >= map_h)
-	{
-		fill_background(data, 0x000000, 0x000000);
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
-		return (0);
-	}
 	fill_background(data, rgb_to_hex(data->c_color[0], data->c_color[1],
 			data->c_color[2]), rgb_to_hex(data->f_color[0], data->f_color[1],
 			data->f_color[2]));
+	raycasting(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
-	raycasting();
 	return (0);
 }
 
-static void	init_key_states(t_data *data)
+void	init_key_states(t_data *data)
 {
 	data->key_w = 0;
 	data->key_s = 0;
@@ -187,33 +170,42 @@ static void	init_key_states(t_data *data)
 	data->key_right = 0;
 }
 
-static int	load_textures(t_data *data)
+int	load_textures(t_data *data)
 {
-	int	tex_width;
-	int	tex_height;
+    int	tex_width;
+    int	tex_height;
 
-	data->no_img = mlx_xpm_file_to_image(data->mlx_ptr, data->no_texture,
-			&tex_width, &tex_height);
-	if (!data->no_img)
-		exit_game(errormsg("Failed to load North texture"));
-	data->so_img = mlx_xpm_file_to_image(data->mlx_ptr, data->so_texture,
-			&tex_width, &tex_height);
-	if (!data->so_img)
-		exit_game(errormsg("Failed to load South texture"));
-	data->we_img = mlx_xpm_file_to_image(data->mlx_ptr, data->we_texture,
-			&tex_width, &tex_height);
-	if (!data->we_img)
-		exit_game(errormsg("Failed to load West texture"));
-	data->ea_img = mlx_xpm_file_to_image(data->mlx_ptr, data->ea_texture,
-			&tex_width, &tex_height);
-	if (!data->ea_img)
-		exit_game(errormsg("Failed to load East texture"));
-	if (!data->no_img || !data->so_img || !data->we_img || !data->ea_img)
-	{
-		printf("Erreur : texture non chargée\n");
-		exit(1);
-	}
-	return (0);
+    data->no_img = mlx_xpm_file_to_image(data->mlx_ptr, data->no_texture,
+            &tex_width, &tex_height);
+    if (!data->no_img)
+        exit_game(errormsg("Failed to load North texture"));
+    // Ajouter l'initialisation de l'adresse
+    data->no_addr = mlx_get_data_addr(data->no_img, &data->tex_bpp, &data->tex_sl, &data->tex_endian);
+    
+    data->so_img = mlx_xpm_file_to_image(data->mlx_ptr, data->so_texture,
+            &tex_width, &tex_height);
+    if (!data->so_img)
+        exit_game(errormsg("Failed to load South texture"));
+    data->so_addr = mlx_get_data_addr(data->so_img, &data->tex_bpp, &data->tex_sl, &data->tex_endian);
+    
+    data->we_img = mlx_xpm_file_to_image(data->mlx_ptr, data->we_texture,
+            &tex_width, &tex_height);
+    if (!data->we_img)
+        exit_game(errormsg("Failed to load West texture"));
+    data->we_addr = mlx_get_data_addr(data->we_img, &data->tex_bpp, &data->tex_sl, &data->tex_endian);
+    
+    data->ea_img = mlx_xpm_file_to_image(data->mlx_ptr, data->ea_texture,
+            &tex_width, &tex_height);
+    if (!data->ea_img)
+        exit_game(errormsg("Failed to load East texture"));
+    data->ea_addr = mlx_get_data_addr(data->ea_img, &data->tex_bpp, &data->tex_sl, &data->tex_endian);
+    
+    if (!data->no_img || !data->so_img || !data->we_img || !data->ea_img)
+    {
+        printf("Erreur : texture non chargée\n");
+        exit(1);
+    }
+    return (0);
 }
 
 void	game(void)
@@ -231,9 +223,9 @@ void	game(void)
 	data->img = mlx_new_image(data->mlx_ptr, data->w_width, data->w_height);
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel,
 			&data->line_length, &data->endian);
+	mlx_hook(data->win_ptr, 17, 0L, exit_game, NULL);
 	mlx_hook(data->win_ptr, 2, 1L << 0, key_press_hook, data);
 	mlx_hook(data->win_ptr, 3, 1L << 1, key_release_hook, data);
-	mlx_hook(data->win_ptr, 17, 0L, exit_game, NULL);
 	mlx_loop_hook(data->mlx_ptr, game_loop, data);
 	mlx_loop(data->mlx_ptr);
 }

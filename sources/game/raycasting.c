@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 17:52:22 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/04 18:30:37 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,25 @@ double	dist(double ax, double ay, double bx, double by)
 	return (sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
 }
 
-int	get_texture_pixel(void *img, int x, int y)
+int	get_texture_pixel_fast(char *addr, int bpp, int sl, int x, int y)
 {
-	int		bpp;
-	int		sl;
-	int		endian;
-	char	*addr;
-
-	if (!img || x < 0 || y < 0 || x >= 64 || y >= 64)
-		return (0x000000);
-	addr = mlx_get_data_addr(img, &bpp, &sl, &endian);
-	if (!addr)
+	if (!addr || x < 0 || y < 0 || x >= 64 || y >= 64)
 		return (0x000000);
 	return (*(unsigned int *)(addr + (y * sl + x * (bpp / 8))));
+}
+
+/* Nouvelle fonction pour sélectionner la bonne adresse */
+char	*get_texture_addr(t_data *data, void *texture)
+{
+	if (texture == data->no_img)
+		return (data->no_addr);
+	else if (texture == data->so_img)
+		return (data->so_addr);
+	else if (texture == data->we_img)
+		return (data->we_addr);
+	else if (texture == data->ea_img)
+		return (data->ea_addr);
+	return (data->no_addr);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -49,7 +55,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-static int	check_map_bounds(t_data *data)
+int	check_map_bounds(t_data *data)
 {
 	int	px;
 	int	py;
@@ -59,6 +65,7 @@ static int	check_map_bounds(t_data *data)
 	if (!data->game_map_int || !data->game_map)
 	{
 		fprintf(stderr, "ERROR: game_map_int or game_map is NULL\n");
+			//! ATTNETION
 		return (0);
 	}
 	px = (int)(data->player_x / 64.0);
@@ -67,7 +74,7 @@ static int	check_map_bounds(t_data *data)
 	map_h = data->map_height;
 	if (map_w <= 0 || map_h <= 0)
 	{
-		fprintf(stderr, "ERROR: Invalid map dimensions\n");
+		fprintf(stderr, "ERROR: Invalid map dimensions\n"); //! IDEM
 		return (0);
 	}
 	if (px < 0 || py < 0 || px >= map_w || py >= map_h)
@@ -75,7 +82,7 @@ static int	check_map_bounds(t_data *data)
 	return (1);
 }
 
-static void	fill_black_screen(t_data *data)
+void	fill_black_screen(t_data *data)
 {
 	int	y;
 	int	x;
@@ -93,8 +100,8 @@ static void	fill_black_screen(t_data *data)
 	}
 }
 
-static void	horizontal_ray_up(t_data *data, double ra, double *disH,
-	double *hx, double *hy)
+void	horizontal_ray_up(t_data *data, double ra, double *disH, double *hx,
+		double *hy)
 {
 	int		dof;
 	double	atan;
@@ -117,7 +124,8 @@ static void	horizontal_ray_up(t_data *data, double ra, double *disH,
 		if (mx < 0 || my < 0 || mx >= data->map_width || my >= data->map_height)
 			break ;
 		mp = my * data->map_width + mx;
-		if (mp >= 0 && mp < data->map_width * data->map_height && data->game_map_int[mp] == 1)
+		if (mp >= 0 && mp < data->map_width * data->map_height
+			&& data->game_map_int[mp] == 1)
 		{
 			*disH = dist(data->player_x, data->player_y, *hx, *hy);
 			break ;
@@ -128,8 +136,8 @@ static void	horizontal_ray_up(t_data *data, double ra, double *disH,
 	}
 }
 
-static void	horizontal_ray_down(t_data *data, double ra, double *disH,
-	double *hx, double *hy)
+void	horizontal_ray_down(t_data *data, double ra, double *disH, double *hx,
+		double *hy)
 {
 	data->ray.dof = 0;
 	data->ray.atan = -1 / tan(ra);
@@ -141,10 +149,13 @@ static void	horizontal_ray_down(t_data *data, double ra, double *disH,
 	{
 		data->ray.mx = (int)(*hx) >> 6;
 		data->ray.my = (int)(*hy) >> 6;
-		if (data->ray.mx < 0 || data->ray.my < 0 || data->ray.mx >= data->map_width || data->ray.my >= data->map_height)
+		if (data->ray.mx < 0 || data->ray.my < 0
+			|| data->ray.mx >= data->map_width
+			|| data->ray.my >= data->map_height)
 			break ;
 		data->ray.mp = data->ray.my * data->map_width + data->ray.mx;
-		if (data->ray.mp >= 0 && data->ray.mp < data->map_width * data->map_height && data->game_map_int[data->ray.mp] == 1)
+		if (data->ray.mp >= 0 && data->ray.mp < data->map_width
+			* data->map_height && data->game_map_int[data->ray.mp] == 1)
 		{
 			*disH = dist(data->player_x, data->player_y, *hx, *hy);
 			break ;
@@ -155,8 +166,8 @@ static void	horizontal_ray_down(t_data *data, double ra, double *disH,
 	}
 }
 
-static void	cast_horizontal_ray(t_data *data, double ra, double *disH,
-	double *hx, double *hy)
+void	cast_horizontal_ray(t_data *data, double ra, double *disH, double *hx,
+		double *hy)
 {
 	*disH = 10000;
 	*hx = data->player_x;
@@ -167,8 +178,8 @@ static void	cast_horizontal_ray(t_data *data, double ra, double *disH,
 		horizontal_ray_down(data, ra, disH, hx, hy);
 }
 
-static void	vertical_ray_left(t_data *data, double ra, double *disV,
-	double *vx, double *vy)
+void	vertical_ray_left(t_data *data, double ra, double *disV, double *vx,
+		double *vy)
 {
 	data->ray.dof = 0;
 	data->ray.ntan = -tan(ra);
@@ -180,10 +191,13 @@ static void	vertical_ray_left(t_data *data, double ra, double *disV,
 	{
 		data->ray.mx = (int)(*vx) >> 6;
 		data->ray.my = (int)(*vy) >> 6;
-		if (data->ray.mx < 0 || data->ray.my < 0 || data->ray.mx >= data->map_width || data->ray.my >= data->map_height)
+		if (data->ray.mx < 0 || data->ray.my < 0
+			|| data->ray.mx >= data->map_width
+			|| data->ray.my >= data->map_height)
 			break ;
 		data->ray.mp = data->ray.my * data->map_width + data->ray.mx;
-		if (data->ray.mp >= 0 && data->ray.mp < data->map_width * data->map_height && data->game_map_int[data->ray.mp] == 1)
+		if (data->ray.mp >= 0 && data->ray.mp < data->map_width
+			* data->map_height && data->game_map_int[data->ray.mp] == 1)
 		{
 			*disV = dist(data->player_x, data->player_y, *vx, *vy);
 			break ;
@@ -194,8 +208,8 @@ static void	vertical_ray_left(t_data *data, double ra, double *disV,
 	}
 }
 
-static void	vertical_ray_right(t_data *data, double ra, double *disV,
-	double *vx, double *vy)
+void	vertical_ray_right(t_data *data, double ra, double *disV, double *vx,
+		double *vy)
 {
 	data->ray.dof = 0;
 	data->ray.ntan = -tan(ra);
@@ -207,10 +221,13 @@ static void	vertical_ray_right(t_data *data, double ra, double *disV,
 	{
 		data->ray.mx = (int)(*vx) >> 6;
 		data->ray.my = (int)(*vy) >> 6;
-		if (data->ray.mx < 0 || data->ray.my < 0 || data->ray.mx >= data->map_width || data->ray.my >= data->map_height)
+		if (data->ray.mx < 0 || data->ray.my < 0
+			|| data->ray.mx >= data->map_width
+			|| data->ray.my >= data->map_height)
 			break ;
 		data->ray.mp = data->ray.my * data->map_width + data->ray.mx;
-		if (data->ray.mp >= 0 && data->ray.mp < data->map_width * data->map_height && data->game_map_int[data->ray.mp] == 1)
+		if (data->ray.mp >= 0 && data->ray.mp < data->map_width
+			* data->map_height && data->game_map_int[data->ray.mp] == 1)
 		{
 			*disV = dist(data->player_x, data->player_y, *vx, *vy);
 			break ;
@@ -221,8 +238,8 @@ static void	vertical_ray_right(t_data *data, double ra, double *disV,
 	}
 }
 
-static void	cast_vertical_ray(t_data *data, double ra, double *disV,
-	double *vx, double *vy)
+void	cast_vertical_ray(t_data *data, double ra, double *disV, double *vx,
+		double *vy)
 {
 	*disV = 10000;
 	*vx = data->player_x;
@@ -233,7 +250,7 @@ static void	cast_vertical_ray(t_data *data, double ra, double *disV,
 		vertical_ray_right(data, ra, disV, vx, vy);
 }
 
-static void	*select_texture(t_data *data, double ra, int side)
+void	*select_texture(t_data *data, double ra, int side)
 {
 	void	*texture;
 
@@ -256,18 +273,20 @@ static void	*select_texture(t_data *data, double ra, int side)
 	return (texture);
 }
 
-static void	draw_column(t_data *data, int r, int line_h, int line_o,
-	void *texture, int tex_x)
+void	draw_column(t_data *data, int r, int line_h, int line_o, void *texture,
+		int tex_x)
 {
-	int	draw_start;
-	int	draw_end;
-	int	y;
-	int	tex_y;
-	int	color;
+	int		draw_start;
+	int		draw_end;
+	int		y;
+	int		tex_y;
+	int		color;
+	char	*tex_addr;
 
+	tex_addr = get_texture_addr(data, texture);
 	draw_start = (line_o < 0) ? 0 : line_o;
-	draw_end = (line_o + line_h >= data->w_height) ? 
-		data->w_height - 1 : line_o + line_h - 1;
+	draw_end = (line_o + line_h >= data->w_height) ? data->w_height - 1 : line_o
+		+ line_h - 1;
 	y = draw_start;
 	while (y <= draw_end)
 	{
@@ -276,33 +295,45 @@ static void	draw_column(t_data *data, int r, int line_h, int line_o,
 			tex_y = 0;
 		if (tex_y >= 64)
 			tex_y = 63;
-		color = get_texture_pixel(texture, tex_x, tex_y);
+		color = get_texture_pixel_fast(tex_addr, data->tex_bpp, data->tex_sl,
+				tex_x, tex_y);
 		my_mlx_pixel_put(data, r, y, color);
 		y++;
 	}
 }
 
-static void	calculate_wall_params(t_data *data, double dis_t, double ra,
-	int *line_h, int *line_o)
+void	calculate_wall_params(t_data *data, double ra)
 {
 	double	ca;
 
 	ca = ra - data->p_orientation;
-	dis_t = dis_t * cos(ca);
-	*line_h = (int)((64 * data->w_height) / (dis_t > 1.0 ? dis_t : 1.0));
-	*line_o = (data->w_height / 2) - (*line_h / 2);
+	data->ray.dis_t = data->ray.dis_t * cos(ca);
+	data->ray.line_h = (int)((64 * data->w_height)
+			/ (data->ray.dis_t > 1.0 ? data->ray.dis_t : 1.0));
+	data->ray.line_o = (data->w_height / 2) - (data->ray.line_h / 2);
 }
 
-static int	calculate_texture_x(double rx, double ry, int side)
+int	calculate_texture_x(double rx, double ry, int side, double ra)
 {
 	double	wall_x;
 	int		tex_x;
 
-	if (side == 0)
+	if (side == 0) // Mur vertical
+	{
 		wall_x = ry - floor(ry / 64.0) * 64.0;
-	else
+		tex_x = (int)wall_x;
+		// Inverser pour le mur Est (ra < P2 || ra > P3)
+		if (ra > P2 && ra < P3)
+			tex_x = 63 - tex_x;
+	}
+	else // Mur horizontal
+	{
 		wall_x = rx - floor(rx / 64.0) * 64.0;
-	tex_x = (int)wall_x;
+		tex_x = (int)wall_x;
+		// Inverser pour le mur Nord (ra < PI)
+		if (ra < PI)
+			tex_x = 63 - tex_x;
+	}
 	if (tex_x < 0)
 		tex_x = 0;
 	if (tex_x >= 64)
@@ -310,76 +341,41 @@ static int	calculate_texture_x(double rx, double ry, int side)
 	return (tex_x);
 }
 
-static void	process_ray(t_data *data, int r, double ra)
+void	process_ray(t_data *data, int r, double ra)
 {
-	double	dis_h;
-	double	dis_v;
-	double	hx;
-	double	hy;
-	double	vx;
-	double	vy;
-	double	rx;
-	double	ry;
-	double	dis_t;
-	int		side;
-	int		line_h;
-	int		line_o;
-	int		tex_x;
-	void	*texture;
-
-	cast_horizontal_ray(data, ra, &dis_h, &hx, &hy);
-	cast_vertical_ray(data, ra, &dis_v, &vx, &vy);
-	if (dis_v < dis_h)
+	cast_horizontal_ray(data, ra, &data->ray.dis_h, &data->ray.hx,
+		&data->ray.hy);
+	cast_vertical_ray(data, ra, &data->ray.dis_v, &data->ray.vx, &data->ray.vy);
+	if (data->ray.dis_v < data->ray.dis_h)
 	{
-		rx = vx;
-		ry = vy;
-		dis_t = dis_v;
-		side = 0;
+		data->ray.rx = data->ray.vx;
+		data->ray.ry = data->ray.vy;
+		data->ray.dis_t = data->ray.dis_v;
+		data->ray.side = 0;
 	}
 	else
 	{
-		rx = hx;
-		ry = hy;
-		dis_t = dis_h;
-		side = 1;
+		data->ray.rx = data->ray.hx;
+		data->ray.ry = data->ray.hy;
+		data->ray.dis_t = data->ray.dis_h;
+		data->ray.side = 1;
 	}
-    
-	if (dis_t > 2000)  // Limite la distance de rendu
-	{
-		// Dessinez juste du noir ou la couleur du plafond/sol
-		int y = 0;
-		while (y < data->w_height)
-		{
-			if (y < data->w_height / 2)
-				my_mlx_pixel_put(data, r, y, rgb_to_hex(data->c_color[0], data->c_color[1], data->c_color[2]));
-			else
-				my_mlx_pixel_put(data, r, y, rgb_to_hex(data->f_color[0], data->f_color[1], data->f_color[2]));
-			y++;
-		}
-		return;
-	}
-    
-	calculate_wall_params(data, dis_t, ra, &line_h, &line_o);
-	tex_x = calculate_texture_x(rx, ry, side);
-	texture = select_texture(data, ra, side);
-	draw_column(data, r, line_h, line_o, texture, tex_x);
+	calculate_wall_params(data, ra);
+	data->ray.tex_x = calculate_texture_x(data->ray.rx, data->ray.ry,
+			data->ray.side, ra);
+	data->ray.texture = select_texture(data, ra, data->ray.side);
+	draw_column(data, r, data->ray.line_h, data->ray.line_o, data->ray.texture,
+		data->ray.tex_x);
 }
 
-void	raycasting(void)
+void	raycasting(t_data *data)
 {
-	t_data	*data;
 	double	fov;
 	double	dr;
 	double	ra;
 	int		r;
 	int		y;
 
-	data = get_data();
-	if (!check_map_bounds(data))
-	{
-		fill_black_screen(data);
-		return ;
-	}
 	fov = 60 * (PI / 180);
 	dr = fov / data->w_width;
 	r = 0;
@@ -394,7 +390,7 @@ void	raycasting(void)
 		r++;
 	}
 	y = 0;
-	while (y < data->w_height)
+	while (y < data->w_height) //! ligne rouge a la con a enlever
 	{
 		my_mlx_pixel_put(data, data->w_width / 2, y, 0xFF0000);
 		y++;
