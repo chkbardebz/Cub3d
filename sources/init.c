@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:36:12 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/06 15:02:30 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 18:00:41 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 t_data *get_data(void)
 {
     static t_data data;
-    static int initialized = 0;
+    // static int initialized = 0;
     
-    if (!initialized)
-    {
-        ft_memset(&data, 0, sizeof(t_data));
-        initialized = 1;
-    }
+    // if (!initialized)
+    // {
+    //     ft_memset(&data, 0, sizeof(t_data));
+    //     initialized = 1;
+    // }
     return (&data);
 }
 
@@ -33,18 +33,17 @@ int tour2chauffe(const char *filename)
 
     fd = open(filename, O_RDONLY);
     if (fd < 0)
-        return -1; // Handle error
+        return -1;
     i = 0;
     line = get_next_line(fd);
     while (line)
     {
-        // printf("Line %d: %s", i, line);
         free(line);
         line = get_next_line(fd);
         i++;
     }
     close(fd);
-    return i; // Return the number of lines read
+    return i;
 }
 
 char **init_map(const char *map_file)
@@ -56,21 +55,20 @@ char **init_map(const char *map_file)
     
     i = tour2chauffe(map_file);
     if (i < 0)
-        return NULL; // Handle error
+        return NULL;
     fd = open(map_file, O_RDONLY);
     if (fd < 0)
-        return NULL; // Handle error
+        return NULL;
     map = malloc(sizeof(char *) * (i + 1));
     i = 0;
     line = get_next_line(fd);
     while (line)
     {
-        map[i++] = line; // Store the line in the map array
+        map[i++] = line;
         line = get_next_line(fd);
     }
-    map[i] = NULL; // Null-terminate the array
+    map[i] = NULL;
     close(fd);
-    print_tabtab(map); // Afficher le tableau de la carte
     return (map);
 }
 
@@ -188,13 +186,11 @@ void init(const char *map_file)
     data->we_texture = NULL;
     data->ea_texture = NULL;
     data->game_map = NULL;
-    if (!(data->map = init_map(map_file))) // A foutre dans une fonction du parsing ou error jsp
+    if (!(data->map = init_map(map_file)))
     {
         errormsg("Failed to initialize map");
         exit_game(1);
     }
-    
-    // Extraire seulement la carte AVANT le parsing
     data->game_map = extract_map_only(data->map);
     if (!data->game_map)
     {
@@ -203,12 +199,6 @@ void init(const char *map_file)
     }
     data->map_width = width_map(data->game_map);
     data->map_height = height_map(data->game_map);
-    
     if (parsing(data) == -1)
         exit_game(1);
-    
-    printf("ceiling color: %d,%d,%d\n", data->c_color[0], data->c_color[1], data->c_color[2]);
-    printf("floor color: %d,%d,%d\n", data->f_color[0], data->f_color[1], data->f_color[2]);
-    printf("\n=== GAME MAP ONLY ===\n");
-    print_tabtab(data->game_map);
 }

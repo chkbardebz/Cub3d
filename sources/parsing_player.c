@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 16:20:02 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 18:07:42 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	find_player_position(t_data *data, int i, int j, int *compteur)
 		data->pdy = sin(data->p_orientation) * 5;
 		(*compteur)++;
 	}
-	else if (data->game_map[i][j] == 'S')
+	if (data->game_map[i][j] == 'S')
 	{
 		data->p_orientation = PI / 2;
 		data->player_x = j;
@@ -32,7 +32,7 @@ static int	find_player_position(t_data *data, int i, int j, int *compteur)
 		data->pdy = sin(data->p_orientation) * 5;
 		(*compteur)++;
 	}
-	else if (data->game_map[i][j] == 'E')
+	if (data->game_map[i][j] == 'E')
 	{
 		data->p_orientation = 0;
 		data->player_x = j;
@@ -41,7 +41,7 @@ static int	find_player_position(t_data *data, int i, int j, int *compteur)
 		data->pdy = sin(data->p_orientation) * 5;
 		(*compteur)++;
 	}
-	else if (data->game_map[i][j] == 'W')
+	if (data->game_map[i][j] == 'W')
 	{
 		data->p_orientation = PI;
 		data->player_x = j;
@@ -181,52 +181,37 @@ int	check_map_closed(t_data *data)
         errormsg("Invalid game map for closed check");
         return (-1);
     }
-    
-    // Calculer les dimensions de la carte si pas déjà fait
-    if (data->map_height == 0)
-    {
-        while (data->game_map[data->map_height])
-            data->map_height++;
-    }
-    if (data->map_width == 0)
-    {
-        int i = 0;
-        while (data->game_map[i])
-        {
-            int len = ft_strlen(data->game_map[i]);
-            if (len > data->map_width)
-                data->map_width = len;
-            i++;
-        }
-    }
-    
-    // Position du joueur en coordonnées de grille
+    // if (data->map_height == 0)
+    // {
+    //     while (data->game_map[data->map_height])
+    //         data->map_height++;
+    // }
+    // if (data->map_width == 0)
+    // {
+    //     int i = 0;
+    //     while (data->game_map[i])
+    //     {
+    //         int len = ft_strlen(data->game_map[i]);
+    //         if (len > data->map_width)
+    //             data->map_width = len;
+    //         i++;
+    //     }
+    // }
     player_grid_x = (int)data->player_x;
     player_grid_y = (int)data->player_y;
-    
-    // Créer la carte des cases visitées
     visited = create_visited_map(data);
     if (!visited)
     {
         errormsg("Failed to allocate memory for flood fill");
         return (-1);
     }
-    
-    // Effectuer le flood fill depuis la position du joueur
     result = flood_fill_recursive(data, visited, player_grid_x, player_grid_y);
-    
-    // Libérer la mémoire
     free_visited_map(visited, data->map_height);
-    
     if (result == -1)
     {
         errormsg("Map is not closed - player can reach the edge");
         return (-1);
     }
-    
-    printf("Map flood fill completed successfully!\n");
-    
-    // Convertir en coordonnées pixel (64x64 par case + centré)
     data->player_x = data->player_x * 64 + 32;
     data->player_y = data->player_y * 64 + 32;
     

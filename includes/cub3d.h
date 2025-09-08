@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/09/06 15:02:34 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 17:44:46 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ typedef struct s_data
 	int		tex_sl;
 	int		tex_endian;
 
+	int		draw_start;
+	int		draw_end;
+
 	t_ray	ray;
 }			t_data;
 
@@ -151,8 +154,8 @@ int			check_map_closed(t_data *data);
 void		init_key_states(t_data *data);
 int			key_press_hook(int keycode, t_data *data);
 int			key_release_hook(int keycode, t_data *data);
-void		game(void);
 
+double		dist(double ax, double ay, double bx, double by);
 void		move_player(t_data *data, double *move_x, double *move_y,
 				double *strafe_angle);
 void		move_camera(t_data *data);
@@ -161,5 +164,16 @@ void		collision(t_data *data, double new_x, double new_y);
 int			check_collision(t_data *data, double new_x, double new_y);
 int			check_collision_with_margin(t_data *data, double new_x,
 				double new_y);
+void		fill_background(t_data *img, int color1, int color2);
+void		cast_horizontal_ray(t_data *data, double ra, double *disH,
+				double *hx, double *hy);
+void		cast_vertical_ray(t_data *data, double ra, double *disV, double *vx,
+				double *vy);
+void		draw_column(t_data *data, int r, int line_h, int line_o,
+				void *texture, int tex_x);
+void		fill_black_screen(t_data *data);
+void		*select_texture(t_data *data, double ra, int side);
+char		*get_texture_addr(t_data *data, void *texture);
+int			get_texture_pixel_fast(char *addr, t_data *data, int x, int y);
 
 #endif

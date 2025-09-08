@@ -1,0 +1,1446 @@
+desc: (none)
+cmd: ./cub3D maps/good/map.cub
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=520048
+mem_heap_B=18
+mem_heap_extra_B=22
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=642483
+mem_heap_B=245
+mem_heap_extra_B=75
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=814016
+mem_heap_B=349
+mem_heap_extra_B=67
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=946100
+mem_heap_B=371
+mem_heap_extra_B=61
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=1099093
+mem_heap_B=393
+mem_heap_extra_B=71
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=1274305
+mem_heap_B=415
+mem_heap_extra_B=65
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=1464366
+mem_heap_B=499
+mem_heap_extra_B=61
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=1757111
+mem_heap_B=499
+mem_heap_extra_B=61
+mem_stacks_B=0
+heap_tree=detailed
+n4: 499 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 438 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 438 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n2: 438 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 438 0x402A30: tour2chauffe (init.c:43)
+     n1: 438 0x402A74: init_map (init.c:57)
+      n1: 438 0x4030CD: init (init.c:191)
+       n0: 438 0x402753: main (main.c:38)
+    n0: 0 in 1 place, below massif's threshold (1.00%)
+ n2: 43 0x403224: get_next_line (get_next_line.c:84)
+  n1: 43 0x402A30: tour2chauffe (init.c:43)
+   n1: 43 0x402A74: init_map (init.c:57)
+    n1: 43 0x4030CD: init (init.c:191)
+     n0: 43 0x402753: main (main.c:38)
+  n0: 0 in 1 place, below massif's threshold (1.00%)
+ n2: 18 0x408264: ft_strdup (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 18 0x40307E: init (init.c:185)
+   n0: 18 0x402753: main (main.c:38)
+  n0: 0 in 1 place, below massif's threshold (1.00%)
+ n0: 0 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=9
+#-----------
+time=1770847
+mem_heap_B=501
+mem_heap_extra_B=75
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=2085473
+mem_heap_B=501
+mem_heap_extra_B=75
+mem_stacks_B=0
+heap_tree=detailed
+n4: 501 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 231 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 231 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n2: 231 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 231 0x402A30: tour2chauffe (init.c:43)
+     n1: 231 0x402A74: init_map (init.c:57)
+      n1: 231 0x4030CD: init (init.c:191)
+       n0: 231 0x402753: main (main.c:38)
+    n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 209 0x40835E: ft_substr (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 209 0x4034C5: set_line (get_next_line.c:39)
+   n2: 209 0x4032E4: get_next_line (get_next_line.c:100)
+    n1: 209 0x402A30: tour2chauffe (init.c:43)
+     n1: 209 0x402A74: init_map (init.c:57)
+      n1: 209 0x4030CD: init (init.c:191)
+       n0: 209 0x402753: main (main.c:38)
+    n0: 0 in 1 place, below massif's threshold (1.00%)
+ n2: 43 0x403224: get_next_line (get_next_line.c:84)
+  n1: 43 0x402A30: tour2chauffe (init.c:43)
+   n1: 43 0x402A74: init_map (init.c:57)
+    n1: 43 0x4030CD: init (init.c:191)
+     n0: 43 0x402753: main (main.c:38)
+  n0: 0 in 1 place, below massif's threshold (1.00%)
+ n2: 18 0x408264: ft_strdup (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 18 0x40307E: init (init.c:185)
+   n0: 18 0x402753: main (main.c:38)
+  n0: 0 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=11
+#-----------
+time=2183601
+mem_heap_B=415
+mem_heap_extra_B=113
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=2308564
+mem_heap_B=768
+mem_heap_extra_B=168
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=2421704
+mem_heap_B=933
+mem_heap_extra_B=187
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=2553687
+mem_heap_B=1109
+mem_heap_extra_B=211
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=2706579
+mem_heap_B=1296
+mem_heap_extra_B=224
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=2881690
+mem_heap_B=1494
+mem_heap_extra_B=226
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=3070965
+mem_heap_B=1692
+mem_heap_extra_B=244
+mem_stacks_B=0
+heap_tree=detailed
+n5: 1692 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1315 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1315 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n3: 1315 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1272 0x402B0B: init_map (init.c:69)
+     n1: 1272 0x4030CD: init (init.c:191)
+      n0: 1272 0x402753: main (main.c:38)
+    n1: 43 0x402ADA: init_map (init.c:65)
+     n1: 43 0x4030CD: init (init.c:191)
+      n0: 43 0x402753: main (main.c:38)
+    n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 160 0x402AC7: init_map (init.c:63)
+  n1: 160 0x4030CD: init (init.c:191)
+   n0: 160 0x402753: main (main.c:38)
+ n1: 156 0x40835E: ft_substr (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 156 0x4034C5: set_line (get_next_line.c:39)
+   n2: 156 0x4032E4: get_next_line (get_next_line.c:100)
+    n1: 156 0x402B0B: init_map (init.c:69)
+     n1: 156 0x4030CD: init (init.c:191)
+      n0: 156 0x402753: main (main.c:38)
+    n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n2: 43 0x403224: get_next_line (get_next_line.c:84)
+  n1: 43 0x402B0B: init_map (init.c:69)
+   n1: 43 0x4030CD: init (init.c:191)
+    n0: 43 0x402753: main (main.c:38)
+  n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n0: 18 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=18
+#-----------
+time=3073281
+mem_heap_B=1776
+mem_heap_extra_B=240
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=3366026
+mem_heap_B=1776
+mem_heap_extra_B=240
+mem_stacks_B=0
+heap_tree=detailed
+n4: 1776 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1555 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1555 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n3: 1555 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1512 0x402B0B: init_map (init.c:69)
+     n1: 1512 0x4030CD: init (init.c:191)
+      n0: 1512 0x402753: main (main.c:38)
+    n1: 43 0x402ADA: init_map (init.c:65)
+     n1: 43 0x4030CD: init (init.c:191)
+      n0: 43 0x402753: main (main.c:38)
+    n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 160 0x402AC7: init_map (init.c:63)
+  n1: 160 0x4030CD: init (init.c:191)
+   n0: 160 0x402753: main (main.c:38)
+ n2: 43 0x403224: get_next_line (get_next_line.c:84)
+  n1: 43 0x402B0B: init_map (init.c:69)
+   n1: 43 0x4030CD: init (init.c:191)
+    n0: 43 0x402753: main (main.c:38)
+  n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n0: 18 in 2 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=20
+#-----------
+time=3377977
+mem_heap_B=1787
+mem_heap_extra_B=245
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=3694364
+mem_heap_B=2018
+mem_heap_extra_B=262
+mem_stacks_B=0
+heap_tree=detailed
+n5: 2018 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1588 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1588 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n3: 1588 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1545 0x402B0B: init_map (init.c:69)
+     n1: 1545 0x4030CD: init (init.c:191)
+      n0: 1545 0x402753: main (main.c:38)
+    n1: 43 0x402ADA: init_map (init.c:65)
+     n1: 43 0x4030CD: init (init.c:191)
+      n0: 43 0x402753: main (main.c:38)
+    n0: 0 in 2 places, all below massif's threshold (1.00%)
+ n1: 209 0x40835E: ft_substr (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 209 0x4034C5: set_line (get_next_line.c:39)
+   n2: 209 0x4032E4: get_next_line (get_next_line.c:100)
+    n1: 209 0x402B0B: init_map (init.c:69)
+     n1: 209 0x4030CD: init (init.c:191)
+      n0: 209 0x402753: main (main.c:38)
+    n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n1: 160 0x402AC7: init_map (init.c:63)
+  n1: 160 0x4030CD: init (init.c:191)
+   n0: 160 0x402753: main (main.c:38)
+ n2: 43 0x403224: get_next_line (get_next_line.c:84)
+  n1: 43 0x402B0B: init_map (init.c:69)
+   n1: 43 0x4030CD: init (init.c:191)
+    n0: 43 0x402753: main (main.c:38)
+  n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n0: 18 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=22
+#-----------
+time=3828508
+mem_heap_B=4001
+mem_heap_extra_B=455
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=3894444
+mem_heap_B=4147
+mem_heap_extra_B=533
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=4047415
+mem_heap_B=4674
+mem_heap_extra_B=630
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=4290708
+mem_heap_B=4815
+mem_heap_extra_B=657
+mem_stacks_B=0
+heap_tree=detailed
+n10: 4815 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1588 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1588 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n2: 1588 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1545 0x402B0B: init_map (init.c:69)
+     n1: 1545 0x4030CD: init (init.c:191)
+      n0: 1545 0x402753: main (main.c:38)
+    n0: 43 in 3 places, all below massif's threshold (1.00%)
+ n1: 1024 0x4B3FBA3: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 1024 0x4B4ECDF: _IO_doallocbuf (genops.c:347)
+   n1: 1024 0x4B4DF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 1024 0x4B4C6D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 1024 0x4B4C6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 1024 0x4B3800B: outstring_func (vfprintf-internal.c:239)
+       n1: 1024 0x4B3800B: __vfprintf_internal (vfprintf-internal.c:1517)
+        n1: 1024 0x4B2179E: printf (printf.c:33)
+         n1: 1024 0x403977: print_tabtab (utils.c:38)
+          n1: 1024 0x402B35: init_map (init.c:73)
+           n1: 1024 0x4030CD: init (init.c:191)
+            n0: 1024 0x402753: main (main.c:38)
+ n1: 710 0x40835E: ft_substr (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 710 0x4034C5: set_line (get_next_line.c:39)
+   n2: 710 0x4032E4: get_next_line (get_next_line.c:100)
+    n1: 710 0x402B0B: init_map (init.c:69)
+     n1: 710 0x4030CD: init (init.c:191)
+      n0: 710 0x402753: main (main.c:38)
+    n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n1: 564 0x406C9A: create_visited_map (parsing_player.c:136)
+  n1: 564 0x406B3D: check_map_closed (parsing_player.c:208)
+   n1: 564 0x4028D1: parsing (parsing.c:36)
+    n1: 564 0x40316D: init (init.c:207)
+     n0: 564 0x402753: main (main.c:38)
+ n2: 415 0x408264: ft_strdup (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 397 0x402C99: extract_map_only (init.c:158)
+   n1: 397 0x403105: init (init.c:198)
+    n0: 397 0x402753: main (main.c:38)
+  n0: 18 in 3 places, all below massif's threshold (1.00%)
+ n1: 160 0x402AC7: init_map (init.c:63)
+  n1: 160 0x4030CD: init (init.c:191)
+   n0: 160 0x402753: main (main.c:38)
+ n2: 146 0x4060A4: safe_trim (parsing_utils.c:36)
+  n1: 146 0x407663: set_texture (parsing_textures.c:45)
+   n0: 146 in 4 places, all below massif's threshold (1.00%)
+  n0: 0 in 3 places, all below massif's threshold (1.00%)
+ n1: 104 0x402C53: extract_map_only (init.c:152)
+  n1: 104 0x403105: init (init.c:198)
+   n0: 104 0x402753: main (main.c:38)
+ n1: 104 0x406C51: create_visited_map (parsing_player.c:129)
+  n1: 104 0x406B3D: check_map_closed (parsing_player.c:208)
+   n1: 104 0x4028D1: parsing (parsing.c:36)
+    n1: 104 0x40316D: init (init.c:207)
+     n0: 104 0x402753: main (main.c:38)
+ n0: 0 in 3 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=26
+#-----------
+time=4363157
+mem_heap_B=6491
+mem_heap_extra_B=557
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=4485114
+mem_heap_B=69868
+mem_heap_extra_B=1060
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=4633045
+mem_heap_B=69884
+mem_heap_extra_B=1060
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=4710795
+mem_heap_B=71116
+mem_heap_extra_B=1100
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=5088342
+mem_heap_B=70068
+mem_heap_extra_B=1076
+mem_stacks_B=0
+heap_tree=detailed
+n9: 70068 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 21168 0x4CF9204: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 21168 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 21168 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 21168 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 21168 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 21168 0x403E30: game (loop.c:107)
+       n0: 21168 0x40275D: main (main.c:40)
+ n1: 16384 0x48AFEBE: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 16384 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 16384 0x403E30: game (loop.c:107)
+    n0: 16384 0x40275D: main (main.c:40)
+ n1: 12768 0x48B0290: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 12768 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 12768 0x403E30: game (loop.c:107)
+    n0: 12768 0x40275D: main (main.c:40)
+ n1: 5684 0x4CF94FB: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 5684 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 5684 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 5684 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 5684 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 5684 0x403E30: game (loop.c:107)
+       n0: 5684 0x40275D: main (main.c:40)
+ n1: 4704 0x48AFB31: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 4704 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 4704 0x403E30: game (loop.c:107)
+    n0: 4704 0x40275D: main (main.c:40)
+ n0: 4540 in 51 places, all below massif's threshold (1.00%)
+ n1: 2208 0x40579F: convert_map_to_int (map_conversion.c:58)
+  n1: 2208 0x4028EF: parsing (parsing.c:38)
+   n1: 2208 0x40316D: init (init.c:207)
+    n0: 2208 0x402753: main (main.c:38)
+ n1: 1588 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1588 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n2: 1588 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1545 0x402B0B: init_map (init.c:69)
+     n1: 1545 0x4030CD: init (init.c:191)
+      n0: 1545 0x402753: main (main.c:38)
+    n0: 43 in 3 places, all below massif's threshold (1.00%)
+ n1: 1024 0x4B3FBA3: _IO_file_doallocate (filedoalloc.c:101)
+  n2: 1024 0x4B4ECDF: _IO_doallocbuf (genops.c:347)
+   n1: 1024 0x4B4DF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 1024 0x4B4C6D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 1024 0x4B4C6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 1024 0x4B3800B: outstring_func (vfprintf-internal.c:239)
+       n1: 1024 0x4B3800B: __vfprintf_internal (vfprintf-internal.c:1517)
+        n1: 1024 0x4B2179E: printf (printf.c:33)
+         n1: 1024 0x403977: print_tabtab (utils.c:38)
+          n1: 1024 0x402B35: init_map (init.c:73)
+           n1: 1024 0x4030CD: init (init.c:191)
+            n0: 1024 0x402753: main (main.c:38)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=31
+#-----------
+time=5659098
+mem_heap_B=70108
+mem_heap_extra_B=1092
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=5660900
+mem_heap_B=332236
+mem_heap_extra_B=1100
+mem_stacks_B=0
+heap_tree=peak
+n7: 332236 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 262144 0x409C74: mlx_int_parse_xpm (in /goinfre/judenis/Cub3d/cub3D)
+  n2: 262144 0x40A341: mlx_xpm_file_to_image (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 262144 0x403D25: load_textures (loop.c:85)
+    n1: 262144 0x403E69: game (loop.c:110)
+     n0: 262144 0x40275D: main (main.c:40)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 21168 0x4CF9204: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 21168 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 21168 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 21168 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 21168 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 21168 0x403E30: game (loop.c:107)
+       n0: 21168 0x40275D: main (main.c:40)
+ n1: 16384 0x48AFEBE: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 16384 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 16384 0x403E30: game (loop.c:107)
+    n0: 16384 0x40275D: main (main.c:40)
+ n1: 12768 0x48B0290: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 12768 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 12768 0x403E30: game (loop.c:107)
+    n0: 12768 0x40275D: main (main.c:40)
+ n0: 9384 in 53 places, all below massif's threshold (1.00%)
+ n1: 5684 0x4CF94FB: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 5684 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 5684 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 5684 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 5684 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 5684 0x403E30: game (loop.c:107)
+       n0: 5684 0x40275D: main (main.c:40)
+ n1: 4704 0x48AFB31: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 4704 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 4704 0x403E30: game (loop.c:107)
+    n0: 4704 0x40275D: main (main.c:40)
+#-----------
+snapshot=33
+#-----------
+time=5770974
+mem_heap_B=332212
+mem_heap_extra_B=1084
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=5867184
+mem_heap_B=332212
+mem_heap_extra_B=1084
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=5963358
+mem_heap_B=332212
+mem_heap_extra_B=1084
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=6059474
+mem_heap_B=332212
+mem_heap_extra_B=1084
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=6155270
+mem_heap_B=332212
+mem_heap_extra_B=1084
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=6251306
+mem_heap_B=332212
+mem_heap_extra_B=1084
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=6347344
+mem_heap_B=332212
+mem_heap_extra_B=1084
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=6462417
+mem_heap_B=332492
+mem_heap_extra_B=1140
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=6908571
+mem_heap_B=70292
+mem_heap_extra_B=1108
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=7177342
+mem_heap_B=70332
+mem_heap_extra_B=1124
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=7312591
+mem_heap_B=332660
+mem_heap_extra_B=1148
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=7757287
+mem_heap_B=70516
+mem_heap_extra_B=1140
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=8059270
+mem_heap_B=70556
+mem_heap_extra_B=1156
+mem_stacks_B=0
+heap_tree=detailed
+n9: 70556 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 21168 0x4CF9204: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 21168 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 21168 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 21168 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 21168 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 21168 0x403E30: game (loop.c:107)
+       n0: 21168 0x40275D: main (main.c:40)
+ n1: 16384 0x48AFEBE: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 16384 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 16384 0x403E30: game (loop.c:107)
+    n0: 16384 0x40275D: main (main.c:40)
+ n1: 12768 0x48B0290: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 12768 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 12768 0x403E30: game (loop.c:107)
+    n0: 12768 0x40275D: main (main.c:40)
+ n1: 5684 0x4CF94FB: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 5684 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 5684 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 5684 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 5684 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 5684 0x403E30: game (loop.c:107)
+       n0: 5684 0x40275D: main (main.c:40)
+ n0: 5028 in 51 places, all below massif's threshold (1.00%)
+ n1: 4704 0x48AFB31: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 4704 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 4704 0x403E30: game (loop.c:107)
+    n0: 4704 0x40275D: main (main.c:40)
+ n1: 2208 0x40579F: convert_map_to_int (map_conversion.c:58)
+  n1: 2208 0x4028EF: parsing (parsing.c:38)
+   n1: 2208 0x40316D: init (init.c:207)
+    n0: 2208 0x402753: main (main.c:38)
+ n1: 1588 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1588 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n2: 1588 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1545 0x402B0B: init_map (init.c:69)
+     n1: 1545 0x4030CD: init (init.c:191)
+      n0: 1545 0x402753: main (main.c:38)
+    n0: 43 in 3 places, all below massif's threshold (1.00%)
+ n1: 1024 0x4B3FBA3: _IO_file_doallocate (filedoalloc.c:101)
+  n2: 1024 0x4B4ECDF: _IO_doallocbuf (genops.c:347)
+   n1: 1024 0x4B4DF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 1024 0x4B4C6D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 1024 0x4B4C6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 1024 0x4B3800B: outstring_func (vfprintf-internal.c:239)
+       n1: 1024 0x4B3800B: __vfprintf_internal (vfprintf-internal.c:1517)
+        n1: 1024 0x4B2179E: printf (printf.c:33)
+         n1: 1024 0x403977: print_tabtab (utils.c:38)
+          n1: 1024 0x402B35: init_map (init.c:73)
+           n1: 1024 0x4030CD: init (init.c:191)
+            n0: 1024 0x402753: main (main.c:38)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=46
+#-----------
+time=8185230
+mem_heap_B=332660
+mem_heap_extra_B=1148
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=8267845
+mem_heap_B=332884
+mem_heap_extra_B=1180
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=8712541
+mem_heap_B=70740
+mem_heap_extra_B=1172
+mem_stacks_B=0
+heap_tree=detailed
+n9: 70740 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 21168 0x4CF9204: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 21168 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 21168 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 21168 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 21168 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 21168 0x403E30: game (loop.c:107)
+       n0: 21168 0x40275D: main (main.c:40)
+ n1: 16384 0x48AFEBE: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 16384 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 16384 0x403E30: game (loop.c:107)
+    n0: 16384 0x40275D: main (main.c:40)
+ n1: 12768 0x48B0290: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 12768 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 12768 0x403E30: game (loop.c:107)
+    n0: 12768 0x40275D: main (main.c:40)
+ n1: 5684 0x4CF94FB: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 5684 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 5684 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 5684 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 5684 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 5684 0x403E30: game (loop.c:107)
+       n0: 5684 0x40275D: main (main.c:40)
+ n0: 5212 in 51 places, all below massif's threshold (1.00%)
+ n1: 4704 0x48AFB31: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 4704 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 4704 0x403E30: game (loop.c:107)
+    n0: 4704 0x40275D: main (main.c:40)
+ n1: 2208 0x40579F: convert_map_to_int (map_conversion.c:58)
+  n1: 2208 0x4028EF: parsing (parsing.c:38)
+   n1: 2208 0x40316D: init (init.c:207)
+    n0: 2208 0x402753: main (main.c:38)
+ n1: 1588 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1588 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n2: 1588 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1545 0x402B0B: init_map (init.c:69)
+     n1: 1545 0x4030CD: init (init.c:191)
+      n0: 1545 0x402753: main (main.c:38)
+    n0: 43 in 3 places, all below massif's threshold (1.00%)
+ n1: 1024 0x4B3FBA3: _IO_file_doallocate (filedoalloc.c:101)
+  n2: 1024 0x4B4ECDF: _IO_doallocbuf (genops.c:347)
+   n1: 1024 0x4B4DF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 1024 0x4B4C6D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 1024 0x4B4C6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 1024 0x4B3800B: outstring_func (vfprintf-internal.c:239)
+       n1: 1024 0x4B3800B: __vfprintf_internal (vfprintf-internal.c:1517)
+        n1: 1024 0x4B2179E: printf (printf.c:33)
+         n1: 1024 0x403977: print_tabtab (utils.c:38)
+          n1: 1024 0x402B35: init_map (init.c:73)
+           n1: 1024 0x4030CD: init (init.c:191)
+            n0: 1024 0x402753: main (main.c:38)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+#-----------
+snapshot=49
+#-----------
+time=8729948
+mem_heap_B=72852
+mem_heap_extra_B=1220
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=8731776
+mem_heap_B=73096
+mem_heap_extra_B=1248
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=8733715
+mem_heap_B=73528
+mem_heap_extra_B=1288
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=8735531
+mem_heap_B=73892
+mem_heap_extra_B=1260
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=8737430
+mem_heap_B=74204
+mem_heap_extra_B=1356
+mem_stacks_B=0
+heap_tree=detailed
+n11: 74204 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 21168 0x4CF9204: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 21168 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 21168 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 21168 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 21168 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 21168 0x403E30: game (loop.c:107)
+       n0: 21168 0x40275D: main (main.c:40)
+ n1: 16384 0x48AFEBE: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 16384 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 16384 0x403E30: game (loop.c:107)
+    n0: 16384 0x40275D: main (main.c:40)
+ n1: 12768 0x48B0290: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 12768 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 12768 0x403E30: game (loop.c:107)
+    n0: 12768 0x40275D: main (main.c:40)
+ n1: 5684 0x4CF94FB: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 5684 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 5684 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 5684 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 5684 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 5684 0x403E30: game (loop.c:107)
+       n0: 5684 0x40275D: main (main.c:40)
+ n0: 5452 in 52 places, all below massif's threshold (1.00%)
+ n1: 4704 0x48AFB31: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 4704 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 4704 0x403E30: game (loop.c:107)
+    n0: 4704 0x40275D: main (main.c:40)
+ n1: 2288 0x48C1FAE: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n2: 2288 0x48C4BB6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+   n2: 1248 0x48C5F01: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 832 0x48C6205: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 832 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 832 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 832 0x403E8E: game (loop.c:111)
+        n0: 832 0x40275D: main (main.c:40)
+    n0: 416 in 1 place, below massif's threshold (1.00%)
+   n2: 1040 0x48C5EC0: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 832 0x48C61D0: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 832 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 832 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 832 0x403E8E: game (loop.c:111)
+        n0: 832 0x40275D: main (main.c:40)
+    n0: 208 in 1 place, below massif's threshold (1.00%)
+ n1: 2208 0x40579F: convert_map_to_int (map_conversion.c:58)
+  n1: 2208 0x4028EF: parsing (parsing.c:38)
+   n1: 2208 0x40316D: init (init.c:207)
+    n0: 2208 0x402753: main (main.c:38)
+ n1: 1588 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1588 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n2: 1588 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1545 0x402B0B: init_map (init.c:69)
+     n1: 1545 0x4030CD: init (init.c:191)
+      n0: 1545 0x402753: main (main.c:38)
+    n0: 43 in 3 places, all below massif's threshold (1.00%)
+ n1: 1024 0x4B3FBA3: _IO_file_doallocate (filedoalloc.c:101)
+  n2: 1024 0x4B4ECDF: _IO_doallocbuf (genops.c:347)
+   n1: 1024 0x4B4DF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 1024 0x4B4C6D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 1024 0x4B4C6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 1024 0x4B3800B: outstring_func (vfprintf-internal.c:239)
+       n1: 1024 0x4B3800B: __vfprintf_internal (vfprintf-internal.c:1517)
+        n1: 1024 0x4B2179E: printf (printf.c:33)
+         n1: 1024 0x403977: print_tabtab (utils.c:38)
+          n1: 1024 0x402B35: init_map (init.c:73)
+           n1: 1024 0x4030CD: init (init.c:191)
+            n0: 1024 0x402753: main (main.c:38)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 936 0x408E00: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 936 0x403E8E: game (loop.c:111)
+   n0: 936 0x40275D: main (main.c:40)
+#-----------
+snapshot=54
+#-----------
+time=8739313
+mem_heap_B=74552
+mem_heap_extra_B=1304
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=8741832
+mem_heap_B=74968
+mem_heap_extra_B=1320
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=8743653
+mem_heap_B=75592
+mem_heap_extra_B=1344
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=8745568
+mem_heap_B=76112
+mem_heap_extra_B=1448
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=8747970
+mem_heap_B=76476
+mem_heap_extra_B=1372
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=8749887
+mem_heap_B=76688
+mem_heap_extra_B=1448
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=8751811
+mem_heap_B=77084
+mem_heap_extra_B=1428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=8762506
+mem_heap_B=77076
+mem_heap_extra_B=1436
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=8764484
+mem_heap_B=77052
+mem_heap_extra_B=1420
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=168584215
+mem_heap_B=77076
+mem_heap_extra_B=1436
+mem_stacks_B=0
+heap_tree=detailed
+n11: 77076 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 21168 0x4CF9204: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 21168 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 21168 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 21168 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 21168 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 21168 0x403E30: game (loop.c:107)
+       n0: 21168 0x40275D: main (main.c:40)
+ n1: 16384 0x48AFEBE: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 16384 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 16384 0x403E30: game (loop.c:107)
+    n0: 16384 0x40275D: main (main.c:40)
+ n1: 12768 0x48B0290: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 12768 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 12768 0x403E30: game (loop.c:107)
+    n0: 12768 0x40275D: main (main.c:40)
+ n1: 5684 0x4CF94FB: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 5684 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 5684 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 5684 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 5684 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 5684 0x403E30: game (loop.c:107)
+       n0: 5684 0x40275D: main (main.c:40)
+ n0: 5620 in 52 places, all below massif's threshold (1.00%)
+ n1: 4992 0x48C1FAE: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n3: 4992 0x48C4BB6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+   n2: 2912 0x48C5F01: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 2080 0x48C61D0: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 2080 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 2080 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 2080 0x403E8E: game (loop.c:111)
+        n0: 2080 0x40275D: main (main.c:40)
+    n1: 832 0x48C6205: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 832 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 832 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 832 0x403E8E: game (loop.c:111)
+        n0: 832 0x40275D: main (main.c:40)
+   n2: 1664 0x48C5EC0: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 1456 0x48C61D0: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 1456 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 1456 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 1456 0x403E8E: game (loop.c:111)
+        n0: 1456 0x40275D: main (main.c:40)
+    n0: 208 in 1 place, below massif's threshold (1.00%)
+   n0: 416 in 1 place, below massif's threshold (1.00%)
+ n1: 4704 0x48AFB31: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 4704 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 4704 0x403E30: game (loop.c:107)
+    n0: 4704 0x40275D: main (main.c:40)
+ n1: 2208 0x40579F: convert_map_to_int (map_conversion.c:58)
+  n1: 2208 0x4028EF: parsing (parsing.c:38)
+   n1: 2208 0x40316D: init (init.c:207)
+    n0: 2208 0x402753: main (main.c:38)
+ n1: 1588 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1588 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n2: 1588 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1545 0x402B0B: init_map (init.c:69)
+     n1: 1545 0x4030CD: init (init.c:191)
+      n0: 1545 0x402753: main (main.c:38)
+    n0: 43 in 3 places, all below massif's threshold (1.00%)
+ n1: 1024 0x4B3FBA3: _IO_file_doallocate (filedoalloc.c:101)
+  n2: 1024 0x4B4ECDF: _IO_doallocbuf (genops.c:347)
+   n1: 1024 0x4B4DF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 1024 0x4B4C6D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 1024 0x4B4C6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 1024 0x4B3800B: outstring_func (vfprintf-internal.c:239)
+       n1: 1024 0x4B3800B: __vfprintf_internal (vfprintf-internal.c:1517)
+        n1: 1024 0x4B2179E: printf (printf.c:33)
+         n1: 1024 0x403977: print_tabtab (utils.c:38)
+          n1: 1024 0x402B35: init_map (init.c:73)
+           n1: 1024 0x4030CD: init (init.c:191)
+            n0: 1024 0x402753: main (main.c:38)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 936 0x408E00: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 936 0x403E8E: game (loop.c:111)
+   n0: 936 0x40275D: main (main.c:40)
+#-----------
+snapshot=64
+#-----------
+time=168586217
+mem_heap_B=77084
+mem_heap_extra_B=1428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=328402588
+mem_heap_B=77076
+mem_heap_extra_B=1436
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=328404590
+mem_heap_B=77084
+mem_heap_extra_B=1428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=488220961
+mem_heap_B=77076
+mem_heap_extra_B=1436
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=488222963
+mem_heap_B=77084
+mem_heap_extra_B=1428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=648039334
+mem_heap_B=77076
+mem_heap_extra_B=1436
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=70
+#-----------
+time=648041336
+mem_heap_B=77084
+mem_heap_extra_B=1428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=71
+#-----------
+time=807856140
+mem_heap_B=77088
+mem_heap_extra_B=1440
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=72
+#-----------
+time=807858903
+mem_heap_B=77124
+mem_heap_extra_B=1436
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=73
+#-----------
+time=807861107
+mem_heap_B=77248
+mem_heap_extra_B=1504
+mem_stacks_B=0
+heap_tree=detailed
+n11: 77248 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 21168 0x4CF9204: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 21168 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 21168 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 21168 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 21168 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 21168 0x403E30: game (loop.c:107)
+       n0: 21168 0x40275D: main (main.c:40)
+ n1: 16384 0x48AFEBE: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 16384 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 16384 0x403E30: game (loop.c:107)
+    n0: 16384 0x40275D: main (main.c:40)
+ n1: 12768 0x48B0290: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 12768 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 12768 0x403E30: game (loop.c:107)
+    n0: 12768 0x40275D: main (main.c:40)
+ n0: 5792 in 54 places, all below massif's threshold (1.00%)
+ n1: 5684 0x4CF94FB: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 5684 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 5684 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 5684 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 5684 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 5684 0x403E30: game (loop.c:107)
+       n0: 5684 0x40275D: main (main.c:40)
+ n1: 4992 0x48C1FAE: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n3: 4992 0x48C4BB6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+   n2: 2912 0x48C5F01: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 2080 0x48C61D0: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 2080 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 2080 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 2080 0x403E8E: game (loop.c:111)
+        n0: 2080 0x40275D: main (main.c:40)
+    n1: 832 0x48C6205: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 832 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 832 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 832 0x403E8E: game (loop.c:111)
+        n0: 832 0x40275D: main (main.c:40)
+   n2: 1664 0x48C5EC0: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 1456 0x48C61D0: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 1456 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 1456 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 1456 0x403E8E: game (loop.c:111)
+        n0: 1456 0x40275D: main (main.c:40)
+    n0: 208 in 1 place, below massif's threshold (1.00%)
+   n0: 416 in 1 place, below massif's threshold (1.00%)
+ n1: 4704 0x48AFB31: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 4704 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 4704 0x403E30: game (loop.c:107)
+    n0: 4704 0x40275D: main (main.c:40)
+ n1: 2208 0x40579F: convert_map_to_int (map_conversion.c:58)
+  n1: 2208 0x4028EF: parsing (parsing.c:38)
+   n1: 2208 0x40316D: init (init.c:207)
+    n0: 2208 0x402753: main (main.c:38)
+ n1: 1588 0x408438: ft_strjoin (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 1588 0x4033AF: fill_line_buffer (get_next_line.c:69)
+   n2: 1588 0x4032AE: get_next_line (get_next_line.c:95)
+    n1: 1545 0x402B0B: init_map (init.c:69)
+     n1: 1545 0x4030CD: init (init.c:191)
+      n0: 1545 0x402753: main (main.c:38)
+    n0: 43 in 3 places, all below massif's threshold (1.00%)
+ n1: 1024 0x4B3FBA3: _IO_file_doallocate (filedoalloc.c:101)
+  n2: 1024 0x4B4ECDF: _IO_doallocbuf (genops.c:347)
+   n1: 1024 0x4B4DF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 1024 0x4B4C6D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 1024 0x4B4C6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 1024 0x4B3800B: outstring_func (vfprintf-internal.c:239)
+       n1: 1024 0x4B3800B: __vfprintf_internal (vfprintf-internal.c:1517)
+        n1: 1024 0x4B2179E: printf (printf.c:33)
+         n1: 1024 0x403977: print_tabtab (utils.c:38)
+          n1: 1024 0x402B35: init_map (init.c:73)
+           n1: 1024 0x4030CD: init (init.c:191)
+            n0: 1024 0x402753: main (main.c:38)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 936 0x408E00: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 936 0x403E8E: game (loop.c:111)
+   n0: 936 0x40275D: main (main.c:40)
+#-----------
+snapshot=74
+#-----------
+time=807862917
+mem_heap_B=82644
+mem_heap_extra_B=1492
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=75
+#-----------
+time=807864915
+mem_heap_B=82568
+mem_heap_extra_B=1464
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=76
+#-----------
+time=807866751
+mem_heap_B=83820
+mem_heap_extra_B=1612
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=77
+#-----------
+time=807868659
+mem_heap_B=84688
+mem_heap_extra_B=1720
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=78
+#-----------
+time=807870607
+mem_heap_B=85416
+mem_heap_extra_B=1760
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=79
+#-----------
+time=807872535
+mem_heap_B=85868
+mem_heap_extra_B=1900
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=80
+#-----------
+time=807898545
+mem_heap_B=92448
+mem_heap_extra_B=1976
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=81
+#-----------
+time=807900385
+mem_heap_B=84334
+mem_heap_extra_B=1538
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=82
+#-----------
+time=807903500
+mem_heap_B=81585
+mem_heap_extra_B=1407
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=83
+#-----------
+time=807905317
+mem_heap_B=80689
+mem_heap_extra_B=1279
+mem_stacks_B=0
+heap_tree=detailed
+n13: 80689 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 21168 0x4CF9204: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 21168 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 21168 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 21168 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 21168 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 21168 0x403E30: game (loop.c:107)
+       n0: 21168 0x40275D: main (main.c:40)
+ n1: 16384 0x48AFEBE: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 16384 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 16384 0x403E30: game (loop.c:107)
+    n0: 16384 0x40275D: main (main.c:40)
+ n1: 12768 0x48B0290: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 12768 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 12768 0x403E30: game (loop.c:107)
+    n0: 12768 0x40275D: main (main.c:40)
+ n1: 5684 0x4CF94FB: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+  n1: 5684 0x4CF9E6B: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+   n1: 5684 0x48BFEE9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 5684 0x48AFB68: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 5684 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 5684 0x403E30: game (loop.c:107)
+       n0: 5684 0x40275D: main (main.c:40)
+ n1: 4992 0x48C1FAE: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n3: 4992 0x48C4BB6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+   n2: 2912 0x48C5F01: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 2080 0x48C61D0: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 2080 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 2080 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 2080 0x403E8E: game (loop.c:111)
+        n0: 2080 0x40275D: main (main.c:40)
+    n1: 832 0x48C6205: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 832 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 832 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 832 0x403E8E: game (loop.c:111)
+        n0: 832 0x40275D: main (main.c:40)
+   n2: 1664 0x48C5EC0: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 1456 0x48C61D0: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 1456 0x4091A5: mlx_int_wait_first_expose (in /goinfre/judenis/Cub3d/cub3D)
+      n1: 1456 0x408EDD: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 1456 0x403E8E: game (loop.c:111)
+        n0: 1456 0x40275D: main (main.c:40)
+    n0: 208 in 1 place, below massif's threshold (1.00%)
+   n0: 416 in 1 place, below massif's threshold (1.00%)
+ n1: 4704 0x48AFB31: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 4704 0x408C67: mlx_init (in /goinfre/judenis/Cub3d/cub3D)
+   n1: 4704 0x403E30: game (loop.c:107)
+    n0: 4704 0x40275D: main (main.c:40)
+ n1: 4096 0x490E13E: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 4096 0x490E41E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+   n1: 4096 0x490E4F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 4096 0x490E542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 4096 0x490E8AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+      n1: 4096 0x40A817: mlx_int_param_KeyPress (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 4096 0x409065: mlx_loop (in /goinfre/judenis/Cub3d/cub3D)
+        n1: 4096 0x403F96: game (loop.c:120)
+         n0: 4096 0x40275D: main (main.c:40)
+ n0: 3749 in 59 places, all below massif's threshold (1.00%)
+ n1: 2048 0x490D914: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 2048 0x490E41E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+   n1: 2048 0x490E4F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 2048 0x490E542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 2048 0x490E8AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+      n1: 2048 0x40A817: mlx_int_param_KeyPress (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 2048 0x409065: mlx_loop (in /goinfre/judenis/Cub3d/cub3D)
+        n1: 2048 0x403F96: game (loop.c:120)
+         n0: 2048 0x40275D: main (main.c:40)
+ n1: 2016 0x490D7DD: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 2016 0x490E41E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+   n1: 2016 0x490E4F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 2016 0x490E542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 2016 0x490E8AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+      n1: 2016 0x40A817: mlx_int_param_KeyPress (in /goinfre/judenis/Cub3d/cub3D)
+       n1: 2016 0x409065: mlx_loop (in /goinfre/judenis/Cub3d/cub3D)
+        n1: 2016 0x403F96: game (loop.c:120)
+         n0: 2016 0x40275D: main (main.c:40)
+ n1: 1120 0x4913619: XkbAllocClientMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+  n1: 1120 0x490DEB7: _XkbReadGetMapReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+   n1: 1120 0x490E41E: XkbGetUpdatedMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+    n1: 1120 0x490E4F4: XkbGetMap (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+     n1: 1120 0x490E542: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+      n1: 1120 0x490E8AF: XkbKeycodeToKeysym (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+       n1: 1120 0x40A817: mlx_int_param_KeyPress (in /goinfre/judenis/Cub3d/cub3D)
+        n1: 1120 0x409065: mlx_loop (in /goinfre/judenis/Cub3d/cub3D)
+         n1: 1120 0x403F96: game (loop.c:120)
+          n0: 1120 0x40275D: main (main.c:40)
+ n1: 1024 0x4B3FBA3: _IO_file_doallocate (filedoalloc.c:101)
+  n2: 1024 0x4B4ECDF: _IO_doallocbuf (genops.c:347)
+   n1: 1024 0x4B4DF5F: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:744)
+    n1: 1024 0x4B4C6D4: _IO_new_file_xsputn (fileops.c:1243)
+     n1: 1024 0x4B4C6D4: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1196)
+      n1: 1024 0x4B3800B: outstring_func (vfprintf-internal.c:239)
+       n1: 1024 0x4B3800B: __vfprintf_internal (vfprintf-internal.c:1517)
+        n1: 1024 0x4B2179E: printf (printf.c:33)
+         n1: 1024 0x403977: print_tabtab (utils.c:38)
+          n1: 1024 0x402B35: init_map (init.c:73)
+           n1: 1024 0x4030CD: init (init.c:191)
+            n0: 1024 0x402753: main (main.c:38)
+   n0: 0 in 1 place, below massif's threshold (1.00%)
+ n1: 936 0x408E00: mlx_new_window (in /goinfre/judenis/Cub3d/cub3D)
+  n1: 936 0x403E8E: game (loop.c:111)
+   n0: 936 0x40275D: main (main.c:40)
+#-----------
+snapshot=84
+#-----------
+time=807907160
+mem_heap_B=80441
+mem_heap_extra_B=1255
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=85
+#-----------
+time=807909363
+mem_heap_B=79401
+mem_heap_extra_B=1255
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=86
+#-----------
+time=807911734
+mem_heap_B=79313
+mem_heap_extra_B=1183
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=87
+#-----------
+time=807916091
+mem_heap_B=73317
+mem_heap_extra_B=1115
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=88
+#-----------
+time=807917905
+mem_heap_B=51001
+mem_heap_extra_B=871
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=89
+#-----------
+time=807919727
+mem_heap_B=41205
+mem_heap_extra_B=451
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=90
+#-----------
+time=807921849
+mem_heap_B=32421
+mem_heap_extra_B=403
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=91
+#-----------
+time=807923661
+mem_heap_B=8632
+mem_heap_extra_B=184
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=92
+#-----------
+time=807925525
+mem_heap_B=6024
+mem_heap_extra_B=48
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=93
+#-----------
+time=807931012
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=detailed
+n1: 0 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n0: 0 in 71 places, all below massif's threshold (1.00%)

@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 14:07:30 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 18:08:39 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	set_texture(char **texture_ptr, char *line, char *error_msg)
 		*texture_ptr = NULL;
 	}
 	trimmed = safe_trim(line);
-	printf("Setting texture: %s\n", trimmed);
 	*texture_ptr = trimmed;
 	if (!is_valid_texture(*texture_ptr))
 	{
@@ -97,7 +96,6 @@ int	get_textures(t_data *data, char **map)
 	text[2] = 0;
 	text[3] = 0;
 	i = 0;
-	printf("%s\n", map[i]);
 	while (map[i])
 	{
 		j = 0;
@@ -109,7 +107,6 @@ int	get_textures(t_data *data, char **map)
 		}
 		i++;
 	}
-	printf("Textures: NO=%d, SO=%d, WE=%d, EA=%d\n", text[0], text[1], text[2], text[3]);
 	if (text[0] != 1 || text[1] != 1 || text[2] != 1 || text[3] != 1)
 	{
 		errormsg("Duplicates/Missing textures");

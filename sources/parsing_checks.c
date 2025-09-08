@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 14:07:29 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 18:01:07 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,5 @@ int	verif_map(t_data *data)
 		errormsg("Map is empty");
 		return (-1);
 	}
-	printf("Map dimensions: %d x %d (height x width)\n", height, width);
 	return (0);
 }

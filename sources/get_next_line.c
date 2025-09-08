@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 09:29:03 by judenis           #+#    #+#             */
-/*   Updated: 2025/07/30 03:57:32 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 17:57:23 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,20 +100,3 @@ char	*get_next_line(int fd)
 	truc_qui_reste = set_line(line);
 	return (line);
 }
-
-// int	main(void)
-// {
-// 	int fd;
-// 	char *line;
-
-// 	fd = open("test", O_RDONLY);
-// 	while (1)
-// 	{
-// 		line = get_next_line(fd);
-// 		if (!line)
-// 			break ;
-// 		printf("%s", line);
-// 		free(line);
-// 		line = NULL;
-// 	}
-// }

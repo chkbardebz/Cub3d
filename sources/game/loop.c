@@ -6,39 +6,11 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/06 15:00:01 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 16:52:34 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-void	fill_background(t_data *img, int color1, int color2)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < img->w_height / 2)
-	{
-		x = 0;
-		while (x < img->w_width)
-		{
-			my_mlx_pixel_put(img, x, y, color1);
-			x++;
-		}
-		y++;
-	}
-	while (y < img->w_height)
-	{
-		x = 0;
-		while (x < img->w_width)
-		{
-			my_mlx_pixel_put(img, x, y, color2);
-			x++;
-		}
-		y++;
-	}
-}
 
 int	game_loop(t_data *data)
 {
