@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/08 18:09:24 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 18:48:53 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ int	get_texture_pixel_fast(char *addr, t_data *data, int x, int y)
 	if (!addr || x < 0 || y < 0 || x >= 64 || y >= 64)
 		return (0x000000);
 	return (*(unsigned int *)(addr + (y * data->tex_sl + x * (data->tex_bpp
-					/ 8))));
+				/ 8))));
 }
 
-/* Nouvelle fonction pour sélectionner la bonne adresse */
 char	*get_texture_addr(t_data *data, void *texture)
 {
 	if (texture == data->no_img)
@@ -64,23 +63,22 @@ int	check_map_bounds(t_data *data)
 	return (1);
 }
 
-
 void	calculate_wall_params(t_data *data, double ra)
 {
 	double	ca;
-	double divisor;
-	int half_line;
-	int half_window;
+	double	divisor;
+	int		half_line;
+	int		half_window;
 
 	ca = ra - data->p_orientation;
 	data->ray.dis_t = data->ray.dis_t * cos(ca);
 	if (data->ray.dis_t > 1.0)
-    	divisor = data->ray.dis_t;
+		divisor = data->ray.dis_t;
 	else
-    	divisor = 1.0;
+		divisor = 1.0;
 	data->ray.line_h = (int)((64 * data->w_height) / divisor);
 	half_window = data->w_height / 2;
-	half_line   = data->ray.line_h / 2;
+	half_line = data->ray.line_h / 2;
 	data->ray.line_o = half_window - half_line;
 }
 
@@ -112,9 +110,8 @@ int	calculate_texture_x(double rx, double ry, int side, double ra)
 
 void	process_ray(t_data *data, int r, double ra)
 {
-	cast_horizontal_ray(data, ra, &data->ray.dis_h, &data->ray.hx,
-		&data->ray.hy);
-	cast_vertical_ray(data, ra, &data->ray.dis_v, &data->ray.vx, &data->ray.vy);
+	cast_horizontal_ray(data, ra);
+	cast_vertical_ray(data, ra);
 	if (data->ray.dis_v < data->ray.dis_h)
 	{
 		data->ray.rx = data->ray.vx;
@@ -133,8 +130,7 @@ void	process_ray(t_data *data, int r, double ra)
 	data->ray.tex_x = calculate_texture_x(data->ray.rx, data->ray.ry,
 			data->ray.side, ra);
 	data->ray.texture = select_texture(data, ra, data->ray.side);
-	draw_column(data, r, data->ray.line_h, data->ray.line_o, data->ray.texture,
-		data->ray.tex_x);
+	draw_column(data, r, data->ray.texture, data->ray.tex_x);
 }
 
 void	raycasting(t_data *data)

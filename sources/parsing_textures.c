@@ -6,13 +6,13 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/08 18:08:39 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 19:12:43 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static int	is_valid_texture(char *texture)
+int	is_valid_texture(char *texture)
 {
 	size_t	len;
 	int		fd;
@@ -31,7 +31,7 @@ static int	is_valid_texture(char *texture)
 	return (1);
 }
 
-static int	set_texture(char **texture_ptr, char *line, char *error_msg)
+int	set_texture(char **texture_ptr, char *line, char *error_msg)
 {
 	char	*trimmed;
 
@@ -52,13 +52,13 @@ static int	set_texture(char **texture_ptr, char *line, char *error_msg)
 	return (0);
 }
 
-static int	process_texture_line(t_data *data, char *line, int j, int text[4])
+int	init_no_so(t_data *data, char *line, int j, int text[4])
 {
-	if (ft_strncmp(line + j, "WE ", 3) == 0)
+	if (ft_strncmp(line + j, "NO ", 3) == 0)
 	{
-		text[2]++;
-		if (set_texture(&data->we_texture, line + j + 3,
-				"WE texture missing or not .xpm") == -1)
+		text[0]++;
+		if (set_texture(&data->no_texture, line + j + 3,
+				"NO texture missing or not .xpm") == -1)
 			return (-1);
 	}
 	else if (ft_strncmp(line + j, "SO ", 3) == 0)
@@ -68,11 +68,16 @@ static int	process_texture_line(t_data *data, char *line, int j, int text[4])
 				"SO texture missing or not .xpm") == -1)
 			return (-1);
 	}
-	else if (ft_strncmp(line + j, "NO ", 3) == 0)
+	return (0);
+}
+
+int	process_texture_line(t_data *data, char *line, int j, int text[4])
+{
+	if (ft_strncmp(line + j, "WE ", 3) == 0)
 	{
-		text[0]++;
-		if (set_texture(&data->no_texture, line + j + 3,
-				"NO texture missing or not .xpm") == -1)
+		text[2]++;
+		if (set_texture(&data->we_texture, line + j + 3,
+				"WE texture missing or not .xpm") == -1)
 			return (-1);
 	}
 	else if (ft_strncmp(line + j, "EA ", 3) == 0)
@@ -82,6 +87,8 @@ static int	process_texture_line(t_data *data, char *line, int j, int text[4])
 				"EA texture missing or not .xpm") == -1)
 			return (-1);
 	}
+	else if (init_no_so(data, line, j, text) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -91,10 +98,9 @@ int	get_textures(t_data *data, char **map)
 	int	j;
 	int	text[4];
 
-	text[0] = 0;
-	text[1] = 0;
-	text[2] = 0;
-	text[3] = 0;
+	i = 0;
+	while (i < 4)
+		text[i++] = 0;
 	i = 0;
 	while (map[i])
 	{

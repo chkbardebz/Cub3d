@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:39:29 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/08 17:22:38 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 18:58:03 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,8 @@ void	free_tabtab(char **tab)
 	free(tab);
 }
 
-int	exit_game(int return_value)
+void	free_textures(t_data *data)
 {
-	t_data	*data;
-
-	data = get_data();
 	if (data->filename)
 		free(data->filename);
 	if (data->no_texture)
@@ -42,6 +39,24 @@ int	exit_game(int return_value)
 		free(data->we_texture);
 	if (data->ea_texture)
 		free(data->ea_texture);
+	if (data->no_img)
+		mlx_destroy_image(data->mlx_ptr, data->no_img);
+	if (data->so_img)
+		mlx_destroy_image(data->mlx_ptr, data->so_img);
+	if (data->we_img)
+		mlx_destroy_image(data->mlx_ptr, data->we_img);
+	if (data->ea_img)
+		mlx_destroy_image(data->mlx_ptr, data->ea_img);
+	if (data->img)
+		mlx_destroy_image(data->mlx_ptr, data->img);
+}
+
+int	exit_game(int return_value)
+{
+	t_data	*data;
+
+	data = get_data();
+	free_textures(data);
 	if (data->map)
 	{
 		free_tabtab(data->map);
@@ -54,16 +69,6 @@ int	exit_game(int return_value)
 	}
 	if (data->game_map_int)
 		free(data->game_map_int);
-	if (data->no_img)
-		mlx_destroy_image(data->mlx_ptr, data->no_img);
-	if (data->so_img)
-		mlx_destroy_image(data->mlx_ptr, data->so_img);
-	if (data->we_img)
-		mlx_destroy_image(data->mlx_ptr, data->we_img);
-	if (data->ea_img)
-		mlx_destroy_image(data->mlx_ptr, data->ea_img);
-	if (data->img)
-		mlx_destroy_image(data->mlx_ptr, data->img);
 	if (data->mlx_ptr && data->win_ptr)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);

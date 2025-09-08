@@ -6,42 +6,49 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/08 18:01:07 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 19:33:30 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+static int	is_config_line(char *line)
+{
+	return (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
+		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0
+		|| ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0);
+}
+
+static int	handle_line(char *line, int *map_started)
+{
+	char	*trimmed;
+
+	trimmed = safe_trim(line);
+	if (!trimmed)
+		return (0);
+	if (is_map_line(trimmed) && ft_strlen(trimmed) > 0)
+		*map_started = 1;
+	else if (*map_started && is_config_line(trimmed))
+	{
+		errormsg("Map must be at the bottom of the file");
+		free(trimmed);
+		return (-1);
+	}
+	free(trimmed);
+	return (0);
+}
+
 int	check_map_position(char **map)
 {
-	int		i;
-	int		map_started;
-	char	*trimmed;
+	int	i;
+	int	map_started;
 
 	i = 0;
 	map_started = 0;
 	while (map[i])
 	{
-		trimmed = safe_trim(map[i]);
-		if (!trimmed)
-		{
-			i++;
-			continue ;
-		}
-		if (is_map_line(trimmed) && ft_strlen(trimmed) > 0)
-			map_started = 1;
-		else if (map_started && (ft_strncmp(trimmed, "NO ", 3) == 0
-				|| ft_strncmp(trimmed, "SO ", 3) == 0
-				|| ft_strncmp(trimmed, "WE ", 3) == 0
-				|| ft_strncmp(trimmed, "EA ", 3) == 0
-				|| ft_strncmp(trimmed, "F ", 2) == 0
-				|| ft_strncmp(trimmed, "C ", 2) == 0))
-		{
-			errormsg("Map must be at the bottom of the file");
-			free(trimmed);
+		if (handle_line(map[i], &map_started) == -1)
 			return (-1);
-		}
-		free(trimmed);
 		i++;
 	}
 	return (0);
@@ -64,37 +71,36 @@ static int	process_element(char *trimmed, int *has_elements)
 	return (0);
 }
 
-int	check_elements_before_map(char **map)
+void	check_loop(char **map, int *has_elements, int *map_started, int i)
 {
-	int		i;
-	int		has_elements[6];
-	int		map_started;
 	char	*trimmed;
 
-	i = 0;
-	has_elements[0] = 0;
-	has_elements[1] = 0;
-	has_elements[2] = 0;
-	has_elements[3] = 0;
-	has_elements[4] = 0;
-	has_elements[5] = 0;
-	map_started = 0;
-	while (map[i])
+	trimmed = safe_trim(map[i]);
+	if (!trimmed)
+		return ;
+	if (is_map_line(trimmed) && ft_strlen(trimmed) > 0)
 	{
-		trimmed = safe_trim(map[i]);
-		if (!trimmed)
-		{
-			i++;
-			continue ;
-		}
-		if (is_map_line(trimmed) && ft_strlen(trimmed) > 0)
-		{
-			map_started = 1;
-			free(trimmed);
-			break ;
-		}
-		process_element(trimmed, has_elements);
+		*map_started = 1;
 		free(trimmed);
+		return ;
+	}
+	process_element(trimmed, has_elements);
+	free(trimmed);
+}
+
+int	check_elements_before_map(char **map)
+{
+	int	i;
+	int	has_elements[6];
+	int	map_started;
+
+	i = 0;
+	while (i < 6)
+		has_elements[i++] = 0;
+	map_started = 0;
+	while (map[i - 6])
+	{
+		check_loop(map, has_elements, &map_started, i - 6);
 		i++;
 	}
 	if (!map_started)

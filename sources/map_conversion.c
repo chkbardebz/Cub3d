@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:54:11 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/04 19:45:15 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 18:55:35 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	convert_char_to_int(char c)
 {
 	if (c == '1')
 		return (1);
-	else if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == ' ')
+	else if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W'
+		|| c == ' ')
 		return (0);
 	else
 		return (0);

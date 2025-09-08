@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 14:07:28 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 18:42:39 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	is_map_line(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != '0' && line[i] != '1' && line[i] != ' '
-			&& line[i] != 'N' && line[i] != 'S' && line[i] != 'E'
-			&& line[i] != 'W' && line[i] != '\n' && line[i] != '\r')
+		if (line[i] != '0' && line[i] != '1' && line[i] != ' ' && line[i] != 'N'
+			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
+			&& line[i] != '\n' && line[i] != '\r')
 			return (0);
 		i++;
 	}
@@ -76,13 +76,11 @@ int	is_valid_line(char *line)
 		free(trimmed);
 		return (1);
 	}
-	result = (ft_strncmp(trimmed, "NO ", 3) == 0
-		|| ft_strncmp(trimmed, "SO ", 3) == 0
-		|| ft_strncmp(trimmed, "WE ", 3) == 0
-		|| ft_strncmp(trimmed, "EA ", 3) == 0
-		|| ft_strncmp(trimmed, "F ", 2) == 0
-		|| ft_strncmp(trimmed, "C ", 2) == 0
-		|| is_map_line(trimmed));
+	result = (ft_strncmp(trimmed, "NO ", 3) == 0 || ft_strncmp(trimmed, "SO ",
+				3) == 0 || ft_strncmp(trimmed, "WE ", 3) == 0
+			|| ft_strncmp(trimmed, "EA ", 3) == 0 || ft_strncmp(trimmed, "F ",
+				2) == 0 || ft_strncmp(trimmed, "C ", 2) == 0
+			|| is_map_line(trimmed));
 	free(trimmed);
 	return (result);
 }
