@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:54:11 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 13:28:57 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/04 19:45:15 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,6 @@ static void	convert_map_line(t_data *data, int *int_map, int i)
 	}
 }
 
-/**
- * Convertit la carte de caractères 2D en tableau d'entiers 1D
- * '0' ou ' ' -> 0 (espace libre)
- * '1' -> 1 (mur)
- * 'N', 'S', 'E', 'W' -> 0 (position du joueur, traité comme espace libre)
- * 
- * @param data: structure contenant la carte à convertir
- * @return: pointeur vers le nouveau tableau d'entiers, NULL en cas d'erreur
- */
 int	*convert_map_to_int(t_data *data)
 {
 	int	*int_map;

@@ -13,13 +13,13 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
 MAKEFLAGS += --no-print-directory
 RM = rm -f
-NAME = cub3d
+NAME = Cub3D
 
 SRCDIR = sources/
 CUB3D_SRC_FILES = main.c parsing.c init.c get_next_line.c exit.c error.c utils.c \
 				game/loop.c game/raycasting.c map_conversion.c \
 				parsing_checks.c parsing_utils.c parsing_player.c parsing_colors.c parsing_textures.c \
-				game/collision.c
+				game/collision.c game/movement.c
 
 CUB3D_SRC = $(addprefix $(SRCDIR), $(CUB3D_SRC_FILES))
 CUB3D_OBJ = $(CUB3D_SRC:.c=.o) 

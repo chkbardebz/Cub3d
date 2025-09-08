@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:21:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/04 18:30:37 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/06 13:51:52 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int	check_map_bounds(t_data *data)
 {
 	int	px;
 	int	py;
-	int	map_w;
-	int	map_h;
 
 	if (!data->game_map_int || !data->game_map)
 	{
@@ -70,14 +68,12 @@ int	check_map_bounds(t_data *data)
 	}
 	px = (int)(data->player_x / 64.0);
 	py = (int)(data->player_y / 64.0);
-	map_w = data->map_width;
-	map_h = data->map_height;
-	if (map_w <= 0 || map_h <= 0)
+	if (data->map_width <= 0 || data->map_height <= 0)
 	{
 		fprintf(stderr, "ERROR: Invalid map dimensions\n"); //! IDEM
 		return (0);
 	}
-	if (px < 0 || py < 0 || px >= map_w || py >= map_h)
+	if (px < 0 || py < 0 || px >= data->map_width || py >= data->map_height)
 		return (0);
 	return (1);
 }
@@ -103,36 +99,29 @@ void	fill_black_screen(t_data *data)
 void	horizontal_ray_up(t_data *data, double ra, double *disH, double *hx,
 		double *hy)
 {
-	int		dof;
-	double	atan;
-	double	yo;
-	double	xo;
-	int		mx;
-	int		my;
-	int		mp;
 
-	dof = 0;
-	atan = -1 / tan(ra);
+	data->ray.dof = 0;
+	data->ray.atan = -1 / tan(ra);
 	*hy = (((int)data->player_y >> 6) << 6) - 0.0001;
-	*hx = (data->player_y - *hy) * atan + data->player_x;
-	yo = -64;
-	xo = -yo * atan;
-	while (dof < 64)
+	*hx = (data->player_y - *hy) * data->ray.atan + data->player_x;
+	data->ray.yo = -64;
+	data->ray.xo = -data->ray.yo * data->ray.atan;
+	while (data->ray.dof < 64)
 	{
-		mx = (int)(*hx) >> 6;
-		my = (int)(*hy) >> 6;
-		if (mx < 0 || my < 0 || mx >= data->map_width || my >= data->map_height)
+		data->ray.mx = (int)(*hx) >> 6;
+		data->ray.my = (int)(*hy) >> 6;
+		if (data->ray.mx < 0 || data->ray.my < 0 || data->ray.mx >= data->map_width || data->ray.my >= data->map_height)
 			break ;
-		mp = my * data->map_width + mx;
-		if (mp >= 0 && mp < data->map_width * data->map_height
-			&& data->game_map_int[mp] == 1)
+		data->ray.mp = data->ray.my * data->map_width + data->ray.mx;
+		if (data->ray.mp >= 0 && data->ray.mp < data->map_width * data->map_height
+			&& data->game_map_int[data->ray.mp] == 1)
 		{
 			*disH = dist(data->player_x, data->player_y, *hx, *hy);
 			break ;
 		}
-		*hx += xo;
-		*hy += yo;
-		dof++;
+		*hx += data->ray.xo;
+		*hy += data->ray.yo;
+		data->ray.dof++;
 	}
 }
 

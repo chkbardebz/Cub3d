@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/09/04 17:25:32 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/06 15:02:34 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # define P3 4.7123889803846899
 # define DR 0.0174533
 # define TILE_SIZE 64
-# define FOV_RAD DR * 120
 # define MOVE_SPEED 2.5
 
 # include "../libft/libft.h"
@@ -35,10 +34,10 @@
 # include <unistd.h>
 
 typedef struct s_ray
-{	
-	int	tex_width;
-	int	tex_height;
-	
+{
+	int		tex_width;
+	int		tex_height;
+
 	double	dis_h;
 	double	dis_v;
 	double	hx;
@@ -56,13 +55,13 @@ typedef struct s_ray
 
 	int		dof;
 	double	atan;
-	double  ntan;
+	double	ntan;
 	double	yo;
 	double	xo;
 	int		mx;
 	int		my;
 	int		mp;
-} 	t_ray;
+}			t_ray;
 
 typedef struct s_data
 {
@@ -86,12 +85,8 @@ typedef struct s_data
 	void	*ea_img;
 	int		f_color[3];
 	int		c_color[3];
-	double	dir_x;
-	double	dir_y;
 	double	player_x;
 	double	player_y;
-	double	plane_x;
-	double	plane_y;
 	double	pdx;
 	double	pdy;
 	double	move_speed;
@@ -109,14 +104,14 @@ typedef struct s_data
 	int		key_right;
 
 	char	*no_addr;
-    char	*so_addr;
-    char	*we_addr;
-    char	*ea_addr;
-    int		tex_bpp;
-    int		tex_sl;
-    int		tex_endian;
+	char	*so_addr;
+	char	*we_addr;
+	char	*ea_addr;
+	int		tex_bpp;
+	int		tex_sl;
+	int		tex_endian;
 
-	t_ray  ray;
+	t_ray	ray;
 }			t_data;
 
 int			errormsg(const char *message);
@@ -153,13 +148,18 @@ int			get_color(t_data *data);
 int			init_orientation(t_data *data);
 int			check_map_closed(t_data *data);
 
-void	init_key_states(t_data *data);
-int		key_press_hook(int keycode, t_data *data);
-int		key_release_hook(int keycode, t_data *data);
-void	game(void);
+void		init_key_states(t_data *data);
+int			key_press_hook(int keycode, t_data *data);
+int			key_release_hook(int keycode, t_data *data);
+void		game(void);
 
-// Collision functions
-int		check_collision(t_data *data, double new_x, double new_y);
-int		check_collision_with_margin(t_data *data, double new_x, double new_y);
+void		move_player(t_data *data, double *move_x, double *move_y,
+				double *strafe_angle);
+void		move_camera(t_data *data);
+void		update_movement(t_data *data);
+void		collision(t_data *data, double new_x, double new_y);
+int			check_collision(t_data *data, double new_x, double new_y);
+int			check_collision_with_margin(t_data *data, double new_x,
+				double new_y);
 
 #endif

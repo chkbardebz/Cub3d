@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:36:12 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 11:35:53 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/06 15:02:30 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,28 +99,19 @@ static int is_potential_map_line_in_section(char *line)
     
     if (!line)
         return (0);
-    
-    // Une fois dans la section carte, toute ligne (même vide) est incluse
-    // jusqu'à ce qu'on trouve une ligne qui ne peut clairement pas être de la carte
-    
     i = 0;
     while (line[i] && (line[i] == ' ' || line[i] == '\t'))
         i++;
-    
-    // Ligne vide = potentielle erreur de carte à conserver
     if (!line[i] || line[i] == '\n' || line[i] == '\r')
         return (1);
-    
-    // Si contient des caractères qui ne peuvent pas être dans une carte
     while (line[i] && line[i] != '\n' && line[i] != '\r')
     {
         if (line[i] != '0' && line[i] != '1' && line[i] != ' ' && 
             line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
-            return (0); // Clairement pas une ligne de carte
+            return (0);
         i++;
     }
-    
-    return (1); // Potentiellement une ligne de carte
+    return (1);
 }
 
 char **extract_map_only(char **full_map)
@@ -134,8 +125,6 @@ char **extract_map_only(char **full_map)
 
     if (!full_map)
         return (NULL);
-    
-    // Trouver le début de la carte (première ligne qui commence par 1 ou 0)
     i = 0;
     map_start = -1;
     while (full_map[i])
@@ -147,11 +136,8 @@ char **extract_map_only(char **full_map)
         }
         i++;
     }
-    
     if (map_start == -1)
-        return (NULL); // Pas de carte trouvée
-    
-    // À partir du début, inclure toutes les lignes potentielles jusqu'à la fin logique
+        return (NULL);
     map_end = map_start;
     i = map_start;
     while (full_map[i])
@@ -159,26 +145,19 @@ char **extract_map_only(char **full_map)
         if (is_potential_map_line_in_section(full_map[i]))
             map_end = i;
         else
-            break; // Fin de la section carte
+            break;
         i++;
     }
-    
-    // Calculer le nombre de lignes
     map_lines = map_end - map_start + 1;
-    
-    // Allouer le nouveau tableau
     map_only = malloc(sizeof(char *) * (map_lines + 1));
     if (!map_only)
         return (NULL);
-    
-    // Copier toutes les lignes de la section carte
     j = 0;
     for (i = map_start; i <= map_end; i++)
     {
         map_only[j] = ft_strdup(full_map[i]);
         if (!map_only[j])
         {
-            // Libérer en cas d'erreur
             while (--j >= 0)
                 free(map_only[j]);
             free(map_only);
@@ -204,7 +183,6 @@ void init(const char *map_file)
     data->w_height = 720;
     data->w_width = 1280;
     data->filename = ft_strdup(map_file);
-    // Initialiser les textures à NULL
     data->no_texture = NULL;
     data->so_texture = NULL;
     data->we_texture = NULL;
@@ -233,8 +211,4 @@ void init(const char *map_file)
     printf("floor color: %d,%d,%d\n", data->f_color[0], data->f_color[1], data->f_color[2]);
     printf("\n=== GAME MAP ONLY ===\n");
     print_tabtab(data->game_map);
-    data->dir_x = cos(data->p_orientation);
-    data->dir_y = sin(data->p_orientation);
-    data->plane_x = -sin(data->p_orientation) * 0.66;
-    data->plane_y = cos(data->p_orientation) * 0.66;
 }

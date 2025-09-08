@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 14:42:25 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/04 19:10:00 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/06 15:00:01 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,115 +40,6 @@ void	fill_background(t_data *img, int color1, int color2)
 	}
 }
 
-void	update_movement(t_data *data)
-{
-	double	move_x;
-	double	move_y;
-	double	strafe_angle;
-	double	new_x;
-	double	new_y;
-
-	move_x = 0;
-	move_y = 0;
-	
-	if (data->key_w)
-	{
-		move_x += cos(data->p_orientation) * MOVE_SPEED;
-		move_y += sin(data->p_orientation) * MOVE_SPEED;
-	}
-	if (data->key_s)
-	{
-		move_x -= cos(data->p_orientation) * MOVE_SPEED;
-		move_y -= sin(data->p_orientation) * MOVE_SPEED;
-	}
-	if (data->key_a)
-	{
-		strafe_angle = data->p_orientation - P2;
-		move_x += cos(strafe_angle) * MOVE_SPEED;
-		move_y += sin(strafe_angle) * MOVE_SPEED;
-	}
-	if (data->key_d)
-	{
-		strafe_angle = data->p_orientation + P2;
-		move_x += cos(strafe_angle) * MOVE_SPEED;
-		move_y += sin(strafe_angle) * MOVE_SPEED;
-	}
-	
-	// Appliquer le mouvement avec vérification de collision
-	new_x = data->player_x + move_x;
-	new_y = data->player_y + move_y;
-	
-	// Vérifier collision pour le mouvement complet d'abord
-	if (!check_collision_with_margin(data, new_x, new_y))
-	{
-		data->player_x = new_x;
-		data->player_y = new_y;
-	}
-	else
-	{
-		// Si collision, essayer juste X ou juste Y
-		if (!check_collision_with_margin(data, new_x, data->player_y))
-			data->player_x = new_x;
-		else if (!check_collision_with_margin(data, data->player_x, new_y))
-			data->player_y = new_y;
-	}
-	
-	// Rotation
-	if (data->key_left)
-	{
-		data->p_orientation -= 0.033;
-		if (data->p_orientation < 0)
-			data->p_orientation += 2 * PI;
-		data->pdx = cos(data->p_orientation) * 5;
-		data->pdy = sin(data->p_orientation) * 5;
-	}
-	if (data->key_right)
-	{
-		data->p_orientation += 0.033;
-		if (data->p_orientation > 2 * PI)
-			data->p_orientation -= 2 * PI;
-		data->pdx = cos(data->p_orientation) * 5;
-		data->pdy = sin(data->p_orientation) * 5;
-	}
-}
-
-
-int	key_press_hook(int keycode, t_data *data)
-{
-    if (keycode == 119)          // W
-        data->key_w = 1;
-    else if (keycode == 115)     // S
-        data->key_s = 1;
-    else if (keycode == 97)      // A
-        data->key_a = 1;
-    else if (keycode == 100)     // D
-        data->key_d = 1;
-    else if (keycode == 65361)   // Left arrow
-        data->key_left = 1;
-    else if (keycode == 65363)   // Right arrow
-        data->key_right = 1;
-    else if (keycode == 65307)   // Escape
-        exit_game(0);
-    return (0);
-}
-
-int	key_release_hook(int keycode, t_data *data)
-{
-	if (keycode == 119)
-		data->key_w = 0;
-	else if (keycode == 115)
-		data->key_s = 0;
-	else if (keycode == 97)
-		data->key_a = 0;
-	else if (keycode == 100)
-		data->key_d = 0;
-	else if (keycode == 65361)
-		data->key_left = 0;
-	else if (keycode == 65363)
-		data->key_right = 0;
-	return (0);
-}
-
 int	game_loop(t_data *data)
 {
 	update_movement(data);
@@ -170,42 +61,41 @@ void	init_key_states(t_data *data)
 	data->key_right = 0;
 }
 
+void	load_addr(t_data *data)
+{
+	data->no_addr = mlx_get_data_addr(data->no_img, &data->tex_bpp,
+			&data->tex_sl, &data->tex_endian);
+	data->so_addr = mlx_get_data_addr(data->so_img, &data->tex_bpp,
+			&data->tex_sl, &data->tex_endian);
+	data->we_addr = mlx_get_data_addr(data->we_img, &data->tex_bpp,
+			&data->tex_sl, &data->tex_endian);
+	data->ea_addr = mlx_get_data_addr(data->ea_img, &data->tex_bpp,
+			&data->tex_sl, &data->tex_endian);
+}
+
 int	load_textures(t_data *data)
 {
-    int	tex_width;
-    int	tex_height;
+	int	tex_width;
+	int	tex_height;
 
-    data->no_img = mlx_xpm_file_to_image(data->mlx_ptr, data->no_texture,
-            &tex_width, &tex_height);
-    if (!data->no_img)
-        exit_game(errormsg("Failed to load North texture"));
-    // Ajouter l'initialisation de l'adresse
-    data->no_addr = mlx_get_data_addr(data->no_img, &data->tex_bpp, &data->tex_sl, &data->tex_endian);
-    
-    data->so_img = mlx_xpm_file_to_image(data->mlx_ptr, data->so_texture,
-            &tex_width, &tex_height);
-    if (!data->so_img)
-        exit_game(errormsg("Failed to load South texture"));
-    data->so_addr = mlx_get_data_addr(data->so_img, &data->tex_bpp, &data->tex_sl, &data->tex_endian);
-    
-    data->we_img = mlx_xpm_file_to_image(data->mlx_ptr, data->we_texture,
-            &tex_width, &tex_height);
-    if (!data->we_img)
-        exit_game(errormsg("Failed to load West texture"));
-    data->we_addr = mlx_get_data_addr(data->we_img, &data->tex_bpp, &data->tex_sl, &data->tex_endian);
-    
-    data->ea_img = mlx_xpm_file_to_image(data->mlx_ptr, data->ea_texture,
-            &tex_width, &tex_height);
-    if (!data->ea_img)
-        exit_game(errormsg("Failed to load East texture"));
-    data->ea_addr = mlx_get_data_addr(data->ea_img, &data->tex_bpp, &data->tex_sl, &data->tex_endian);
-    
-    if (!data->no_img || !data->so_img || !data->we_img || !data->ea_img)
-    {
-        printf("Erreur : texture non chargée\n");
-        exit(1);
-    }
-    return (0);
+	data->no_img = mlx_xpm_file_to_image(data->mlx_ptr, data->no_texture,
+			&tex_width, &tex_height);
+	if (!data->no_img)
+		exit_game(errormsg("Failed to load North texture"));
+	data->so_img = mlx_xpm_file_to_image(data->mlx_ptr, data->so_texture,
+			&tex_width, &tex_height);
+	if (!data->so_img)
+		exit_game(errormsg("Failed to load South texture"));
+	data->we_img = mlx_xpm_file_to_image(data->mlx_ptr, data->we_texture,
+			&tex_width, &tex_height);
+	if (!data->we_img)
+		exit_game(errormsg("Failed to load West texture"));
+	data->ea_img = mlx_xpm_file_to_image(data->mlx_ptr, data->ea_texture,
+			&tex_width, &tex_height);
+	if (!data->ea_img)
+		exit_game(errormsg("Failed to load East texture"));
+	load_addr(data);
+	return (0);
 }
 
 void	game(void)
@@ -218,8 +108,8 @@ void	game(void)
 	if (!data->mlx_ptr)
 		exit_game(errormsg("Failed to initialize MLX"));
 	load_textures(data);
-	data->win_ptr = mlx_new_window(data->mlx_ptr, data->w_width,
-			data->w_height, "Cub3D");
+	data->win_ptr = mlx_new_window(data->mlx_ptr, data->w_width, data->w_height,
+			"Cub3D");
 	data->img = mlx_new_image(data->mlx_ptr, data->w_width, data->w_height);
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel,
 			&data->line_length, &data->endian);
