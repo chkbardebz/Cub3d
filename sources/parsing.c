@@ -6,11 +6,22 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 23:51:47 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/02 14:07:28 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 19:39:02 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int	verif_text(t_data *data)
+{
+	if (!data->no_texture || !data->so_texture || !data->we_texture
+		|| !data->ea_texture)
+	{
+		errormsg("Missing texture definitions in map file");
+		return (-1);
+	}
+	return (0);
+}
 
 int	parsing(t_data *data)
 {
@@ -22,11 +33,8 @@ int	parsing(t_data *data)
 		return (-1);
 	if (get_textures(data, data->map) == -1)
 		return (-1);
-	if (!data->no_texture || !data->so_texture || !data->we_texture || !data->ea_texture)
-	{
-		errormsg("Missing texture definitions in map file");
+	if (verif_text(data) == -1)
 		return (-1);
-	}
 	if (get_color(data) == -1)
 		return (-1);
 	if (verif_map(data) == -1)

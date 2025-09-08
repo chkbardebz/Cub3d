@@ -6,11 +6,36 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/08 18:42:39 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 19:47:19 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+static int	is_whitespace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
+}
+
+static int	find_start(char *line, int len)
+{
+	int	start;
+
+	start = 0;
+	while (start < len && is_whitespace(line[start]))
+		start++;
+	return (start);
+}
+
+static int	find_end(char *line, int start, int len)
+{
+	int	end;
+
+	end = len - 1;
+	while (end >= start && is_whitespace(line[end]))
+		end--;
+	return (end);
+}
 
 char	*safe_trim(char *line)
 {
@@ -23,23 +48,17 @@ char	*safe_trim(char *line)
 	if (!line)
 		return (NULL);
 	len = ft_strlen(line);
-	start = 0;
-	while (start < len && (line[start] == ' ' || line[start] == '\t'
-			|| line[start] == '\n' || line[start] == '\r'))
-		start++;
-	end = len - 1;
-	while (end >= start && (line[end] == ' ' || line[end] == '\t'
-			|| line[end] == '\n' || line[end] == '\r'))
-		end--;
+	start = find_start(line, len);
+	end = find_end(line, start, len);
 	if (start > end)
 		return (ft_strdup(""));
 	result = malloc(end - start + 2);
 	if (!result)
 		return (NULL);
-	i = 0;
+	i = -1;
 	while (start <= end)
-		result[i++] = line[start++];
-	result[i] = '\0';
+		result[++i] = line[start++];
+	result[++i] = '\0';
 	return (result);
 }
 
@@ -135,7 +154,7 @@ int	width_map(char **game_map)
 	{
 		current_width = ft_strlen(game_map[i]);
 		if (current_width > 0 && (game_map[i][current_width - 1] == '\n'
-				|| game_map[i][current_width - 1] == '\r'))
+			|| game_map[i][current_width - 1] == '\r'))
 			current_width--;
 		if (current_width > max_width)
 			max_width = current_width;

@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 03:36:12 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/08 18:43:53 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/08 19:57:55 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,71 +101,79 @@ static int	is_potential_map_line_in_section(char *line)
 	return (1);
 }
 
-char	**extract_map_only(char **full_map)
+static int	copy_map_lines(char **dest, char **src, int start, int end)
 {
-	int		i;
-	int		map_start;
-	int		map_end;
-	int		map_lines;
-	char	**map_only;
-	int		j;
+	int	i;
+	int	j;
 
-	if (!full_map)
-		return (NULL);
+	i = start;
+	j = 0;
+	while (i <= end)
+	{
+		dest[j] = ft_strdup(src[i]);
+		if (!dest[j])
+		{
+			while (--j >= 0)
+				free(dest[j]);
+			free(dest);
+			return (-1);
+		}
+		j++;
+		i++;
+	}
+	dest[j] = NULL;
+	return (0);
+}
+
+static int	find_map_bounds(char **full_map, int *start, int *end)
+{
+	int	i;
+
+	*start = -1;
 	i = 0;
-	map_start = -1;
 	while (full_map[i])
 	{
 		if (is_definite_map_line(full_map[i]))
 		{
-			map_start = i;
+			*start = i;
 			break ;
 		}
 		i++;
 	}
-	if (map_start == -1)
-		return (NULL);
-	map_end = map_start;
-	i = map_start;
+	if (*start == -1)
+		return (-1);
+	*end = *start;
 	while (full_map[i])
 	{
 		if (is_potential_map_line_in_section(full_map[i]))
-			map_end = i;
+			*end = i;
 		else
 			break ;
 		i++;
 	}
-	map_lines = map_end - map_start + 1;
-	map_only = malloc(sizeof(char *) * (map_lines + 1));
+	return (0);
+}
+
+char	**extract_map_only(char **full_map)
+{
+	int		map_start;
+	int		map_end;
+	char	**map_only;
+
+	if (!full_map)
+		return (NULL);
+	if (find_map_bounds(full_map, &map_start, &map_end) == -1)
+		return (NULL);
+	map_only = malloc(sizeof(char *) * (map_end - map_start + 2));
 	if (!map_only)
 		return (NULL);
-	j = 0;
-	for (i = map_start; i <= map_end; i++)
-	{
-		map_only[j] = ft_strdup(full_map[i]);
-		if (!map_only[j])
-		{
-			while (--j >= 0)
-				free(map_only[j]);
-			free(map_only);
-			return (NULL);
-		}
-		j++;
-	}
-	map_only[j] = NULL;
+	if (copy_map_lines(map_only, full_map, map_start, map_end) == -1)
+		return (NULL);
 	return (map_only);
 }
 
-void	init(const char *map_file)
+void	init_game_settings(t_data *data, const char *map_file)
 {
-	t_data	*data;
-
-	if (!iscorrectformat(map_file))
-	{
-		errormsg("Invalid map file format");
-		exit_game(1);
-	}
-	data = get_data();
 	data->w_height = 720;
 	data->w_width = 1280;
 	data->filename = ft_strdup(map_file);
@@ -174,7 +182,12 @@ void	init(const char *map_file)
 	data->we_texture = NULL;
 	data->ea_texture = NULL;
 	data->game_map = NULL;
-	if (!(data->map = init_map(map_file)))
+}
+
+void	init_map_data(t_data *data)
+{
+	data->map = init_map(data->filename);
+	if (!data->map)
 	{
 		errormsg("Failed to initialize map");
 		exit_game(1);
@@ -187,6 +200,20 @@ void	init(const char *map_file)
 	}
 	data->map_width = width_map(data->game_map);
 	data->map_height = height_map(data->game_map);
+}
+
+void	init(const char *map_file)
+{
+	t_data	*data;
+
+	if (!iscorrectformat(map_file))
+	{
+		errormsg("Map file must have a .cub extension");
+		exit_game(1);
+	}
+	data = get_data();
+	init_game_settings(data, map_file);
+	init_map_data(data);
 	if (parsing(data) == -1)
 		exit_game(1);
 }
