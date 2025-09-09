@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/09/08 18:40:44 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/09 02:53:14 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define P3 4.7123889803846899
 # define DR 0.0174533
 # define TILE_SIZE 64
-# define MOVE_SPEED 2.5
+# define MOVE_SPEED 10
 
 # include "../libft/libft.h"
 # include "mlx.h"
