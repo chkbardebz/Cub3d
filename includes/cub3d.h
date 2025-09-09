@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/09/09 02:53:14 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/09 11:43:06 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define P3 4.7123889803846899
 # define DR 0.0174533
 # define TILE_SIZE 64
-# define MOVE_SPEED 10
+# define MOVE_SPEED 2.5
 
 # include "../libft/libft.h"
 # include "mlx.h"
@@ -172,5 +172,16 @@ void		fill_black_screen(t_data *data);
 void		*select_texture(t_data *data, double ra, int side);
 char		*get_texture_addr(t_data *data, void *texture);
 int			get_texture_pixel_fast(char *addr, t_data *data, int x, int y);
+int			handle_line(char *line, int *map_started);
+void		check_loop(char **map, int *has_elements, int *map_started, int i);
+int			copy_map_lines(char **dest, char **src, int start, int end);
+int			is_potential_map_line_in_section(char *line);
+int			is_definite_map_line(char *line);
+char		**init_map(const char *map_file);
+int			tour2chauffe(const char *filename);
+int			flood_fill_recursive(t_data *d, char **v, int x, int y);
+
+char		**create_visited_map(t_data *d);
+void		free_visited_map(char **v, int height);
 
 #endif

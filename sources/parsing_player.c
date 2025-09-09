@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 10:00:00 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/08 19:44:55 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/09 11:39:36 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,82 +65,6 @@ int	init_orientation(t_data *data)
 	if (count != 1)
 		return (errormsg("Invalid number of players"), -1);
 	return (0);
-}
-
-static int	is_valid_position(t_data *d, int x, int y)
-{
-	if (y < 0 || y >= d->map_height || x < 0 || x >= d->map_width)
-		return (0);
-	if (!d->game_map[y] || x >= (int)ft_strlen(d->game_map[y]))
-		return (0);
-	return (1);
-}
-
-static int	flood_fill_recursive(t_data *d, char **v, int x, int y)
-{
-	if (!is_valid_position(d, x, y))
-		return (-1);
-	if (d->game_map[y][x] == '1' || v[y][x] == '1')
-		return (0);
-	if (d->game_map[y][x] == ' ')
-		return (-1);
-	v[y][x] = '1';
-	if (flood_fill_recursive(d, v, x + 1, y) == -1 || flood_fill_recursive(d, v,
-			x - 1, y) == -1 || flood_fill_recursive(d, v, x, y + 1) == -1
-		|| flood_fill_recursive(d, v, x, y - 1) == -1)
-		return (-1);
-	return (0);
-}
-
-static char	*alloc_line(int width)
-{
-	char	*line;
-	int		j;
-
-	line = malloc(sizeof(char) * (width + 1));
-	if (!line)
-		return (NULL);
-	j = -1;
-	while (++j < width)
-		line[j] = '0';
-	line[j] = '\0';
-	return (line);
-}
-
-static char	**create_visited_map(t_data *d)
-{
-	char	**visited;
-	int		i;
-
-	visited = malloc(sizeof(char *) * (d->map_height + 1));
-	if (!visited)
-		return (NULL);
-	i = -1;
-	while (++i < d->map_height)
-	{
-		visited[i] = alloc_line(d->map_width);
-		if (!visited[i])
-		{
-			while (--i >= 0)
-				free(visited[i]);
-			free(visited);
-			return (NULL);
-		}
-	}
-	visited[i] = NULL;
-	return (visited);
-}
-
-static void	free_visited_map(char **v, int height)
-{
-	int	i;
-
-	if (!v)
-		return ;
-	i = -1;
-	while (++i < height)
-		free(v[i]);
-	free(v);
 }
 
 int	check_map_closed(t_data *d)

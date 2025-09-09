@@ -16,33 +16,31 @@ RM = rm -f
 NAME = cub3D
 
 SRCDIR = sources/
-CUB3D_SRC_FILES = main.c parsing.c init.c get_next_line.c exit.c error.c utils.c \
-				game/loop.c game/raycasting.c map_conversion.c \
-				parsing_checks.c parsing_utils.c parsing_player.c parsing_colors.c parsing_textures.c \
-				game/collision.c game/movement.c game/horizontal_ray.c game/vertical_ray.c game/draw.c
+CUB3D_SRC_FILES = main.c parsing.c init.c get_next_line.c exit.c error.c utils.c parsing_fill.c\
+				game/loop.c game/raycasting.c map_conversion.c parsing_map.c init_map.c \
+				parsing_checks.c parsing_utils1.c parsing_utils2.c parsing_player.c parsing_colors.c parsing_textures.c \
+				game/collision.c game/movement.c game/horizontal_ray.c game/vertical_ray.c game/draw.c \
+				game/mlx_utils.c 
 
 CUB3D_SRC = $(addprefix $(SRCDIR), $(CUB3D_SRC_FILES))
 CUB3D_OBJ = $(CUB3D_SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(CUB3D_OBJ) $(NAMELFT) $(MLX_LIB)
+$(NAME): $(CUB3D_OBJ) $(NAMELFT)
 	@echo -e '\033[35mCreating Cub3d... 🕗\n'
 	@$(CC) $(CFLAGS) $(CUB3D_OBJ) $(NAMELFT) $(MLX_FLAGS) -o $(NAME)
 	@echo -e '\033[33;32mCub3d created ! 🎉\033[0m'
 
 $(NAMELFT):
-	@if [ ! -d "$(DIRLIB)" ]; then \
-		echo "Clonage de libft..."; \
-		git clone https://github.com/YOUR_GITHUB/libft.git $(DIRLIB); \
-	fi
 	@$(MAKE) -C $(DIRLIB)
+# 	echo "Clonage de libft..."; \
+# 	git clone https://github.com/YOUR_GITHUB/libft.git $(DIRLIB); \
 
-$(MLX_LIB):
-	@if [ ! -d "$(MLX_DIR)" ]; then \
-		echo "Clonage de la MiniLibX..."; \
-		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR); \
-	fi
+
+mlx:
+	echo "Clonage de la MiniLibX...";
+	git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR); \
 	@$(MAKE) -C $(MLX_DIR)
 
 %.o: %.c
@@ -55,7 +53,6 @@ clean:
 
 fclean: clean
 	@$(MAKE) -C $(DIRLIB) fclean
-	@$(MAKE) -C $(MLX_DIR) clean
 	@$(RM) $(NAME)
 	@echo -e '\033[0;31mCub3d deleted ! 🛑'
 

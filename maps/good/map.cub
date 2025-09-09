@@ -1,6 +1,6 @@
-NO ./textures/simonkraft/wet_sponge.xpm
-SO ./textures/simonkraft/bookshelf.xpm
-WE ./textures/simonkraft/netherrack.xpm
+NO ./sprites/wet_sponge.xpm
+SO ./sprites/bookshelf.xpm
+WE ./sprites/netherrack.xpm
 
 
 
@@ -13,7 +13,7 @@ WE ./textures/simonkraft/netherrack.xpm
 
 
 
-                EA ./textures/simonkraft/soul_sand.xpm
+                EA ./sprites/soul_sand.xpm
 
 
 
