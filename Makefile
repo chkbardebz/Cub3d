@@ -28,7 +28,7 @@ CUB3D_OBJ = $(addprefix $(OBJDIR), $(CUB3D_SRC_FILES:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(CUB3D_OBJ) $(NAMELFT)
+$(NAME): $(CUB3D_OBJ) $(NAMELFT) includes/cub3d.h
 	@echo -e '\033[35mCreating Cub3d... 🕗\n'
 	@$(CC) $(CFLAGS) $(CUB3D_OBJ) $(NAMELFT) $(MLX_FLAGS) -o $(NAME)
 	@echo -e '\033[33;32mCub3d created ! 🎉\033[0m'
@@ -39,7 +39,7 @@ $(NAMELFT):
 mlx:
 	echo "Clonage de la MiniLibX...";
 	git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR); \
-	@cd $(MLX_DIR) && make
+	cd $(MLX_DIR) && make
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@mkdir -p $(@D)

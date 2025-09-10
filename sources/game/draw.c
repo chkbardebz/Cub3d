@@ -6,29 +6,11 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 17:34:56 by judenis           #+#    #+#             */
-/*   Updated: 2025/09/08 18:11:50 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/10 18:44:50 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-void	fill_black_screen(t_data *data)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < data->w_height)
-	{
-		x = 0;
-		while (x < data->w_width)
-		{
-			my_mlx_pixel_put(data, x, y, 0x000000);
-			x++;
-		}
-		y++;
-	}
-}
 
 void	*select_texture(t_data *data, double ra, int side)
 {

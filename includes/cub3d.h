@@ -6,7 +6,7 @@
 /*   By: judenis <judenis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:22:17 by ylouvel           #+#    #+#             */
-/*   Updated: 2025/09/09 11:43:06 by judenis          ###   ########.fr       */
+/*   Updated: 2025/09/10 18:44:56 by judenis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ void		fill_background(t_data *img, int color1, int color2);
 void		cast_horizontal_ray(t_data *data, double ra);
 void		cast_vertical_ray(t_data *data, double ra);
 void		draw_column(t_data *data, int r, void *texture, int tex_x);
-void		fill_black_screen(t_data *data);
 void		*select_texture(t_data *data, double ra, int side);
 char		*get_texture_addr(t_data *data, void *texture);
 int			get_texture_pixel_fast(char *addr, t_data *data, int x, int y);
