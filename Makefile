@@ -16,14 +16,15 @@ RM = rm -f
 NAME = cub3D
 
 SRCDIR = sources/
+OBJDIR = obj/
 CUB3D_SRC_FILES = main.c parsing.c init.c get_next_line.c exit.c error.c utils.c parsing_fill.c\
-				game/loop.c game/raycasting.c map_conversion.c parsing_map.c init_map.c \
-				parsing_checks.c parsing_utils1.c parsing_utils2.c parsing_player.c parsing_colors.c parsing_textures.c \
-				game/collision.c game/movement.c game/horizontal_ray.c game/vertical_ray.c game/draw.c \
-				game/mlx_utils.c 
+                game/loop.c game/raycasting.c map_conversion.c parsing_map.c init_map.c \
+                parsing_checks.c parsing_utils1.c parsing_utils2.c parsing_player.c parsing_colors.c parsing_textures.c \
+                game/collision.c game/movement.c game/horizontal_ray.c game/vertical_ray.c game/draw.c \
+                game/mlx_utils.c 
 
 CUB3D_SRC = $(addprefix $(SRCDIR), $(CUB3D_SRC_FILES))
-CUB3D_OBJ = $(CUB3D_SRC:.c=.o)
+CUB3D_OBJ = $(addprefix $(OBJDIR), $(CUB3D_SRC_FILES:.c=.o))
 
 all: $(NAME)
 
@@ -34,21 +35,19 @@ $(NAME): $(CUB3D_OBJ) $(NAMELFT)
 
 $(NAMELFT):
 	@$(MAKE) -C $(DIRLIB)
-# 	echo "Clonage de libft..."; \
-# 	git clone https://github.com/YOUR_GITHUB/libft.git $(DIRLIB); \
-
 
 mlx:
 	echo "Clonage de la MiniLibX...";
 	git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR); \
-	cd $(MLX_DIR) && make
+	@cd $(MLX_DIR) && make
 
-%.o: %.c
+$(OBJDIR)%.o: $(SRCDIR)%.c
+	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
 	@$(MAKE) -C $(DIRLIB) clean
-	@$(RM) $(CUB3D_OBJ)
+	@$(RM) -r $(OBJDIR)
 	@echo -e '\033[0;31mObject files deleted ! 🛑'
 
 fclean: clean
