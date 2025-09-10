@@ -41,7 +41,7 @@ $(NAMELFT):
 mlx:
 	echo "Clonage de la MiniLibX...";
 	git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR); \
-	@$(MAKE) -C $(MLX_DIR)
+	cd $(MLX_DIR) && make
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
